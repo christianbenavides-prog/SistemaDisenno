@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  type CSSProperties,
   type ForwardedRef,
   type HTMLAttributes,
   type ReactElement,
@@ -19,6 +20,8 @@ export interface DataTableProps<T> extends HTMLAttributes<HTMLDivElement> {
   rowClassName?: (row: T) => string;
   emptyState?: ReactNode;
   emptyColSpan?: number;
+  minWidth?: CSSProperties["minWidth"];
+  maxHeight?: CSSProperties["maxHeight"];
 }
 
 function DataTableInner<T>(
@@ -29,13 +32,22 @@ function DataTableInner<T>(
     rowClassName,
     emptyState = "No hay registros disponibles",
     emptyColSpan,
+    minWidth,
+    maxHeight,
     className = "",
+    style,
     ...rest
   }: DataTableProps<T>,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+  const dataTableStyle = {
+    ...style,
+    ...(minWidth ? { "--ds-data-table-min-width": minWidth } : {}),
+    ...(maxHeight ? { "--ds-data-table-max-height": maxHeight } : {}),
+  } as CSSProperties;
+
   return (
-    <div ref={ref} className={`ds-data-table ${className}`.trim()} {...rest}>
+    <div ref={ref} className={`ds-data-table ${className}`.trim()} style={dataTableStyle} {...rest}>
       <table>
         <thead>
           <tr>

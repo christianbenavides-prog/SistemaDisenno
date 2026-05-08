@@ -6,7 +6,7 @@
  *   Gap: 8px
  *   Radius: radius-sm (8px)
  *   Enable: white bg, neutral-400 text
- *   Hover: brand-50 bg
+ *   Hover: neutral-50 bg
  *   Selected: gradient brand-400 → brand-50, brand-950 text
  */
 
@@ -27,7 +27,7 @@
   }
 
   .ds-menu-item:hover:not(:disabled):not(.ds-menu-item--selected) {
-    background: var(--ds-color-surface-hover);
+    background: var(--ds-color-menu-hover);
   }
 
   .ds-menu-item:focus-visible {
@@ -41,7 +41,7 @@
   }
 
   .ds-menu-item--hover {
-    background: var(--ds-color-surface-hover);
+    background: var(--ds-color-menu-hover);
   }
 
   .ds-menu-item--selected {

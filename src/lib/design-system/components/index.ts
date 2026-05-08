@@ -8,13 +8,6 @@
 export { Icon } from "../icons";
 export type { IconName, IconProps } from "../icons";
 
-/* ── Brand ── */
-export { SimonLogo } from "./SimonLogo";
-export type { SimonLogoProps, SimonLogoVariant } from "./SimonLogo";
-
-export { SimonWatermark } from "./SimonWatermark";
-export type { SimonWatermarkProps } from "./SimonWatermark";
-
 /* ── Atoms ── */
 export { Button } from "./Button";
 export type { ButtonProps, ButtonVariant, ButtonSize } from "./Button";
@@ -82,8 +75,8 @@ export type { ThemeMode, ThemeToggleProps } from "./ThemeToggle";
 export { AppHeaderActions } from "./AppHeaderActions";
 export type { AppHeaderActionsProps, AppHeaderUser } from "./AppHeaderActions";
 
-export { SimonModuleTemplate } from "./SimonModuleTemplate";
-export type { SimonModuleTemplateProps, SimonModuleNavItem } from "./SimonModuleTemplate";
+export { ModuleTemplate } from "./ModuleTemplate";
+export type { ModuleTemplateProps, ModuleNavItem } from "./ModuleTemplate";
 
 /* ── Organisms ── */
 export { Alert } from "./Alert";
@@ -128,43 +121,6 @@ export type { MultiSelectProps, MultiSelectState, MultiSelectOption } from "./Mu
 export { Notification } from "./Notification";
 export type { NotificationProps, NotificationItem } from "./Notification";
 
-/* ── Organisms (Domain Cards) ── */
-export { CardTipo } from "./CardTipo";
-export type { CardTipoProps } from "./CardTipo";
-
-export { KpiCard } from "./KpiCard";
-export type { KpiCardProps, KpiTrend } from "./KpiCard";
-
-export { VehicleCard } from "./VehicleCard";
-export type { VehicleCardProps, VehicleCardVariant, VehicleInfoRow } from "./VehicleCard";
-
-export { VehicleInfo } from "./VehicleInfo";
-export type { VehicleInfoProps, VehicleInfoField, VehicleInfoSection } from "./VehicleInfo";
-
-export { GeozonaCard } from "./GeozonaCard";
-export type { GeozonaCardProps, GeozonaAccent, GeozonaVariant, GeozonaMetaItem } from "./GeozonaCard";
-
-export { SpeedCard } from "./SpeedCard";
-export type { SpeedCardProps, SpeedZone, SpeedMetaItem } from "./SpeedCard";
-
-export { CommandCard } from "./CommandCard";
-export type { CommandCardProps, CommandIconColor, CommandStatus } from "./CommandCard";
-
-export { CardInfo } from "./CardInfo";
-export type { CardInfoProps, CardInfoColor } from "./CardInfo";
-
-export { CarCard } from "./CarCard";
-export type { CarCardProps, CarStatus, CarCardDetail } from "./CarCard";
-
-export { GuanteraCard } from "./GuanteraCard";
-export type { GuanteraCardProps, GuanteraIconType } from "./GuanteraCard";
-
-export { AsistenciaCard } from "./AsistenciaCard";
-export type { AsistenciaCardProps, AsistenciaStatus } from "./AsistenciaCard";
-
-export { VehiculoApp } from "./VehiculoApp";
-export type { VehiculoAppProps, VehiculoAppStatus } from "./VehiculoApp";
-
 /* ── Templates ── */
 export { AppShell } from "./AppShell";
 export type { AppShellProps } from "./AppShell";
@@ -180,3 +136,6 @@ export type { TableLayoutProps } from "./TableLayout";
 
 export { ModuleShell } from "./ModuleShell";
 export type { ModuleShellProps } from "./ModuleShell";
+
+export { VehicleInfo } from "./VehicleInfo";
+export type { VehicleInfoProps, VehicleInfoField, VehicleInfoSection } from "./VehicleInfo";

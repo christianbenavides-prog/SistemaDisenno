@@ -3,9 +3,9 @@
  *
  * Figma specs:
  *   Padding: 4px 8px
- *   Font: Body SM (12px) semibold
- *   Pill: radius-full (120px)
  *   Square: radius-xs (4px)
+ *   Rounded: radius-md (12px)
+ *   Font: Body (16px) semibold
  *   Colors use tinted backgrounds with solid text
  */
 
@@ -14,21 +14,22 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-1);
+    min-height: 24px;
     padding: var(--spacing-1) var(--spacing-2);
-    font-family: var(--font-body);
-    font-size: var(--text-body-sm-size);
-    line-height: var(--text-body-sm-line-height);
+    font-family: var(--font-heading);
+    font-size: var(--text-body-size);
+    line-height: var(--text-body-line-height);
     font-weight: var(--font-weight-semibold);
     white-space: nowrap;
   }
 
   /* ── Shape ── */
-  .ds-badge--pill {
-    border-radius: var(--radius-full);
-  }
-
   .ds-badge--square {
     border-radius: var(--radius-xs);
+  }
+
+  .ds-badge--rounded {
+    border-radius: var(--radius-md);
   }
 
   /* ── Colors ── */
@@ -38,18 +39,18 @@
   }
 
   .ds-badge--secondary {
-    background: var(--color-neutral-100);
-    color: var(--color-neutral-700);
+    background: var(--color-neutral-50);
+    color: var(--color-neutral-900);
   }
 
   .ds-badge--success {
     background: var(--color-success-50);
-    color: var(--color-success-700);
+    color: var(--color-success-800);
   }
 
   .ds-badge--error {
     background: var(--color-error-50);
-    color: var(--color-error-700);
+    color: var(--color-error-800);
   }
 
   .ds-badge--warning {

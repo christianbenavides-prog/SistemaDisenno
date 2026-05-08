@@ -5,9 +5,9 @@ import { type HTMLAttributes, type ReactNode, forwardRef } from "react";
  *
  * Figma specs:
  *   Colors: primary | secondary | success | error | warning
- *   Shape: pill (120px radius) | square (4px radius)
+ *   Shape: square (4px radius) | rounded (12px radius)
  *   Padding: 8px horizontal, 4px vertical
- *   Font: Body SM (12px) semibold
+ *   Font: Body (16px) semibold
  * ────────────────────────────────────────────── */
 
 export type BadgeColor =
@@ -16,7 +16,7 @@ export type BadgeColor =
   | "success"
   | "error"
   | "warning";
-export type BadgeShape = "pill" | "square";
+export type BadgeShape = "square" | "rounded" | "pill";
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   color?: BadgeColor;
@@ -34,10 +34,10 @@ const colorClass: Record<BadgeColor, string> = {
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   (
-    { color = "primary", shape = "pill", icon, children, className = "", ...rest },
+    { color = "primary", shape = "square", icon, children, className = "", ...rest },
     ref,
   ) => {
-    const shapeClass = shape === "pill" ? "ds-badge--pill" : "ds-badge--square";
+    const shapeClass = shape === "square" ? "ds-badge--square" : "ds-badge--rounded";
 
     return (
       <span

@@ -5,56 +5,58 @@ import { Icon, type IconName } from "../icons";
 import { MenuItem } from "./MenuItem";
 import { ModuleShell } from "./ModuleShell";
 import { Sidebar } from "./Sidebar";
-import { SimonLogo } from "./SimonLogo";
-import { SimonWatermark } from "./SimonWatermark";
 import type { ThemeMode } from "./ThemeToggle";
 
-export interface SimonModuleNavItem {
+export interface ModuleNavItem {
   id: string;
   label: string;
   iconName: IconName;
   selected?: boolean;
   expandable?: boolean;
   defaultOpen?: boolean;
-  children?: SimonModuleNavItem[];
+  children?: ModuleNavItem[];
 }
 
-export interface SimonModuleTemplateProps extends HTMLAttributes<HTMLDivElement> {
+export interface ModuleTemplateProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
   eyebrow?: string;
   themeMode: ThemeMode;
   onThemeModeChange: (mode: ThemeMode) => void;
   user: AppHeaderUser;
-  navItems: SimonModuleNavItem[];
+  navItems: ModuleNavItem[];
+  logo?: ReactNode;
+  watermark?: ReactNode;
   footer?: ReactNode;
   actions?: ReactNode;
-  onNavItemSelect?: (item: SimonModuleNavItem) => void;
+  onNavItemSelect?: (item: ModuleNavItem) => void;
 }
 
-export function SimonModuleTemplate({
+export function ModuleTemplate({
   title,
   eyebrow,
   themeMode,
   onThemeModeChange,
   user,
   navItems,
+  logo,
+  watermark,
   footer = "Versión 1.0.0",
   actions,
   onNavItemSelect,
   children,
   ...rest
-}: SimonModuleTemplateProps) {
+}: ModuleTemplateProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(navItems.map((item) => [item.id, Boolean(item.defaultOpen)])),
   );
 
-  const toggleSection = (item: SimonModuleNavItem) => {
+  const toggleSection = (item: ModuleNavItem) => {
     setOpenSections((prev) => ({ ...prev, [item.id]: !prev[item.id] }));
     onNavItemSelect?.(item);
   };
 
-  const renderItem = (item: SimonModuleNavItem, isChild = false) => {
+  const renderItem = (item: ModuleNavItem, isChild = false) => {
     const hasChildren = Boolean(item.children?.length);
     const isOpen = Boolean(openSections[item.id]);
 
@@ -104,7 +106,7 @@ export function SimonModuleTemplate({
       sidebar={
         <Sidebar
           collapsed={collapsed}
-          watermark={<SimonWatermark />}
+          watermark={watermark}
           logo={
             <>
               <Button
@@ -117,9 +119,7 @@ export function SimonModuleTemplate({
               >
                 <Icon name="menu" size={16} />
               </Button>
-              {!collapsed && (
-                <SimonLogo variant={themeMode === "dark" ? "dark" : "light"} />
-              )}
+              {!collapsed && logo}
               {!collapsed && <span className="ds-sidebar__logo-spacer" />}
             </>
           }

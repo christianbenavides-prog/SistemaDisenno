@@ -44,20 +44,6 @@
 @import "./MultiSelect.css";
 @import "./Notification.css";
 
-/* Domain Cards */
-@import "./CardTipo.css";
-@import "./KpiCard.css";
-@import "./VehicleCard.css";
-@import "./VehicleInfo.css";
-@import "./GeozonaCard.css";
-@import "./SpeedCard.css";
-@import "./CommandCard.css";
-@import "./CardInfo.css";
-@import "./CarCard.css";
-@import "./GuanteraCard.css";
-@import "./AsistenciaCard.css";
-@import "./VehiculoApp.css";
-
 /* Templates */
 @import "./AppShell.css";
 @import "./MapLayout.css";

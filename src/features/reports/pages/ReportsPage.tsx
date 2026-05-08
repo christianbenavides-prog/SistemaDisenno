@@ -7,12 +7,13 @@ import {
   type DataTableColumn,
   Icon,
   Pagination,
-  SimonModuleTemplate,
-  type SimonModuleNavItem,
+  ModuleTemplate,
+  type ModuleNavItem,
   Tab,
   TableLayout,
   type ThemeMode,
 } from "../../../lib/design-system/components";
+import { SimonLogo, SimonWatermark } from "../../../shared/brand";
 import { ReportsFilters } from "../components/ReportsFilters";
 import { appHeaderUser } from "../../../shared/lib/appHeaderUser";
 import "../styles/reports.css";
@@ -30,7 +31,7 @@ const reportTypes = [
 
 type ReportType = (typeof reportTypes)[number];
 
-const reportIconByType: Record<ReportType, SimonModuleNavItem["iconName"]> = {
+const reportIconByType: Record<ReportType, ModuleNavItem["iconName"]> = {
   Combinado: "shuffle",
   Eventos: "pin",
   Viajes: "road-horizon",
@@ -185,7 +186,7 @@ function statusLabel(status: ReportRow["status"]) {
 function cellFor(column: string, row: ReportRow, activeReport: ReportType) {
   switch (column) {
     case "Dispositivo":
-      return <span className="reports-table__device">{row.device}</span>;
+      return row.device;
     case "Hora ajustada":
     case "Inicio":
       return row.adjustedTime;
@@ -273,7 +274,7 @@ export function ReportsPage() {
     setPage(1);
   };
 
-  const navItems: SimonModuleNavItem[] = [
+  const navItems: ModuleNavItem[] = [
     { id: "map", iconName: "map-pinned", label: "Mapa" },
     { id: "glovebox", iconName: "briefcase", label: "Guantera" },
     { id: "geofences", iconName: "map-pin", label: "Geocercas" },
@@ -296,16 +297,18 @@ export function ReportsPage() {
   ];
 
   return (
-    <SimonModuleTemplate
+    <ModuleTemplate
       themeMode={themeMode}
       onThemeModeChange={setThemeMode}
       user={appHeaderUser}
       eyebrow="Módulo"
       title="Reportes"
       navItems={navItems}
+      logo={<SimonLogo variant={themeMode === "dark" ? "dark" : "light"} />}
+      watermark={<SimonWatermark />}
       onNavItemSelect={(item) => {
         if (item.id === "map") navigate("/scada/map");
-        if (item.id === "panic") navigate("/scada/alerts");
+        if (item.id === "panic") navigate("/scada/panic");
         if (!isReportType(item.label)) return;
         setActiveReport(item.label);
         setPage(1);
@@ -356,7 +359,7 @@ export function ReportsPage() {
             Imprimir
           </Button>
         </div>
-        <TableLayout className="reports-table">
+        <TableLayout>
           <DataTable
             columns={columns}
             rows={visibleRows}
@@ -371,6 +374,6 @@ export function ReportsPage() {
         <span>Resultados 10 de 48</span>
         <Pagination currentPage={page} totalPages={4} onPageChange={setPage} />
       </section>
-    </SimonModuleTemplate>
+    </ModuleTemplate>
   );
 }

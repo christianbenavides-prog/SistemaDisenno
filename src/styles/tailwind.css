@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../lib/design-system/index.css";
+@import "../shared/domain-cards/domain-cards.css";
 
 @source "../**/*.{ts,tsx,js,jsx,html}";
 

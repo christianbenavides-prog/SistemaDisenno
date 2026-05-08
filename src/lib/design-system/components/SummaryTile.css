@@ -18,6 +18,28 @@
     position: relative;
   }
 
+  button.ds-summary-tile {
+    appearance: none;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+  }
+
+  .ds-summary-tile--interactive:hover {
+    border-color: var(--ds-summary-tile-accent);
+    background: var(--ds-color-table-row-hover);
+  }
+
+  .ds-summary-tile--interactive:focus-visible {
+    outline: var(--border-sm) solid var(--color-brand-400);
+    outline-offset: 2px;
+  }
+
+  .ds-summary-tile--selected {
+    border-color: var(--ds-summary-tile-accent);
+    box-shadow: inset 0 0 0 1px var(--ds-summary-tile-accent);
+  }
+
   .ds-summary-tile::before {
     content: "";
     position: absolute;

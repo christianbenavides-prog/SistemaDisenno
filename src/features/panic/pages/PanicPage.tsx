@@ -1,73 +1,157 @@
 import { useMemo, useState } from "react";
 import {
+  Alert,
+  Badge,
   Button,
   DataTable,
   type DataTableColumn,
   Icon,
+  type IconName,
   Input,
+  ModuleTemplate,
+  type ModuleNavItem,
   Pagination,
   Select,
-  SimonModuleTemplate,
-  type SimonModuleNavItem,
-  Tab,
   TableLayout,
   type ThemeMode,
-  TextArea,
 } from "../../../lib/design-system/components";
+import { SimonLogo, SimonWatermark } from "../../../shared/brand";
 import { appHeaderUser } from "../../../shared/lib/appHeaderUser";
 import "../styles/panic.css";
 
-/* ── Types ── */
+type AlarmPriority = "Alta" | "Media" | "Baja";
+type AlarmStatus = "Sin asignar" | "En gestión" | "Gestionada";
 
-type PanicTab = "no-gestionadas" | "por-validar" | "gestionadas";
-
-interface PanicRow {
+interface AlarmRow {
   id: number;
+  priority: AlarmPriority;
+  plate: string;
+  event: string;
+  receivedAt: string;
+  operator: string;
+  status: AlarmStatus;
   imei: string;
-  placa: string;
-  alertas: number;
-  contacto: string;
-  telefono: string;
-  evento: string;
-  fechaUltimoEvento: string;
+  phone: string;
+  contact: string;
+  location: string;
 }
 
-/* ── Mock data ── */
-
-const rows: PanicRow[] = [
-  { id: 1, imei: "863238070764560", placa: "GHI 567", alertas: 2, contacto: "Adriana Valdes Wilches", telefono: "3213946648", evento: "Alarma de pánico", fechaUltimoEvento: "08/02/2026 06:00 AM" },
-  { id: 2, imei: "763218495731245", placa: "ABC 123", alertas: 5, contacto: "Marco Antonio Rivera", telefono: "3213946649", evento: "Sistema de vigilancia", fechaUltimoEvento: "08/01/2026 07:00 AM" },
-  { id: 3, imei: "653184920648731", placa: "MNO 789", alertas: 57, contacto: "Lucía Fernández", telefono: "3213946650", evento: "Sensor de movimiento", fechaUltimoEvento: "08/01/2026 07:15 AM" },
-  { id: 4, imei: "543197842013256", placa: "DEF 901", alertas: 60, contacto: "Diego Pérez", telefono: "3213946651", evento: "Cámara de seguridad", fechaUltimoEvento: "08/01/2026 07:30 AM" },
-  { id: 5, imei: "432109876543210", placa: "STU 345", alertas: 84, contacto: "Sofía Ramos", telefono: "3213946652", evento: "Control de acceso", fechaUltimoEvento: "08/01/2026 07:45 AM" },
-  { id: 6, imei: "321098765432109", placa: "VWX 098", alertas: 10, contacto: "Carlos Mendez", telefono: "3213946653", evento: "Iluminación inteligente", fechaUltimoEvento: "08/01/2026 08:00 AM" },
-  { id: 7, imei: "210987654321098", placa: "PQR 876", alertas: 24, contacto: "Patricia López", telefono: "3213946654", evento: "Alarma de incendio", fechaUltimoEvento: "08/01/2026 08:15 AM" },
-  { id: 8, imei: "109876543210987", placa: "JKL 654", alertas: 7, contacto: "Fernando Garcia", telefono: "3213946655", evento: "Sensor de temperatura", fechaUltimoEvento: "08/01/2026 08:30 AM" },
-  { id: 9, imei: "098765432109876", placa: "CDE 213", alertas: 11, contacto: "Valeria Torres", telefono: "3213946656", evento: "Cerraduras inteligentes", fechaUltimoEvento: "08/01/2026 08:45 AM" },
-  { id: 10, imei: "987654321098765", placa: "FGH 432", alertas: 2, contacto: "Javier Morales", telefono: "3213946657", evento: "Sistema anti-intrusión", fechaUltimoEvento: "08/01/2026 09:00 AM" },
+const alarmRows: AlarmRow[] = [
+  {
+    id: 1,
+    priority: "Alta",
+    plate: "VHS 365",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:42:51",
+    operator: "Pendiente",
+    status: "Sin asignar",
+    imei: "865456721470360",
+    phone: "+57 312 456 7890",
+    contact: "Leydi Viviana",
+    location: "4.6097, -74.0817",
+  },
+  {
+    id: 2,
+    priority: "Alta",
+    plate: "GHJ 567",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:41:18",
+    operator: "Pendiente",
+    status: "Sin asignar",
+    imei: "863238070764560",
+    phone: "+57 321 394 6648",
+    contact: "Adriana Valdes",
+    location: "4.6161, -74.0890",
+  },
+  {
+    id: 3,
+    priority: "Media",
+    plate: "ABC 123",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:38:09",
+    operator: "Carlos Mendez",
+    status: "En gestión",
+    imei: "763218495731245",
+    phone: "+57 321 394 6649",
+    contact: "Marco Antonio",
+    location: "4.6218, -74.0750",
+  },
+  {
+    id: 4,
+    priority: "Media",
+    plate: "MNO 789",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:35:44",
+    operator: "Pendiente",
+    status: "Sin asignar",
+    imei: "653184920648731",
+    phone: "+57 321 394 6650",
+    contact: "Lucía Fernández",
+    location: "4.6045, -74.0812",
+  },
+  {
+    id: 5,
+    priority: "Baja",
+    plate: "DEF 901",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:31:20",
+    operator: "Sofía Ramos",
+    status: "Gestionada",
+    imei: "543197842013256",
+    phone: "+57 321 394 6651",
+    contact: "Diego Pérez",
+    location: "4.5988, -74.0942",
+  },
+  {
+    id: 6,
+    priority: "Alta",
+    plate: "STU 345",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:28:02",
+    operator: "Pendiente",
+    status: "Sin asignar",
+    imei: "432109876543210",
+    phone: "+57 321 394 6652",
+    contact: "Sofía Ramos",
+    location: "4.6120, -74.0675",
+  },
+  {
+    id: 7,
+    priority: "Media",
+    plate: "VWX 098",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:24:37",
+    operator: "Pendiente",
+    status: "Sin asignar",
+    imei: "321098765432109",
+    phone: "+57 321 394 6653",
+    contact: "Carlos Mendez",
+    location: "4.6191, -74.1013",
+  },
+  {
+    id: 8,
+    priority: "Baja",
+    plate: "PQR 876",
+    event: "Botón de Pánico",
+    receivedAt: "20/03/2026 10:20:15",
+    operator: "Patricia López",
+    status: "En gestión",
+    imei: "210987654321098",
+    phone: "+57 321 394 6654",
+    contact: "Patricia López",
+    location: "4.5890, -74.0844",
+  },
 ];
 
-const tipificacionOptions = [
-  { value: "", label: "Selecciona la tipificación" },
-  { value: "fallas", label: "Fallas botón de pánico" },
-  { value: "emergencia", label: "Emergencia real" },
-  { value: "prueba", label: "Prueba del sistema" },
+const resolutionOptions = [
+  { value: "", label: "Selecciona la resolución" },
+  { value: "emergencia-real", label: "Emergencia real" },
   { value: "falsa-alarma", label: "Falsa alarma" },
+  { value: "prueba-operativa", label: "Prueba operativa" },
+  { value: "sin-contacto", label: "Sin contacto" },
 ];
 
-const tabLabels: Record<PanicTab, string> = {
-  "no-gestionadas": "No gestionadas",
-  "por-validar": "Por validar",
-  gestionadas: "Gestionadas",
-};
-
-const tabIcons: Record<PanicTab, React.ReactNode> = {
-  "no-gestionadas": <Icon name="alert-triangle" size={16} />,
-  "por-validar": undefined as unknown as React.ReactNode,
-  gestionadas: undefined as unknown as React.ReactNode,
-};
-
-const navItems: SimonModuleNavItem[] = [
+const navItems: ModuleNavItem[] = [
   { id: "map", iconName: "map-pinned", label: "Mapa" },
   { id: "glovebox", iconName: "briefcase", label: "Guantera" },
   { id: "geofences", iconName: "map-pin", label: "Geocercas" },
@@ -77,196 +161,274 @@ const navItems: SimonModuleNavItem[] = [
   { id: "panic", iconName: "alert-triangle", label: "Botón de pánico", selected: true },
 ];
 
-/* ── Full table columns (no panel) ── */
+function priorityColor(priority: AlarmPriority) {
+  if (priority === "Alta") return "error";
+  if (priority === "Media") return "warning";
+  return "secondary";
+}
 
-function buildFullColumns(onGestionar: (row: PanicRow) => void): DataTableColumn<PanicRow>[] {
+function statusColor(status: AlarmStatus) {
+  if (status === "Gestionada") return "success";
+  if (status === "En gestión") return "primary";
+  return "secondary";
+}
+
+function DetailItem({
+  icon,
+  label,
+  value,
+}: {
+  icon: IconName;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="panic-detail-item">
+      <span className="panic-detail-item__icon">
+        <Icon name={icon} size={18} />
+      </span>
+      <span className="panic-detail-item__copy">
+        <span>{label}</span>
+        <strong>{value}</strong>
+      </span>
+    </div>
+  );
+}
+
+function buildColumns(onAssign: (row: AlarmRow) => void): DataTableColumn<AlarmRow>[] {
   return [
-    { id: "imei", header: "IMEI", render: (r) => <span className="panic-table__imei">{r.imei}</span> },
-    { id: "placa", header: "Placa", render: (r) => r.placa },
-    { id: "alertas", header: "Alertas", render: (r) => String(r.alertas) },
-    { id: "contacto", header: "Contacto", render: (r) => r.contacto },
-    { id: "telefono", header: "Teléfono", render: (r) => r.telefono },
-    { id: "evento", header: "Evento", render: (r) => r.evento },
-    { id: "fecha", header: "Fecha último evento", render: (r) => r.fechaUltimoEvento },
     {
-      id: "gestionar",
-      header: "Gestionar",
-      render: (r) => (
-        <button type="button" className="panic-table__gestionar" onClick={() => onGestionar(r)}>
-          <Icon name="bell-dot" size={16} />
-          Gestionar
-        </button>
+      id: "priority",
+      header: "Prioridad",
+      render: (row) => <Badge color={priorityColor(row.priority)}>{row.priority}</Badge>,
+    },
+    { id: "plate", header: "Placa", render: (row) => row.plate },
+    { id: "event", header: "Evento", render: (row) => row.event },
+    { id: "receivedAt", header: "Fecha de Recepción", render: (row) => row.receivedAt },
+    { id: "operator", header: "Operador", render: (row) => row.operator },
+    {
+      id: "status",
+      header: "Estado",
+      render: (row) => <Badge color={statusColor(row.status)}>{row.status}</Badge>,
+    },
+    {
+      id: "actions",
+      header: "Acciones",
+      render: (row) => (
+        <Button
+          variant={row.status === "Gestionada" ? "secundario" : "principal"}
+          size="sm"
+          disabled={row.status === "Gestionada"}
+          onClick={() => onAssign(row)}
+        >
+          Asignar
+        </Button>
       ),
     },
   ];
 }
 
-/* ── Compact table columns (panel open) ── */
-
-const compactColumns: DataTableColumn<PanicRow>[] = [
-  { id: "imei", header: "IMEI", render: (r) => <span className="panic-table__imei">{r.imei}</span> },
-  { id: "placa", header: "Placa", render: (r) => r.placa },
-  { id: "alertas", header: "Alertas", render: (r) => String(r.alertas) },
-  { id: "contacto", header: "Contacto", render: (r) => r.contacto },
-  { id: "telefono", header: "Teléfono", render: (r) => r.telefono },
-];
-
-/* ── Page ── */
+function buildCompactColumns(onAssign: (row: AlarmRow) => void): DataTableColumn<AlarmRow>[] {
+  return [
+    {
+      id: "priority",
+      header: "Prioridad",
+      render: (row) => <Badge color={priorityColor(row.priority)}>{row.priority}</Badge>,
+    },
+    { id: "plate", header: "Placa", render: (row) => row.plate },
+    { id: "event", header: "Evento", render: (row) => row.event },
+    { id: "receivedAt", header: "Recepción", render: (row) => row.receivedAt },
+    { id: "operator", header: "Operador", render: (row) => row.operator },
+    {
+      id: "actions",
+      header: "Acciones",
+      render: (row) => (
+        <Button
+          variant={row.status === "Gestionada" ? "secundario" : "principal"}
+          size="sm"
+          disabled={row.status === "Gestionada"}
+          onClick={() => onAssign(row)}
+        >
+          Asignar
+        </Button>
+      ),
+    },
+  ];
+}
 
 export function PanicPage() {
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
-  const [activeTab, setActiveTab] = useState<PanicTab>("no-gestionadas");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedRow, setSelectedRow] = useState<PanicRow | null>(null);
-  const [tipificacion, setTipificacion] = useState("");
-  const [observaciones, setObservaciones] = useState("");
+  const [selectedRow, setSelectedRow] = useState<AlarmRow | null>(null);
+  const [resolution, setResolution] = useState("");
   const [page, setPage] = useState(1);
 
   const filteredRows = useMemo(() => {
-    if (!searchQuery) return rows;
+    if (!searchQuery) return alarmRows;
     const q = searchQuery.toLowerCase();
-    return rows.filter(
-      (r) => r.imei.includes(q) || r.placa.toLowerCase().includes(q),
+    return alarmRows.filter(
+      (row) =>
+        row.plate.toLowerCase().includes(q) ||
+        row.imei.includes(q) ||
+        row.contact.toLowerCase().includes(q),
     );
   }, [searchQuery]);
 
-  const fullColumns = useMemo(
-    () => buildFullColumns((row) => setSelectedRow(row)),
+  const columns = useMemo(
+    () => buildColumns((row) => {
+      setSelectedRow(row);
+      setResolution("");
+    }),
+    [],
+  );
+  const compactColumns = useMemo(
+    () => buildCompactColumns((row) => {
+      setSelectedRow(row);
+      setResolution("");
+    }),
     [],
   );
 
-  const handleClosePanel = () => {
-    setSelectedRow(null);
-    setTipificacion("");
-    setObservaciones("");
-  };
-
-  const handleActualizar = () => {
-    handleClosePanel();
-  };
+  const activeAlarm = selectedRow ?? filteredRows[0] ?? alarmRows[0];
+  const highPriorityCount = filteredRows.filter((row) => row.priority === "Alta").length;
 
   return (
-    <SimonModuleTemplate
+    <ModuleTemplate
       themeMode={themeMode}
       onThemeModeChange={setThemeMode}
       user={appHeaderUser}
-      title="Botón de pánico"
+      title="Gestor de Alarmas"
       navItems={navItems}
+      logo={<SimonLogo variant={themeMode === "dark" ? "dark" : "light"} />}
+      watermark={<SimonWatermark />}
     >
-      {/* ── Tabs + Filter ── */}
-      <section className="panic-filter-section" style={{ borderRadius: "var(--radius-md)", background: "var(--ds-color-surface)", overflow: "hidden" }}>
-        <div className="panic-tabs" role="tablist" aria-label="Estado de alertas">
-          {(Object.keys(tabLabels) as PanicTab[]).map((tab) => (
-            <Tab
-              key={tab}
-              tabState={activeTab === tab ? "selected" : "enable"}
-              leftIcon={tabIcons[tab] || undefined}
-              onClick={() => { setActiveTab(tab); setPage(1); }}
-            >
-              {tabLabels[tab]}
-            </Tab>
-          ))}
-        </div>
-        <div className="panic-filter">
-          <div className="panic-filter__search">
+      <section className="panic-queue">
+        <header className="panic-queue__header">
+          <div className="panic-queue__title">
+            <div className="panic-queue__heading">
+              <h2>Alarmas en Cola</h2>
+              <Badge color="error">{highPriorityCount} críticas</Badge>
+            </div>
             <Input
-              placeholder="Buscar por IMEI, Placa..."
+              leftIcon={<Icon name="search" size={18} />}
+              placeholder="Buscar por placa, IMEI o contacto"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(event) => setSearchQuery(event.target.value)}
             />
           </div>
-          <div className="panic-filter__actions">
-            <Button
-              variant="secundario"
-              size="sm"
-              onClick={() => setSearchQuery("")}
-            >
-              Borrar todo
-            </Button>
-            <Button variant="principal" size="sm">
-              Aplicar
-            </Button>
-          </div>
-        </div>
-      </section>
 
-      {/* ── Content: table + optional detail panel ── */}
-      <div className="panic-content">
-        <div className="panic-table-section">
-          <div className="panic-table-section__header">
-            <h2>{tabLabels[activeTab]}</h2>
+          <div className="panic-auto-assignment">
+            <Button variant="secundario" size="sm">
+              Asignación Automática en:
+            </Button>
+            <div className="panic-countdown" aria-label="Tiempo para asignación automática">
+              0:59
+            </div>
           </div>
-          <div className="panic-table-section__body">
+        </header>
+
+        <div className={`panic-queue__content ${selectedRow ? "panic-queue__content--detail" : ""}`.trim()}>
+          <div className="panic-queue__table">
             <TableLayout>
               <DataTable
-                columns={selectedRow ? compactColumns : fullColumns}
+                columns={selectedRow ? compactColumns : columns}
                 rows={filteredRows}
-                getRowKey={(r) => r.id}
-                emptyState="No hay registros para mostrar."
+                getRowKey={(row) => row.id}
+                emptyState="No hay alarmas en cola."
                 emptyColSpan={1}
-                rowClassName={(r) => (selectedRow?.id === r.id ? "panic-row--selected" : "")}
+                minWidth={selectedRow ? "812px" : "1320px"}
+                maxHeight={selectedRow ? "calc(100vh - 430px)" : "calc(100vh - 360px)"}
+                rowClassName={(row) => (selectedRow?.id === row.id ? "panic-row--selected" : "")}
               />
             </TableLayout>
           </div>
-        </div>
 
-        {selectedRow && (
-          <div className="panic-panel">
-            {/* Map placeholder */}
-            <div className="panic-panel__map">
-              <iframe
-                title="Ubicación de alarma"
-                src={`https://www.openstreetmap.org/export/embed.html?bbox=-74.1,4.6,-74.05,4.65&layer=mapnik`}
-                loading="lazy"
-              />
-            </div>
-
-            {/* Manage form */}
-            <div className="panic-panel__form">
-              <div className="panic-panel__form-title">
-                <h3>Gestionar alarmas</h3>
-                <p>Evidencia el motivo por el cual se valida el registro seleccionado</p>
-              </div>
-              <div className="panic-panel__form-fields">
-                <Select
-                  label="Tipificación"
-                  required
-                  options={tipificacionOptions}
-                  value={tipificacion}
-                  onChange={setTipificacion}
-                />
-                <TextArea
-                  label="Observaciones"
-                  required
-                  placeholder="Describe los motivos"
-                  value={observaciones}
-                  onChange={(e) => setObservaciones(e.target.value)}
-                  rows={3}
+          {selectedRow && (
+            <aside className="panic-detail" aria-label="Detalle de alarma asignada">
+              <div className="panic-map-stage">
+                <iframe
+                  title="Ubicación de la alarma"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-74.1,4.58,-74.05,4.64&layer=mapnik&marker=4.6097,-74.0817"
+                  loading="lazy"
                 />
               </div>
-              <div className="panic-panel__form-actions">
-                <Button variant="secundario" size="sm" onClick={handleClosePanel}>
-                  Cancelar
+
+              <section className="panic-alarm-card">
+                <header className="panic-alarm-card__header">
+                  <div>
+                    <h3>Placa {activeAlarm.plate}</h3>
+                    <Badge color={priorityColor(activeAlarm.priority)}>{activeAlarm.priority}</Badge>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    aria-label="Cerrar detalle"
+                    onClick={() => setSelectedRow(null)}
+                  >
+                    <Icon name="x" size={18} />
+                  </Button>
+                </header>
+
+                <div className="panic-location">
+                  <Icon name="map-pin" size={18} />
+                  <span>{activeAlarm.location}</span>
+                  <Button variant="ghost" size="sm" aria-label="Copiar coordenadas">
+                    <Icon name="copy" size={14} />
+                  </Button>
+                </div>
+
+                <div className="panic-detail-grid">
+                  <DetailItem icon="bell-dot" label="Tipo de alarma" value={activeAlarm.event} />
+                  <DetailItem icon="settings-2" label="AVL" value={activeAlarm.imei} />
+                  <DetailItem icon="calendar" label="Fecha del incidente" value={activeAlarm.receivedAt} />
+                  <DetailItem icon="message-square" label="Teléfono" value={activeAlarm.phone} />
+                  <DetailItem icon="user" label="Contacto" value={activeAlarm.contact} />
+                  <DetailItem icon="circle-info" label="Estado del vehículo" value="Alarmado" />
+                </div>
+              </section>
+
+              <section className="panic-history">
+                <h4>Último evento del Historial de Placa</h4>
+                <Alert
+                  color="neutral"
+                  title="Exceso de Velocidad"
+                  description="4.6097, -74.0817 · Inicio: 20 Mar, 10:42:51"
+                  leftIcon={<Icon name="cmd-speedometer" size={20} />}
+                  showCloseIcon={false}
+                />
+                <Button variant="secundario" size="sm" leftIcon={<Icon name="clock" size={16} />}>
+                  Ver Historial de Placa
                 </Button>
+              </section>
+
+              <section className="panic-resolution">
+                <h4>Resolución de Alarma</h4>
+                <Select
+                  label="Resultado de gestión"
+                  required
+                  options={resolutionOptions}
+                  value={resolution}
+                  onChange={setResolution}
+                />
                 <Button
                   variant="principal"
                   size="sm"
-                  disabled={!tipificacion || !observaciones}
-                  onClick={handleActualizar}
+                  leftIcon={<Icon name="bell" size={16} />}
+                  disabled={!resolution}
+                  onClick={() => setSelectedRow(null)}
                 >
-                  Actualizar
+                  Finalizar Gestión
                 </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+              </section>
+            </aside>
+          )}
+        </div>
 
-      {/* ── Pagination ── */}
-      <section className="panic-pagination">
-        <span>Resultados {filteredRows.length} de 48</span>
-        <Pagination currentPage={page} totalPages={4} onPageChange={setPage} />
+        <footer className="panic-queue__footer">
+          <span>Resultados {filteredRows.length} de 24</span>
+          <Pagination currentPage={page} totalPages={4} onPageChange={setPage} />
+        </footer>
       </section>
-    </SimonModuleTemplate>
+    </ModuleTemplate>
   );
 }

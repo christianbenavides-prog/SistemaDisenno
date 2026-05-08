@@ -74,26 +74,6 @@
     opacity: 1;
   }
 
-  .reports-table {
-    min-height: 88px;
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    overflow: visible;
-  }
-
-  .reports-table .ds-table-layout__table {
-    overflow: visible;
-  }
-
-  .reports-table .ds-table-layout__header,
-  .reports-table .ds-table-layout__footer {
-    display: none;
-  }
-
-  .reports-table__device {
-    font-weight: var(--font-weight-semibold);
-    color: var(--ds-color-text);
-  }
-
   .reports-activity {
     display: block;
     width: 148px;

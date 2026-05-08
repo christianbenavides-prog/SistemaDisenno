@@ -2,12 +2,15 @@
   .ds-data-table {
     width: 100%;
     min-width: 0;
+    max-height: var(--ds-data-table-max-height, none);
     overflow-x: auto;
+    overflow-y: hidden;
     border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 
     /* ── Styled horizontal scrollbar ── */
     scrollbar-width: thin;
     scrollbar-color: var(--color-brand-400) var(--ds-color-surface-alt);
+    scrollbar-gutter: stable;
   }
 
   .ds-data-table::-webkit-scrollbar {
@@ -26,13 +29,14 @@
 
   .ds-data-table table {
     width: 100%;
+    min-width: var(--ds-data-table-min-width, 100%);
     border-collapse: collapse;
   }
 
   .ds-data-table th,
   .ds-data-table td {
-    padding: var(--spacing-3) var(--spacing-4);
     height: 44px;
+    padding: 0 var(--spacing-4);
     border: 0;
     border-right: var(--border-xs) solid var(--ds-color-border);
     text-align: left;
@@ -62,7 +66,7 @@
   }
 
   .ds-data-table tbody tr:hover {
-    background: var(--ds-color-surface-hover);
+    background: var(--ds-color-table-row-hover);
   }
 
   .ds-data-table__empty {

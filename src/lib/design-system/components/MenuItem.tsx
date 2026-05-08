@@ -12,7 +12,7 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
  *   Text: Body (16px) regular
  *   States:
  *     enable: white bg, neutral-400 text
- *     hover: brand-50 bg, neutral-400 text
+ *     hover: neutral-50 bg, neutral-400 text
  *     selected: gradient brand-400 → brand-50, brand-950 text
  * ────────────────────────────────────────────── */
 
