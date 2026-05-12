@@ -1,719 +1,566 @@
-import { useMemo, useState } from "react";
-import { Button, Input } from "../../../shared/ui/atoms";
+import { useMemo, useRef, useState } from "react";
 import { useScada } from "../../../app/remote/ScadaProvider";
-import { useOperationsAlarmsData } from "../hooks/useOperationsAlarmsData";
 import {
-  TIPIFICACION_OPTS,
+  Badge,
+  Button,
+  DataTable,
+  Icon,
+  Input,
+  Modal,
+  ModuleTemplate,
+  Pagination,
+  Select,
+  TextArea,
+  type DataTableColumn,
+  type ThemeMode,
+} from "../../../lib/design-system/components";
+import { SimonLogo } from "../../../lib/design-system/components/SimonLogo";
+import {
   HIST_ALARM_TYPE_OPTS,
+  TIPIFICACION_OPTS,
 } from "../constants/alarmConstants";
-import { AssignAlarmDialog } from "../components/AssignAlarmDialog";
-import { BulkAssignAlarmDialog } from "../components/BulkAssignAlarmDialog";
-import MapView from "../../map/traccar/MapView";
-import { AlarmMapOverlay } from "../components/AlarmMapOverlay";
+import {
+  type AlarmRow,
+  useOperationsAlarmsData,
+} from "../hooks/useOperationsAlarmsData";
+import "../styles/alarm-manager.css";
+
+type AlarmPriority = "Critica" | "Advertencia";
+
+type ManagedAlarmRow = AlarmRow & {
+  alarmAge: string;
+  receptionTime: string;
+  positionText: string;
+  priority: AlarmPriority;
+};
+
+const DEMO_ALARMS: ManagedAlarmRow[] = [
+  ["VHS 365", "Boton de panico", "Critica"],
+  ["UIO 432", "Boton de panico", "Critica"],
+  ["ZXC 451", "Boton de panico", "Critica"],
+  ["VBN 987", "Ralenti (ON/Detenido)", "Critica"],
+  ["LKJ 234", "Ralenti (ON/Detenido)", "Critica"],
+  ["KDG 325", "Remolque/Manipulacion", "Critica"],
+  ["SWT 356", "Bateria baja", "Critica"],
+  ["FWE 678", "Bateria baja", "Critica"],
+  ["GFV 656", "Desconexion GPRS", "Critica"],
+  ["RTY 321", "Exceso de velocidad", "Critica"],
+  ["UDE 678", "Conduccion agresiva", "Critica"],
+  ["POI 890", "Mantenimiento de odometro", "Critica"],
+  ["ASD 543", "Conexion / Desconexion GPRS", "Critica"],
+  ["FGH 765", "Entrada a geocerca", "Advertencia"],
+  ["HDO 348", "Salida de geocerca", "Advertencia"],
+  ["DOF 324", "Encendido / Apagado", "Advertencia"],
+].map(([plate, alarm, priority], index) => ({
+  id: `demo-${index + 1}`,
+  deviceId: 985 + index,
+  plate,
+  alarm,
+  fixTime: "2026-03-20T10:19:52-05:00",
+  latitude: 4.6097,
+  longitude: -74.0817,
+  operators: ["Sin operador"],
+  alarmAge: index < 13 ? "02:34" : "00:48",
+  receptionTime: index < 9 ? "20/03/2026 10:19:52" : "19/03/2026 16:24:12",
+  positionText: "4.6097, -74.0817",
+  priority: priority as AlarmPriority,
+}));
 
 function formatDateTime(value: unknown) {
-  if (!value) return "";
   const raw =
     typeof value === "string" || typeof value === "number" ? String(value) : "";
   if (!raw) return "";
   const date = new Date(raw);
   if (Number.isNaN(date.getTime())) return raw;
-  return new Intl.DateTimeFormat(undefined, {
-    year: "numeric",
-    month: "2-digit",
+  return new Intl.DateTimeFormat("es-CO", {
     day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
   }).format(date);
 }
 
+function getAlarmAge(value: unknown) {
+  const raw =
+    typeof value === "string" || typeof value === "number" ? String(value) : "";
+  const date = raw ? new Date(raw) : null;
+  if (!date || Number.isNaN(date.getTime())) return "00:00";
+  const diffMinutes = Math.max(0, Math.round((Date.now() - date.getTime()) / 60000));
+  const hours = Math.floor(diffMinutes / 60);
+  const minutes = diffMinutes % 60;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+}
+
+function normalizeAlarm(row: AlarmRow): ManagedAlarmRow {
+  const hasCoordinates =
+    typeof row.latitude === "number" && typeof row.longitude === "number";
+  const alarmName = row.alarm.toLowerCase();
+
+  return {
+    ...row,
+    alarmAge: getAlarmAge(row.fixTime),
+    receptionTime: formatDateTime(row.fixTime) || "Sin fecha",
+    positionText: hasCoordinates
+      ? `${row.latitude?.toFixed(4)}, ${row.longitude?.toFixed(4)}`
+      : "Sin ubicacion",
+    priority:
+      alarmName.includes("panic") || alarmName.includes("panico")
+        ? "Critica"
+        : "Advertencia",
+  };
+}
+
+function PriorityBadge({ value }: Readonly<{ value: AlarmPriority | "Crítica" }>) {
+  return (
+    <Badge color={value === "Advertencia" ? "warning" : "error"} shape="square">
+      {value}
+    </Badge>
+  );
+}
+
 export function OperationsAlarmsPage() {
   const { config } = useScada();
-  const { alarms, userOptions, loading, error, refresh } =
-    useOperationsAlarmsData();
+  const { alarms, loading, error } = useOperationsAlarmsData();
+  const [themeMode, setThemeMode] = useState<ThemeMode>(
+    (config.themeMode ?? "light") as ThemeMode,
+  );
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [queueSearch, setQueueSearch] = useState("");
-  const [sortDesc, setSortDesc] = useState(true);
-
+  const [search, setSearch] = useState("");
+  const [alarmType, setAlarmType] = useState("");
+  const [operatorFilter, setOperatorFilter] = useState("");
   const [typification, setTypification] = useState("");
-  const [typificationNote, setTypificationNote] = useState("");
+  const [resolutionNote, setResolutionNote] = useState("");
+  const [resolutionOpen, setResolutionOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [detailWidth, setDetailWidth] = useState(420);
+  const dragStartRef = useRef<{ x: number; width: number } | null>(null);
 
-  const [histDate, setHistDate] = useState("");
-  const [histAlarmType, setHistAlarmType] = useState("");
-  const [histTip, setHistTip] = useState("");
-
-  const [assignOpen, setAssignOpen] = useState(false);
-  const [bulkOpen, setBulkOpen] = useState(false);
-  const [operatorOverrides, setOperatorOverrides] = useState<
-    Record<string, string>
-  >({});
-
-  const filtered = useMemo(() => {
-    const q = "";
-    if (!q) return alarms;
-    return alarms.filter((a) => {
-      return (
-        a.plate.toLowerCase().includes(q) ||
-        String(a.deviceId).includes(q) ||
-        a.alarm.toLowerCase().includes(q)
-      );
-    });
+  const rows = useMemo(() => {
+    const normalized = alarms.map(normalizeAlarm);
+    return normalized.length ? normalized : DEMO_ALARMS;
   }, [alarms]);
 
-  const queue = useMemo(() => {
-    const needle = queueSearch.trim().toLowerCase();
-    let list = filtered;
-    if (needle) {
-      list = list.filter((a) => a.plate.toLowerCase().includes(needle));
-    }
-    const sorted = [...list].sort((a, b) => {
-      const av = String(a.fixTime ?? "");
-      const bv = String(b.fixTime ?? "");
-      return sortDesc ? bv.localeCompare(av) : av.localeCompare(bv);
+  const filteredRows = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return rows.filter((row) => {
+      const operator = row.operators[0] ?? "Sin operador";
+      const matchesSearch =
+        !query ||
+        row.plate.toLowerCase().includes(query) ||
+        row.alarm.toLowerCase().includes(query) ||
+        String(row.deviceId).includes(query);
+      const matchesType = !alarmType || row.alarm === alarmType;
+      const matchesOperator =
+        !operatorFilter ||
+        (operatorFilter === "unassigned"
+          ? operator === "Sin operador"
+          : operator === operatorFilter);
+      return matchesSearch && matchesType && matchesOperator;
     });
-    return sorted;
-  }, [filtered, queueSearch, sortDesc]);
+  }, [alarmType, operatorFilter, rows, search]);
 
-  const selected = useMemo(() => {
-    if (!selectedId) return null;
-    return alarms.find((a) => a.id === selectedId) ?? null;
-  }, [alarms, selectedId]);
+  const selected = selectedId
+    ? rows.find((row) => row.id === selectedId) ?? null
+    : null;
 
-  const selectedOperator = useMemo(() => {
-    if (!selected) return null;
-    return operatorOverrides[selected.id] ?? selected.operators[0] ?? null;
-  }, [operatorOverrides, selected]);
+  const alarmTypes = useMemo(
+    () => Array.from(new Set(rows.map((row) => row.alarm))).sort(),
+    [rows],
+  );
 
-  const mapsUrl = useMemo(() => {
-    if (!selected) return "";
-    const lat = selected.latitude;
-    const lng = selected.longitude;
-    if (typeof lat !== "number" || typeof lng !== "number") return "";
-    if (Number.isNaN(lat) || Number.isNaN(lng)) return "";
-    return `https://www.google.com/maps?q=${lat},${lng}`;
-  }, [selected]);
+  const operatorOptions = useMemo(() => {
+    const labels = Array.from(
+      new Set(rows.map((row) => row.operators[0] ?? "Sin operador")),
+    ).sort();
+    return [
+      { value: "", label: "Operador" },
+      { value: "unassigned", label: "Sin operador" },
+      ...labels
+        .filter((label) => label !== "Sin operador")
+        .map((label) => ({ value: label, label })),
+    ];
+  }, [rows]);
 
-  const wazeUrl = useMemo(() => {
-    if (!selected) return "";
-    const lat = selected.latitude;
-    const lng = selected.longitude;
-    if (typeof lat !== "number" || typeof lng !== "number") return "";
-    if (Number.isNaN(lat) || Number.isNaN(lng)) return "";
-    return `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
-  }, [selected]);
+  const columns = useMemo<DataTableColumn<ManagedAlarmRow>[]>(
+    () => [
+      {
+        id: "priority",
+        header: "Prioridad",
+        render: (row) => <PriorityBadge value={row.priority} />,
+      },
+      { id: "age", header: "TAC", render: (row) => row.alarmAge },
+      {
+        id: "plate",
+        header: "Placa",
+        render: (row) => (
+          <Button
+            type="button"
+            size="sm"
+            variant="link"
+            onClick={() => setSelectedId(row.id)}
+          >
+            {row.plate}
+          </Button>
+        ),
+      },
+      { id: "alarm", header: "Tipo de Alarma", render: (row) => row.alarm },
+      { id: "date", header: "Recepción", render: (row) => row.receptionTime },
+      {
+        id: "operator",
+        header: "Operador",
+        render: (row) => row.operators[0] ?? "Sin operador",
+      },
+      {
+        id: "action",
+        header: "Acciones",
+        render: (row) => (
+          <Button
+            type="button"
+            size="sm"
+            variant="secundario"
+            onClick={() => setSelectedId(row.id)}
+          >
+            Asignar
+          </Button>
+        ),
+      },
+    ],
+    [],
+  );
 
-  const onAssignConfirm = (userId: string) => {
-    const label = userOptions.find((u) => u.value === userId)?.label ?? userId;
-    if (!selected) return;
-    setOperatorOverrides((prev) => ({ ...prev, [selected.id]: label }));
-    setAssignOpen(false);
+  const finishDisabled = !typification || !resolutionNote.trim();
+  const minDetailWidth = 420;
+  const maxDetailWidth = Math.round(minDetailWidth * 1.7);
+
+  const stopResize = () => {
+    dragStartRef.current = null;
+    window.removeEventListener("pointermove", resizeDetail);
+    window.removeEventListener("pointerup", stopResize);
   };
 
-  const onBulkConfirm = (userIds: string[]) => {
-    const labels = userIds.map(
-      (id) => userOptions.find((u) => u.value === id)?.label ?? id,
-    );
-    const targets = alarms.filter(
-      (a) => (a.operators[0] ?? "") === "Sin operador",
-    );
-    if (!targets.length || !labels.length) {
-      setBulkOpen(false);
-      return;
-    }
-    setOperatorOverrides((prev) => {
-      const next = { ...prev };
-      let idx = 0;
-      targets.forEach((t) => {
-        next[t.id] = labels[idx % labels.length]!;
-        idx += 1;
-      });
-      return next;
-    });
-    setBulkOpen(false);
+  const resizeDetail = (event: PointerEvent) => {
+    const start = dragStartRef.current;
+    if (!start) return;
+    const nextWidth = start.width + (start.x - event.clientX);
+    setDetailWidth(Math.min(maxDetailWidth, Math.max(minDetailWidth, nextWidth)));
   };
 
-  const acknowledgeDisabled =
-    !typification || typificationNote.trim().length === 0;
-
-  const isDark = (config.themeMode ?? "light") === "dark";
+  const startResize = (event: React.PointerEvent<HTMLButtonElement>) => {
+    dragStartRef.current = { x: event.clientX, width: detailWidth };
+    window.addEventListener("pointermove", resizeDetail);
+    window.addEventListener("pointerup", stopResize);
+  };
 
   return (
-    <div className="relative w-full">
-      <div className="pointer-events-none fixed top-0 right-0 h-[520px] w-[520px] rounded-full blur-[120px] -z-10 opacity-60 bg-(--color-primary-hover)/10" />
-      <div className="pointer-events-none fixed bottom-0 left-0 h-[520px] w-[520px] rounded-full blur-[120px] -z-10 opacity-60 bg-secondary/10" />
+    <ModuleTemplate
+      className="alarm-manager"
+      title="Gestor de Alarmas"
+      themeMode={themeMode}
+      onThemeModeChange={setThemeMode}
+      user={{ name: "Mario Rojas", role: "Administrador" }}
+      logo={<SimonLogo variant={themeMode === "dark" ? "dark" : "light"} />}
+      footer="Version 1.0.0"
+      navItems={[
+        { id: "map", label: "Mapa", iconName: "map-pinned" },
+        { id: "vehicles", label: "Vehiculos", iconName: "cmd-car" },
+        { id: "avl", label: "Configuracion AVL", iconName: "settings-2" },
+        {
+          id: "alerts",
+          label: "Gestor de Alarmas",
+          iconName: "bell-dot",
+          selected: true,
+        },
+        { id: "reports", label: "Reportes", iconName: "chart-column" },
+        { id: "commands", label: "Comandos", iconName: "cmd-speedometer" },
+        { id: "geofences", label: "Geocercas", iconName: "map-pin" },
+        { id: "admin", label: "Administrativo", iconName: "user" },
+        { id: "settings", label: "Preferencias", iconName: "settings" },
+      ]}
+    >
+      <div
+        className={`alarm-manager__layout ${selected ? "" : "alarm-manager__layout--table-only"}`}
+        style={{ "--alarm-detail-width": `${detailWidth}px` } as React.CSSProperties}
+      >
+        {error ? <div className="alarm-manager__error">{error}</div> : null}
 
-      <div className="flex flex-col gap-6 p-4 sm:p-10 max-w-screen-2xl mx-auto w-full">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <Button
+        <section className="ds-app-shell__panel ds-app-shell__panel--flex alarm-manager__queue">
+          <div className="alarm-manager__section-header">
+            <h2>Alarmas en Cola</h2>
+          </div>
+
+          <div className="alarm-manager__filters">
+            <Input
+              placeholder="Buscar por placa, IMEI o ICCID"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              leftIcon={<Icon name="search" size={16} />}
+            />
+            <Select
+              value={alarmType}
+              placeholder="Tipo de alarma"
+              options={[
+                { value: "", label: "Tipo de alarma" },
+                ...alarmTypes.map((type) => ({ value: type, label: type })),
+              ]}
+              onChange={setAlarmType}
+            />
+            <Select
+              value={operatorFilter}
+              placeholder="Operador"
+              options={operatorOptions}
+              onChange={setOperatorFilter}
+            />
+          </div>
+
+          <DataTable
+            columns={columns}
+            rows={filteredRows}
+            getRowKey={(row) => row.id}
+            rowClassName={(row) =>
+              row.id === selected?.id ? "alarm-manager__row--selected" : ""
+            }
+            emptyState={loading ? "Cargando alarmas..." : "No hay alarmas disponibles"}
+            minWidth={980}
+          />
+
+          <div className="alarm-manager__pagination">
+            <span>Resultados 14 de 24</span>
+            <Pagination currentPage={page} totalPages={4} onPageChange={setPage} />
+          </div>
+        </section>
+
+        {selected ? (
+          <aside className="ds-app-shell__panel ds-app-shell__panel--fixed alarm-manager__detail">
+            <button
               type="button"
-              variant="secondary"
-              onClick={() => void refresh()}
-            >
-              Actualizar
-            </Button>
-          </div>
-        </div>
-
-        {error ? (
-          <div
-            className={`rounded-2xl border px-4 py-3 text-sm ${
-              isDark
-                ? "border-red-500/30 bg-red-950/30 text-red-200"
-                : "border-red-200 bg-red-50 text-red-700"
-            }`}
-          >
-            {error}
-          </div>
-        ) : null}
-
-        <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-4 gap-6 lg:grid-cols-2 lg:grid-rows-2 [&>div]:min-h-0">
-          {/* Details */}
-          <div
-            className={`overflow-hidden flex flex-col rounded-2xl border ${
-              isDark
-                ? "bg-surface-elevated border-border-subtle"
-                : "bg-white/70 backdrop-blur-md border-gray-100 shadow-xl shadow-gray-200/50"
-            }`}
-          >
-            <div
-              className={`px-5 py-4 border-b ${
-                isDark
-                  ? "border-border-subtle bg-surface"
-                  : "border-gray-50 bg-gray-50/30"
-              }`}
-            >
-              <div
-                className={`text-sm font-bold tracking-tight ${
-                  isDark ? "text-text" : "text-gray-800"
-                }`}
-              >
-                Detalles de alarma
+              className="alarm-manager__resize-handle"
+              aria-label="Cambiar ancho del panel de detalle"
+              onPointerDown={startResize}
+            />
+            <div className="alarm-manager__detail-header">
+              <div className="alarm-manager__plate-block">
+                <span>Placa</span>
+                <h2>{selected.plate}</h2>
+                <Button
+                  type="button"
+                  size="xs"
+                  variant="link"
+                  leftIcon={<Icon name="eye" size={14} />}
+                >
+                  Ver Mas Detalles
+                </Button>
+              </div>
+              <div className="alarm-manager__detail-actions-top">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  aria-label="Cerrar panel de detalle"
+                  onClick={() => setSelectedId(null)}
+                >
+                  <Icon name="x" size={20} />
+                </Button>
               </div>
             </div>
-            <div className="p-5 flex-1 min-h-0 overflow-auto">
-              {selected == null ? (
-                <div
-                  className={`py-16 text-center text-sm ${
-                    isDark ? "text-text-muted" : "text-gray-500"
-                  }`}
+
+            <dl className="alarm-manager__facts">
+              <div className="alarm-manager__fact">
+                <span className="alarm-manager__fact-icon alarm-manager__fact-icon--danger">
+                  <Icon name="alert-triangle" size={22} />
+                </span>
+                <span>
+                  <dt>Estado del vehiculo</dt>
+                  <dd className="alarm-manager__danger">Alarmado</dd>
+                </span>
+              </div>
+              <div className="alarm-manager__fact">
+                <span className="alarm-manager__fact-icon">
+                  <Icon name="calendar" size={22} />
+                </span>
+                <span>
+                  <dt>Fecha del incidente</dt>
+                  <dd>{selected.receptionTime}</dd>
+                </span>
+              </div>
+              <div className="alarm-manager__fact">
+                <span className="alarm-manager__fact-icon alarm-manager__fact-icon--danger">
+                  <Icon name="bell" size={22} />
+                </span>
+                <span>
+                  <dt>Tipo de alarma</dt>
+                  <dd className="alarm-manager__danger">{selected.alarm}</dd>
+                </span>
+              </div>
+              <div className="alarm-manager__fact">
+                <span className="alarm-manager__fact-icon">
+                  <Icon name="phone" size={22} />
+                </span>
+                <span>
+                  <dt>Telefono</dt>
+                  <dd className="alarm-manager__danger">+57 312 456 7890</dd>
+                </span>
+              </div>
+              <div className="alarm-manager__fact">
+                <span className="alarm-manager__fact-icon">
+                  <Icon name="microchip" size={22} />
+                </span>
+                <span>
+                  <dt>AVL</dt>
+                  <dd>865456721470360</dd>
+                </span>
+              </div>
+              <div className="alarm-manager__fact">
+                <span className="alarm-manager__fact-icon">
+                  <Icon name="user" size={22} />
+                </span>
+                <span>
+                  <dt>Contacto</dt>
+                  <dd>Leydi Viviana</dd>
+                </span>
+              </div>
+            </dl>
+
+            <div className="alarm-manager__map-row">
+              <span>
+                <Icon name="map-pin" size={16} />
+                {selected.positionText}
+                <Button
+                  type="button"
+                  size="xs"
+                  variant="ghost"
+                  className="alarm-manager__copy-action"
+                  aria-label="Copiar coordenadas"
                 >
-                  Selecciona una alarma para ver más detalles.
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                  <div className="lg:col-span-7 space-y-3">
-                    <div
-                      className={`flex flex-wrap items-center gap-3 border-b pb-3 ${
-                        isDark ? "border-border-subtle" : "border-gray-100"
-                      }`}
-                    >
-                      <div
-                        className={`text-[11px] font-bold uppercase tracking-wider ${
-                          isDark ? "text-text-muted" : "text-gray-400"
-                        }`}
-                      >
-                        Placa
-                      </div>
-                      <div
-                        className={`text-lg font-extrabold truncate ${
-                          isDark ? "text-text" : "text-gray-900"
-                        }`}
-                      >
-                        {selected.plate}
-                      </div>
-                      <div
-                        className={`text-xs font-medium ${
-                          isDark ? "text-text-muted" : "text-gray-500"
-                        }`}
-                      >
-                        #{selected.deviceId}
-                      </div>
-                      <div className="ml-auto inline-flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-red-500" />
-                        <span
-                          className={`text-xs font-semibold ${
-                            isDark ? "text-text" : "text-gray-800"
-                          }`}
-                        >
-                          Alarmado
-                        </span>
-                      </div>
-                    </div>
+                  <Icon name="copy" size={14} />
+                </Button>
+              </span>
+              <span>
+                <Icon name="google-maps" size={22} />
+                <Icon name="message-square" size={22} />
+              </span>
+            </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                      <div>
-                        <div
-                          className={`text-[11px] font-bold uppercase tracking-wider ${
-                            isDark ? "text-text-muted" : "text-gray-400"
-                          }`}
-                        >
-                          Alarma
-                        </div>
-                        <div
-                          className={`mt-0.5 font-medium ${
-                            isDark ? "text-text" : "text-gray-900"
-                          }`}
-                        >
-                          {selected.alarm}
-                        </div>
-                      </div>
-                      <div>
-                        <div
-                          className={`text-[11px] font-bold uppercase tracking-wider ${
-                            isDark ? "text-text-muted" : "text-gray-400"
-                          }`}
-                        >
-                          Fecha
-                        </div>
-                        <div
-                          className={`mt-0.5 font-medium ${
-                            isDark ? "text-text" : "text-gray-900"
-                          }`}
-                        >
-                          {formatDateTime(selected.fixTime) || "—"}
-                        </div>
-                      </div>
-                      <div className="sm:col-span-2">
-                        <div
-                          className={`text-[11px] font-bold uppercase tracking-wider ${
-                            isDark ? "text-text-muted" : "text-gray-400"
-                          }`}
-                        >
-                          Operador
-                        </div>
-                        <div
-                          className={`mt-0.5 font-medium ${
-                            isDark ? "text-text" : "text-gray-900"
-                          }`}
-                        >
-                          {selectedOperator ?? "—"}
-                        </div>
-                      </div>
-                      <div className="sm:col-span-2">
-                        <div
-                          className={`text-[11px] font-bold uppercase tracking-wider ${
-                            isDark ? "text-text-muted" : "text-gray-400"
-                          }`}
-                        >
-                          Ubicación
-                        </div>
-                        <div
-                          className={`mt-0.5 font-mono text-sm ${
-                            isDark ? "text-text" : "text-gray-900"
-                          }`}
-                        >
-                          {typeof selected.latitude === "number" &&
-                          typeof selected.longitude === "number"
-                            ? `${selected.latitude.toFixed(5)}, ${selected.longitude.toFixed(5)}`
-                            : "—"}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      <a
-                        href={mapsUrl || "#"}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => !mapsUrl && e.preventDefault()}
-                      >
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          disabled={!mapsUrl}
-                        >
-                          Google Maps
-                        </Button>
-                      </a>
-                      <a
-                        href={wazeUrl || "#"}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => !wazeUrl && e.preventDefault()}
-                      >
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          disabled={!wazeUrl}
-                        >
-                          Waze
-                        </Button>
-                      </a>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        onClick={() => setAssignOpen(true)}
-                      >
-                        Asignar
-                      </Button>
-                    </div>
+            <section className="alarm-manager__history">
+              <h3>Ultimo evento del Historial de Placa</h3>
+              {["Exceso de Velocidad", "Remolque"].map((item) => (
+                <article key={item}>
+                  <div>
+                    <Icon
+                      name={item === "Remolque" ? "cmd-car" : "cmd-speedometer"}
+                      size={16}
+                    />
+                    <strong>{item}</strong>
+                    <PriorityBadge value="Crítica" />
                   </div>
-
-                  <div
-                    className={`lg:col-span-5 border-t lg:border-t-0 lg:border-l pt-3 lg:pt-0 lg:pl-4 space-y-3 ${
-                      isDark ? "border-border-subtle" : "border-gray-100"
-                    }`}
-                  >
-                    <div>
-                      <div className="text-[11px] font-bold text-text-muted uppercase tracking-wider">
-                        Tipificación
-                      </div>
-                      <select
-                        className={`mt-1 h-10 w-full rounded-xl px-3 text-sm outline-none ${
-                          isDark
-                            ? "border border-border-subtle bg-surface text-text focus:ring-2 focus:ring-primary/30"
-                            : "border-2 border-gray-100 bg-gray-50/50 text-gray-900 focus:border-(--color-primary-hover)"
-                        }`}
-                        value={typification}
-                        onChange={(e) => setTypification(e.target.value)}
-                      >
-                        {TIPIFICACION_OPTS.map((o) => (
-                          <option key={o.value} value={o.value}>
-                            {o.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-text-muted uppercase tracking-wider">
-                        Describir motivos
-                      </div>
-                      <textarea
-                        className={`mt-1 min-h-[90px] w-full resize-y rounded-xl px-3 py-2 text-sm outline-none ${
-                          isDark
-                            ? "border border-border-subtle bg-surface text-text focus:ring-2 focus:ring-primary/30"
-                            : "border-2 border-gray-100 bg-gray-50/50 text-gray-900 focus:border-(--color-primary-hover)"
-                        }`}
-                        value={typificationNote}
-                        onChange={(e) => setTypificationNote(e.target.value)}
-                        placeholder="Comentarios…"
-                      />
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      <Button
-                        type="button"
-                        disabled={acknowledgeDisabled}
-                        onClick={() => {
-                          // Placeholder action (no backend endpoint provided)
-                          setTypification("");
-                          setTypificationNote("");
-                        }}
-                      >
-                        Reconocer alarma
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="secondary"
-                        onClick={() => {
-                          setTypification("");
-                          setTypificationNote("");
-                        }}
-                      >
-                        Limpiar campos
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Queue */}
-          <div
-            className={`overflow-hidden flex flex-col rounded-2xl border ${
-              isDark
-                ? "bg-surface-elevated border-border-subtle"
-                : "bg-white/70 backdrop-blur-md border-gray-100 shadow-xl shadow-gray-200/50"
-            }`}
-          >
-            <div
-              className={`px-5 py-4 border-b ${
-                isDark
-                  ? "border-border-subtle bg-surface"
-                  : "border-gray-50 bg-gray-50/30"
-              }`}
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <div
-                  className={`text-sm font-bold tracking-tight ${
-                    isDark ? "text-text" : "text-gray-800"
-                  }`}
-                >
-                  Alarmas en cola
-                </div>
-                <div
-                  className={`ml-auto text-xs ${
-                    isDark ? "text-text-muted" : "text-gray-500"
-                  }`}
-                >
-                  Activas:{" "}
-                  <span
-                    className={`font-semibold ${isDark ? "text-text" : "text-gray-900"}`}
-                  >
-                    {queue.length}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div
-              className={`px-5 py-4 flex flex-wrap items-center gap-2 border-b ${
-                isDark ? "border-border-subtle" : "border-gray-100"
-              }`}
-            >
-              <div className="flex-1 min-w-[180px]">
-                <Input
-                  placeholder="Buscar por placa"
-                  value={queueSearch}
-                  onChange={(e) => setQueueSearch(e.target.value)}
-                />
-              </div>
+                  <p>
+                    <Icon name="clock" size={14} />
+                    Inicio: 20 Mar, 10:42:51
+                  </p>
+                  <p>
+                    <Icon name="map-pin" size={14} />
+                    4.6097, -74.0817
+                  </p>
+                </article>
+              ))}
               <Button
                 type="button"
-                variant="ghost"
-                onClick={() => setSortDesc((v) => !v)}
+                size="md"
+                variant="secundario"
+                leftIcon={<Icon name="refresh-cw" size={18} />}
               >
-                Orden: {sortDesc ? "Desc" : "Asc"}
+                Ver Historial de Placa
               </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setBulkOpen(true)}
-              >
-                Asignar lote
-              </Button>
-            </div>
-            <div className="flex-1 min-h-0 overflow-auto">
-              {loading ? (
-                <div
-                  className={`p-5 text-sm ${isDark ? "text-text-muted" : "text-gray-500"}`}
-                >
-                  Cargando…
-                </div>
-              ) : (
-                <table className="w-full border-collapse text-sm">
-                  <thead
-                    className={`${isDark ? "bg-surface text-text-muted" : "bg-gray-50/40 text-gray-500"}`}
-                  >
-                    <tr className="text-left">
-                      <th className="px-3 py-2 font-semibold">Placa</th>
-                      <th className="px-3 py-2 font-semibold">Alarma</th>
-                      <th className="px-3 py-2 font-semibold">Fecha</th>
-                      <th className="px-3 py-2 font-semibold">Operador</th>
-                      <th className="px-3 py-2 font-semibold text-center w-28">
-                        Acción
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {queue.map((a) => {
-                      const isSelected = selectedId === a.id;
-                      const op = operatorOverrides[a.id] ?? a.operators[0];
-                      const rowBg = (() => {
-                        if (isSelected) return isDark ? "bg-surface-elevated" : "bg-emerald-50/40";
-                        return isDark ? "hover:bg-surface" : "hover:bg-gray-50/60";
-                      })();
-                      return (
-                        <tr
-                          key={a.id}
-                          className={`border-t ${isDark ? "border-border-subtle" : "border-gray-100"} ${rowBg}`}
-                        >
-                          <td
-                            className={`px-3 py-2 font-semibold ${isDark ? "text-text" : "text-gray-900"}`}
-                          >
-                            <button
-                              type="button"
-                              className="text-left"
-                              onClick={() => setSelectedId(a.id)}
-                            >
-                              {a.plate}
-                            </button>
-                          </td>
-                          <td
-                            className={`px-3 py-2 ${isDark ? "text-text" : "text-gray-900"}`}
-                          >
-                              {a.alarm}
-                            </td>
-                          <td
-                            className={`px-3 py-2 text-xs ${isDark ? "text-text-muted" : "text-gray-500"}`}
-                          >
-                            {formatDateTime(a.fixTime) || "—"}
-                          </td>
-                          <td
-                            className={`px-3 py-2 ${isDark ? "text-text-muted" : "text-gray-500"}`}
-                          >
-                              {op}
-                            </td>
-                          <td className="px-3 py-2 text-center">
-                            <Button
-                              type="button"
-                              size="sm"
-                                className="bg-linear-to-r from-(--color-primary-hover) to-primary text-[--color-text-on-primary]"
-                              onClick={() => {
-                                setSelectedId(a.id);
-                                setAssignOpen(true);
-                              }}
-                            >
-                              Asignar
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          </div>
+            </section>
 
-          {/* History */}
-          <div
-            className={`overflow-hidden flex flex-col rounded-2xl border ${
-              isDark
-                ? "bg-surface-elevated border-border-subtle"
-                : "bg-white/70 backdrop-blur-md border-gray-100 shadow-xl shadow-gray-200/50"
-            }`}
-          >
-            <div
-              className={`px-5 py-4 border-b ${
-                isDark
-                  ? "border-border-subtle bg-surface"
-                  : "border-gray-50 bg-gray-50/30"
-              }`}
-            >
-              <div
-                className={`text-sm font-bold tracking-tight ${
-                  isDark ? "text-text" : "text-gray-800"
-                }`}
-              >
-                Histórico placa{selected ? `: ${selected.plate}` : ""}
-              </div>
-            </div>
-            <div
-              className={`px-5 py-4 flex flex-wrap items-center gap-2 border-b ${
-                isDark ? "border-border-subtle" : "border-gray-100"
-              }`}
-            >
-              <input
-                type="datetime-local"
-                className={`h-10 rounded-xl px-3 text-sm outline-none ${
-                  isDark
-                    ? "border border-border-subtle bg-surface text-text focus:ring-2 focus:ring-primary/30"
-                    : "border-2 border-gray-100 bg-gray-50/50 text-gray-900 focus:border-(--color-primary-hover)"
-                }`}
-                value={histDate}
-                onChange={(e) => setHistDate(e.target.value)}
+            <section className="alarm-manager__resolution">
+              <h3>Resolucion de Alarma</h3>
+              <Select
+                label="Tipificacion del evento"
+                required
+                value={typification}
+                placeholder="Selecciona un estado"
+                options={TIPIFICACION_OPTS.map((option) => ({
+                  value: option.value,
+                  label: option.label || "Selecciona un estado",
+                }))}
+                onChange={setTypification}
               />
-              <select
-                className={`h-10 rounded-xl px-3 text-sm outline-none ${
-                  isDark
-                    ? "border border-border-subtle bg-surface text-text focus:ring-2 focus:ring-primary/30"
-                    : "border-2 border-gray-100 bg-gray-50/50 text-gray-900 focus:border-(--color-primary-hover)"
-                }`}
-                value={histAlarmType}
-                onChange={(e) => setHistAlarmType(e.target.value)}
-              >
-                {HIST_ALARM_TYPE_OPTS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-              <select
-                className={`h-10 rounded-xl px-3 text-sm outline-none ${
-                  isDark
-                    ? "border border-border-subtle bg-surface text-text focus:ring-2 focus:ring-primary/30"
-                    : "border-2 border-gray-100 bg-gray-50/50 text-gray-900 focus:border-(--color-primary-hover)"
-                }`}
-                value={histTip}
-                onChange={(e) => setHistTip(e.target.value)}
-              >
-                {TIPIFICACION_OPTS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label || "Tipificación"}
-                  </option>
-                ))}
-              </select>
               <Button
                 type="button"
-                variant="ghost"
-                onClick={() => {
-                  setHistDate("");
-                  setHistAlarmType("");
-                  setHistTip("");
-                }}
+                size="md"
+                variant="principal"
+                leftIcon={<Icon name="plus" size={18} />}
+                onClick={() => setResolutionOpen(true)}
               >
-                Limpiar
+                Agregar Detalles
+              </Button>
+            </section>
+
+            <div className="alarm-manager__sticky-actions">
+              <Button
+                type="button"
+                size="md"
+                variant="principal"
+                className="alarm-manager__finish-button"
+                disabled={finishDisabled}
+                leftIcon={<Icon name="bell" size={18} />}
+                onClick={() => setResolutionOpen(true)}
+              >
+                Finalizar Gestion
               </Button>
             </div>
-            <div
-              className={`flex-1 min-h-0 flex items-center justify-center p-6 text-sm ${
-                isDark ? "text-text-muted" : "text-gray-500"
-              }`}
-            >
-              No hay registros disponibles
-            </div>
-          </div>
-
-          {/* Map */}
-          <div
-            className={`overflow-hidden flex flex-col rounded-2xl border ${
-              isDark
-                ? "bg-surface-elevated border-border-subtle"
-                : "bg-white/70 backdrop-blur-md border-gray-100 shadow-xl shadow-gray-200/50"
-            }`}
-          >
-            <div
-              className={`px-5 py-4 border-b ${
-                isDark
-                  ? "border-border-subtle bg-surface"
-                  : "border-gray-50 bg-gray-50/30"
-              }`}
-            >
-              <div
-                className={`text-sm font-bold tracking-tight ${
-                  isDark ? "text-text" : "text-gray-800"
-                }`}
-              >
-                Mapa
-              </div>
-            </div>
-            <div className="relative flex-1 min-h-[200px]">
-              {selected == null ? (
-                <div
-                  className={`absolute inset-0 z-10 flex items-center justify-center p-6 text-center text-sm ${
-                    isDark
-                      ? "bg-surface/85 text-text-muted"
-                      : "bg-white/75 text-gray-500"
-                  }`}
-                >
-                  Selecciona una alarma para ver el mapa.
-                </div>
-              ) : null}
-              <div className="absolute inset-0">
-                <MapView>
-                  <AlarmMapOverlay alarms={alarms} selectedId={selectedId} />
-                </MapView>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <AssignAlarmDialog
-          open={assignOpen && selected != null}
-          plate={selected?.plate ?? ""}
-          userOptions={userOptions}
-          onClose={() => setAssignOpen(false)}
-          onConfirm={onAssignConfirm}
-        />
-        <BulkAssignAlarmDialog
-          open={bulkOpen}
-          userOptions={userOptions}
-          onClose={() => setBulkOpen(false)}
-          onConfirm={onBulkConfirm}
-        />
+          </aside>
+        ) : null}
       </div>
-    </div>
+
+      {resolutionOpen && selected ? (
+        <div className="alarm-manager__modal-layer">
+          <button
+            type="button"
+            className="alarm-manager__modal-backdrop"
+            aria-label="Cerrar"
+            onClick={() => setResolutionOpen(false)}
+          />
+          <Modal
+            className="alarm-manager__modal"
+            title={`Resolucion de Alarma - ${selected.plate}`}
+            primaryLabel="Guardar"
+            secondaryLabel="Cancelar"
+            onClose={() => setResolutionOpen(false)}
+            onSecondaryClick={() => setResolutionOpen(false)}
+            onPrimaryClick={() => {
+              if (finishDisabled) return;
+              setResolutionOpen(false);
+              setResolutionNote("");
+            }}
+          >
+            <div className="alarm-manager__modal-form">
+              <Select
+                label="Tipo de resolucion"
+                value={typification}
+                options={TIPIFICACION_OPTS.map((option) => ({
+                  value: option.value,
+                  label: option.label || "Seleccionar",
+                }))}
+                onChange={setTypification}
+              />
+              <TextArea
+                label="Describe el motivo"
+                placeholder="Escribe observaciones para el cierre de la alarma."
+                value={resolutionNote}
+                onChange={(event) => setResolutionNote(event.target.value)}
+              />
+              <Select
+                label="Historico asociado"
+                value=""
+                options={HIST_ALARM_TYPE_OPTS}
+              />
+            </div>
+          </Modal>
+        </div>
+      ) : null}
+    </ModuleTemplate>
   );
 }

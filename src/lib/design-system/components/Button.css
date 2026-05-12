@@ -34,6 +34,13 @@
   }
 
   /* ── Sizes ── */
+  .ds-btn--xs {
+    height: 32px;
+    padding: 0 var(--spacing-2);
+    font-size: 0.875rem;
+    line-height: 1rem;
+  }
+
   .ds-btn--sm {
     height: 40px;
     padding: 0 var(--spacing-5);
@@ -99,11 +106,44 @@
     background: var(--ds-color-surface-selected);
   }
 
+  .ds-btn--link {
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-brand-700);
+  }
+
+  .ds-btn--link:hover:not(:disabled) {
+    background: transparent;
+    color: var(--color-brand-800);
+    text-decoration: underline;
+  }
+
+  .ds-btn--link:active:not(:disabled) {
+    background: transparent;
+    color: var(--color-brand-900);
+  }
+
+  [data-theme="dark"] .ds-btn--link {
+    color: var(--color-brand-300);
+  }
+
+  [data-theme="dark"] .ds-btn--link:hover:not(:disabled) {
+    color: var(--color-brand-200);
+  }
+
   /* ── Disabled ── */
   .ds-btn--disabled {
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  .ds-btn--principal.ds-btn--disabled {
+    background: var(--color-neutral-200);
+    color: var(--color-neutral-500);
+    opacity: 1;
   }
 
   /* ── Icon slot ── */
@@ -112,6 +152,11 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+  }
+
+  .ds-btn--xs .ds-btn__icon {
+    width: 14px;
+    height: 14px;
   }
 
   .ds-btn--sm .ds-btn__icon {

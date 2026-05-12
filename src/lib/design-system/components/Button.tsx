@@ -4,8 +4,8 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
  * Design System SM — Button (Atom)
  *
  * Variants from Figma:
- *   Type:  Principal | Secundario | Ghost
- *   Size:  sm (40px) | md (48px) | lg (60px)
+ *   Type:  Principal | Secundario | Ghost | Link
+ *   Size:  xs (32px) | sm (40px) | md (48px) | lg (60px)
  *   State: default | hover | active | disabled
  *
  * Principal uses a gradient background (brand-400 → brand-600).
@@ -14,8 +14,8 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
  * All use pill shape (border-radius: 120px).
  * ────────────────────────────────────────────── */
 
-export type ButtonVariant = "principal" | "secundario" | "ghost";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonVariant = "principal" | "secundario" | "ghost" | "link";
+export type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -25,6 +25,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
+  xs: "ds-btn--xs",
   sm: "ds-btn--sm",
   md: "ds-btn--md",
   lg: "ds-btn--lg",
@@ -34,6 +35,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   principal: "ds-btn--principal",
   secundario: "ds-btn--secundario",
   ghost: "ds-btn--ghost",
+  link: "ds-btn--link",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

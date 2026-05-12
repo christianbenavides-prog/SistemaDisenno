@@ -1,0 +1,285 @@
+@layer components {
+  .alarm-manager__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--alarm-detail-width, 420px);
+    gap: var(--spacing-6);
+    min-height: 0;
+    flex: 1;
+  }
+
+  .alarm-manager__layout--table-only {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .alarm-manager__queue,
+  .alarm-manager__detail {
+    border: var(--border-xs) solid var(--ds-color-border);
+  }
+
+  .alarm-manager__section-header {
+    padding: var(--spacing-4) var(--spacing-6) 0;
+  }
+
+  .alarm-manager__section-header h2,
+  .alarm-manager__history h3,
+  .alarm-manager__resolution h3 {
+    margin: 0;
+    color: var(--ds-color-text-strong);
+  }
+
+  .alarm-manager__filters {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) 220px 180px;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-6);
+    align-items: end;
+  }
+
+  .alarm-manager__row--selected {
+    background: var(--color-brand-100);
+  }
+
+  [data-theme="dark"] .alarm-manager__row--selected {
+    background: var(--color-brand-950);
+  }
+
+  .alarm-manager__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-6);
+    border-top: var(--border-xs) solid var(--ds-color-border);
+    color: var(--ds-color-text-muted);
+  }
+
+  .alarm-manager__detail {
+    display: flex;
+    position: relative;
+    width: var(--alarm-detail-width, 420px);
+    flex-direction: column;
+    gap: var(--spacing-6);
+    overflow: auto;
+    padding: var(--spacing-6);
+  }
+
+  .alarm-manager__resize-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -6px;
+    width: 12px;
+    border: 0;
+    background: transparent;
+    cursor: col-resize;
+    padding: 0;
+  }
+
+  .alarm-manager__resize-handle::after {
+    content: "";
+    position: absolute;
+    top: var(--spacing-6);
+    bottom: var(--spacing-6);
+    left: 5px;
+    width: 2px;
+    border-radius: var(--radius-full);
+    background: transparent;
+  }
+
+  .alarm-manager__resize-handle:hover::after,
+  .alarm-manager__resize-handle:focus-visible::after {
+    background: var(--color-brand-400);
+  }
+
+  .alarm-manager__detail-header,
+  .alarm-manager__map-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+  }
+
+  .alarm-manager__detail-actions-top {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+  }
+
+  .alarm-manager__plate-block {
+    display: grid;
+    justify-items: start;
+    gap: var(--spacing-1);
+  }
+
+  .alarm-manager__plate-block span {
+    color: var(--ds-color-text-muted);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-h6-size);
+    line-height: var(--text-h6-line-height);
+  }
+
+  .alarm-manager__plate-block h2 {
+    margin: 0;
+    color: var(--ds-color-text-strong);
+    font-family: var(--font-heading);
+    font-size: var(--text-h3-size);
+    line-height: var(--text-h3-line-height);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .alarm-manager__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-5) var(--spacing-8);
+    margin: 0;
+  }
+
+  .alarm-manager__fact {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: var(--spacing-4);
+    align-items: start;
+  }
+
+  .alarm-manager__fact-icon {
+    display: inline-grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border-radius: var(--radius-sm);
+    background: var(--ds-color-surface-alt);
+    color: var(--ds-color-text);
+  }
+
+  .alarm-manager__fact-icon--danger {
+    color: var(--color-error-700);
+  }
+
+  .alarm-manager__facts dt {
+    color: var(--ds-color-text);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .alarm-manager__facts dd {
+    margin: var(--spacing-1) 0 0;
+    color: var(--ds-color-text);
+  }
+
+  .alarm-manager__danger {
+    color: var(--color-error-600);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .alarm-manager__map-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+  }
+
+  .alarm-manager__copy-action.ds-btn {
+    width: 24px;
+    height: 24px;
+    min-height: 0;
+    padding: 0;
+    border-radius: var(--radius-xs);
+    background: var(--ds-color-surface-alt);
+    color: var(--ds-color-text-muted);
+  }
+
+  .alarm-manager__history,
+  .alarm-manager__resolution {
+    display: grid;
+    gap: var(--spacing-4);
+  }
+
+  .alarm-manager__history article {
+    display: grid;
+    gap: var(--spacing-2);
+    border-left: var(--border-sm) solid var(--color-error-500);
+    border-radius: var(--radius-sm);
+    background: var(--ds-color-surface-alt);
+    padding: var(--spacing-4);
+  }
+
+  .alarm-manager__history article > div,
+  .alarm-manager__history p {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin: 0;
+  }
+
+  .alarm-manager__error {
+    grid-column: 1 / -1;
+    border: var(--border-xs) solid var(--color-error-200);
+    border-radius: var(--radius-sm);
+    background: var(--color-error-50);
+    color: var(--color-error-800);
+    padding: var(--spacing-4);
+  }
+
+  .alarm-manager__modal-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: var(--spacing-4);
+  }
+
+  .alarm-manager__modal-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba(26, 26, 26, 0.56);
+  }
+
+  .alarm-manager__modal {
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .alarm-manager__modal-form {
+    display: grid;
+    gap: var(--spacing-4);
+  }
+
+  .alarm-manager__sticky-actions {
+    position: sticky;
+    bottom: calc(var(--spacing-6) * -1);
+    z-index: 1;
+    margin: auto calc(var(--spacing-6) * -1) calc(var(--spacing-6) * -1);
+    padding: var(--spacing-4) var(--spacing-6) var(--spacing-6);
+    background: var(--ds-color-surface);
+    border-top: var(--border-xs) solid var(--ds-color-border);
+  }
+
+  .alarm-manager__finish-button {
+    width: 100%;
+  }
+
+  @media (max-width: 1180px) {
+    .alarm-manager__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .alarm-manager__detail {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .alarm-manager__filters,
+    .alarm-manager__facts {
+      grid-template-columns: 1fr;
+    }
+
+    .alarm-manager__pagination,
+    .alarm-manager__detail-header,
+    .alarm-manager__map-row {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+}
