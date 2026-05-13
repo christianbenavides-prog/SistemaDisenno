@@ -18,6 +18,7 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;
+  headerSubtitle?: ReactNode;
   showHeader?: boolean;
   showFooter?: boolean;
   showCloseButton?: boolean;
@@ -35,6 +36,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
   (
     {
       title = "Modal Title",
+      headerSubtitle,
       showHeader = true,
       showFooter = true,
       showCloseButton = true,
@@ -63,7 +65,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       >
         {showHeader && (
           <div className="ds-modal__header">
-            <span id="ds-modal-title" className="ds-modal__title">{title}</span>
+            <div className="ds-modal__header-content">
+              <span id="ds-modal-title" className="ds-modal__title">{title}</span>
+              {headerSubtitle && <span className="ds-modal__header-subtitle">{headerSubtitle}</span>}
+            </div>
             {showCloseButton && (
               <button type="button" className="ds-modal__close" aria-label="Cerrar" onClick={onClose}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

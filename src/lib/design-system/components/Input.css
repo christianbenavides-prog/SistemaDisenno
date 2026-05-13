@@ -26,7 +26,7 @@
     font-size: var(--text-body-sm-size);
     line-height: var(--text-body-sm-line-height);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-neutral-500);
+    color: var(--ds-color-text-muted);
   }
 
   /* ── Input container ── */
@@ -34,10 +34,10 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-2);
-    border: var(--border-xs) solid var(--color-neutral-200);
+    border: var(--border-xs) solid var(--ds-color-border);
     border-radius: var(--radius-sm);
     padding: var(--spacing-2) var(--spacing-4);
-    background: var(--color-white);
+    background: var(--ds-color-surface);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
@@ -56,25 +56,25 @@
     font-size: var(--text-body-lg-size);
     line-height: var(--text-body-lg-line-height);
     font-weight: var(--font-weight-regular);
-    color: var(--color-neutral-900);
+    color: var(--ds-color-text);
     min-width: 0;
   }
 
   .ds-input__field::placeholder {
-    color: var(--color-neutral-300);
+    color: var(--ds-color-text-muted);
   }
 
   /* ── TextArea ── */
   .ds-textarea {
-    border: var(--border-xs) solid var(--color-neutral-200);
+    border: var(--border-xs) solid var(--ds-color-border);
     border-radius: var(--radius-sm);
     padding: var(--spacing-2) var(--spacing-4);
-    background: var(--color-white);
+    background: var(--ds-color-surface);
     font-family: var(--font-body);
     font-size: var(--text-body-lg-size);
     line-height: var(--text-body-lg-line-height);
     font-weight: var(--font-weight-regular);
-    color: var(--color-neutral-900);
+    color: var(--ds-color-text);
     resize: vertical;
     min-height: 80px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -82,7 +82,7 @@
   }
 
   .ds-textarea::placeholder {
-    color: var(--color-neutral-300);
+    color: var(--ds-color-text-muted);
   }
 
   .ds-textarea:focus {
@@ -98,7 +98,7 @@
     flex-shrink: 0;
     width: 20px;
     height: 20px;
-    color: var(--color-neutral-400);
+    color: var(--ds-color-text-muted);
   }
 
   /* ── Status: Error ── */
@@ -143,13 +143,13 @@
   .ds-input--disabled {
     opacity: 0.5;
     pointer-events: none;
-    background: var(--color-neutral-50);
+    background: var(--ds-color-surface-alt);
   }
 
   .ds-textarea.ds-input--disabled {
     opacity: 0.5;
     pointer-events: none;
-    background: var(--color-neutral-50);
+    background: var(--ds-color-surface-alt);
   }
 
   /* ── Helper text ── */
@@ -161,7 +161,7 @@
   }
 
   .ds-helper--default {
-    color: var(--color-neutral-400);
+    color: var(--ds-color-text-muted);
   }
 
   .ds-helper--error {

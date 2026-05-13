@@ -34,7 +34,7 @@ export default function ScadaModule({
   let content: React.ReactNode = null;
   if (path.startsWith("/scada/panic")) {
     content = <PanicPage />;
-  } else if (path.startsWith("/scada/alerts")) {
+  } else if (path.startsWith("/scada/alerts")) { 
     content = <OperationsAlarmsPage />;
   } else if (path.startsWith("/scada/reports")) {
     content = <ReportsPage />;

@@ -525,7 +525,8 @@ export function OperationsAlarmsPage() {
           />
           <Modal
             className="alarm-manager__modal"
-            title={`Resolucion de Alarma - ${selected.plate}`}
+            title="Resolución de Alarma - Ampliado"
+            headerSubtitle="Gestión de incidentes en tiempo real."
             primaryLabel="Guardar"
             secondaryLabel="Cancelar"
             onClose={() => setResolutionOpen(false)}
@@ -537,25 +538,15 @@ export function OperationsAlarmsPage() {
             }}
           >
             <div className="alarm-manager__modal-form">
-              <Select
-                label="Tipo de resolucion"
-                value={typification}
-                options={TIPIFICACION_OPTS.map((option) => ({
-                  value: option.value,
-                  label: option.label || "Seleccionar",
-                }))}
-                onChange={setTypification}
-              />
+              <div className="alarm-manager__plate-indicator">
+                Placa {selected.plate}
+              </div>
               <TextArea
-                label="Describe el motivo"
-                placeholder="Escribe observaciones para el cierre de la alarma."
+                rows={8}
+                label={<>Describir motivos <span style={{ color: 'var(--color-error)' }}>*</span></>}
+                placeholder="Escribe brevemente qué acciones se tomaron o el resultado de la gestión..."
                 value={resolutionNote}
                 onChange={(event) => setResolutionNote(event.target.value)}
-              />
-              <Select
-                label="Historico asociado"
-                value=""
-                options={HIST_ALARM_TYPE_OPTS}
               />
             </div>
           </Modal>

@@ -22,7 +22,7 @@ export type InputStatus = "default" | "error" | "success" | "disabled";
 
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
-  label?: string;
+  label?: ReactNode;
   helperText?: string;
   status?: InputStatus;
   leftIcon?: ReactNode;
@@ -31,7 +31,7 @@ export interface InputProps
 
 export interface TextAreaProps
   extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "children"> {
-  label?: string;
+  label?: ReactNode;
   helperText?: string;
   status?: InputStatus;
 }

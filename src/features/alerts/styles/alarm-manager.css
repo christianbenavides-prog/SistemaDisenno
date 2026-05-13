@@ -245,6 +245,14 @@
     gap: var(--spacing-4);
   }
 
+  .alarm-manager__plate-indicator {
+    padding-left: var(--spacing-3);
+    border-left: 2px solid var(--color-brand-400);
+    font-size: var(--text-body-lg-size, 16px);
+    color: var(--ds-color-text-strong);
+    margin-bottom: var(--spacing-2);
+  }
+
   .alarm-manager__sticky-actions {
     position: sticky;
     bottom: calc(var(--spacing-6) * -1);
