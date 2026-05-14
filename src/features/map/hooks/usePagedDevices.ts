@@ -10,7 +10,7 @@ type DevicesV2Response = {
 };
 
 export function usePagedDevices(keyword: string) {
-  const { api } = useScada();
+  const { api, config } = useScada();
 
   const [items, setItems] = useState<DeviceLite[]>([]);
   const [page, setPage] = useState(1);
@@ -38,7 +38,27 @@ export function usePagedDevices(keyword: string) {
       try {
         const nameParam = searchTerm ? `&name=${encodeURIComponent(searchTerm)}` : "";
         const url = `/api/v2/devices?page=${pageToLoad}&pageSize=${PAGE_SIZE}${nameParam}`;
-        const response = await api.get<DevicesV2Response>(url);
+        
+        let response;
+        try {
+          response = await api.get<DevicesV2Response>(url);
+        } catch (e: any) {
+          if (e.message && e.message.includes("Unexpected token")) {
+            // Mock response if API is not available (dev mode)
+            const allDevices = Object.values(config?.devicesById || {});
+            const filtered = searchTerm
+              ? allDevices.filter((d: any) => d.name?.toLowerCase().includes(searchTerm.toLowerCase()))
+              : allDevices;
+            const start = (pageToLoad - 1) * PAGE_SIZE;
+            response = {
+              data: filtered.slice(start, start + PAGE_SIZE) as DeviceLite[],
+              meta: { totalPages: Math.ceil(filtered.length / PAGE_SIZE) || 1 }
+            };
+          } else {
+            throw e;
+          }
+        }
+
         const pageItems = Array.isArray(response?.data) ? response.data : [];
         const totalPages = Number(response?.meta?.totalPages ?? pageToLoad);
 
@@ -60,7 +80,7 @@ export function usePagedDevices(keyword: string) {
         setInitialLoading(false);
       }
     },
-    [api, searchTerm],
+    [api, searchTerm, config],
   );
 
   useEffect(() => {

@@ -1,4 +1,8 @@
-export const mapImages: Record<string, ImageData> = {};
+import greenCar from "../../../../assets/green_car.png";
+import redCar from "../../../../assets/red_car.png";
+import greyCar from "../../../../assets/grey_car.png";
+
+export const mapImages: Record<string, HTMLImageElement | ImageData> = {};
 
 const supportedCategories = ["default", "car", "bus"] as const;
 const supportedColors = ["info", "success", "error", "neutral"] as const;
@@ -75,14 +79,42 @@ export const mapIconKey = (category?: string | null) => {
   }
 };
 
+const loadImage = (src: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+};
+
 export default async function preloadImages() {
   mapImages.background = createCircleImage(48, palette.neutral);
   mapImages.direction = createDirectionImage(32);
 
-  supportedCategories.forEach((category) => {
-    supportedColors.forEach((color) => {
-      mapImages[`${category}-${color}`] = createCircleImage(36, palette[color]);
+  try {
+    const [greenImg, redImg, greyImg] = await Promise.all([
+      loadImage(greenCar),
+      loadImage(redCar),
+      loadImage(greyCar),
+    ]);
+
+    supportedCategories.forEach((category) => {
+      mapImages[`${category}-success`] = greenImg;
+      mapImages[`${category}-info`] = greenImg; // Using green for info as well, or you can provide a blue car
+      mapImages[`${category}-error`] = redImg;
+      mapImages[`${category}-neutral`] = greyImg;
     });
-  });
+  } catch (error) {
+    console.error("Failed to load car images", error);
+    // Fallback to circles if images fail to load
+    supportedCategories.forEach((category) => {
+      supportedColors.forEach((color) => {
+        mapImages[`${category}-${color}`] = createCircleImage(36, palette[color]);
+      });
+    });
+  }
 }
+
 

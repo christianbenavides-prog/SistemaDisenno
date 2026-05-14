@@ -279,16 +279,32 @@
     @apply flex items-center justify-between border-t border-border-subtle bg-[var(--scada-panel-bg)] px-3 py-2;
   }
 
+  .scada-pagination__btn {
+    @apply grid h-7 w-7 place-items-center rounded-full border border-border-subtle bg-[var(--scada-card-bg)] text-[11px] font-semibold text-text transition;
+  }
+
+  .scada-pagination__btn:hover {
+    @apply bg-[color-mix(in_oklab,var(--color-surface-elevated)_70%,transparent)];
+  }
+
+  .scada-pagination__btn--active {
+    @apply border-primary bg-primary text-white;
+  }
+
+  .scada-pagination__btn--active:hover {
+    @apply bg-[var(--color-primary-active)];
+  }
+
   .scada-status-card {
-    @apply pointer-events-none absolute right-4 top-1/2 z-30 w-[420px] max-w-[min(440px,calc(100vw-24px))] -translate-y-1/2;
+    @apply pointer-events-none absolute right-0 top-0 bottom-0 z-30 w-[480px] max-w-[calc(100vw-48px)];
   }
 
   .scada-status-card__panel {
-    @apply pointer-events-auto overflow-hidden rounded-3xl border border-border-subtle bg-[var(--scada-panel-bg)] shadow-[var(--scada-shadow)];
+    @apply pointer-events-auto flex h-full flex-col overflow-hidden border-l border-border-subtle bg-[var(--scada-panel-bg)] shadow-[-10px_0_20px_-10px_rgba(0,0,0,0.25)];
   }
 
   .scada-status-card__header {
-    @apply flex items-start justify-between gap-3 border-b border-border-subtle px-4 py-3;
+    @apply flex items-start justify-between gap-3 border-b border-border-subtle px-5 py-4;
   }
 
   .scada-status-card__title {
@@ -312,11 +328,11 @@
   }
 
   .scada-status-card__body {
-    @apply max-h-[min(76vh,680px)] overflow-auto px-4 py-3;
+    @apply flex-1 overflow-y-auto px-5 py-4;
   }
 
   .scada-section {
-    @apply mt-3;
+    @apply mt-4;
   }
 
   .scada-section__title {
@@ -328,7 +344,7 @@
   }
 
   .scada-location {
-    @apply rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] px-3 py-2;
+    @apply rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] px-4 py-3;
   }
 
   .scada-location__label {
@@ -340,11 +356,11 @@
   }
 
   .scada-tiles {
-    @apply mt-2 grid grid-cols-2 gap-3;
+    @apply mt-3 grid grid-cols-2 gap-3;
   }
 
   .scada-tile {
-    @apply rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] px-3 py-2;
+    @apply flex flex-col justify-center rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] px-4 py-3;
   }
 
   .scada-tile__label {
@@ -352,11 +368,11 @@
   }
 
   .scada-tile__value {
-    @apply mt-0.5 flex items-center justify-between gap-2 text-sm font-semibold text-text;
+    @apply mt-1.5 flex items-center justify-between gap-2 text-sm font-semibold text-text;
   }
 
   .scada-pill {
-    @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold;
+    @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold whitespace-nowrap;
   }
 
   .scada-pill--success {
@@ -372,11 +388,11 @@
   }
 
   .scada-progress {
-    @apply mt-2 grid grid-cols-2 gap-3;
+    @apply mt-3 flex flex-col gap-3;
   }
 
   .scada-progress__row {
-    @apply rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] px-3 py-2;
+    @apply rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] px-4 py-3;
   }
 
   .scada-progress__top {
@@ -388,15 +404,15 @@
   }
 
   .scada-progress__value {
-    @apply text-xs font-semibold text-text;
+    @apply text-sm font-semibold text-text;
   }
 
   .scada-progress__bar {
-    @apply mt-2 h-2 w-full overflow-hidden rounded-full bg-[color-mix(in_oklab,var(--color-divider)_40%,transparent)];
+    @apply mt-3 h-2 w-full overflow-hidden rounded-full bg-[color-mix(in_oklab,var(--color-divider)_40%,transparent)];
   }
 
   .scada-progress__fill {
-    @apply h-full rounded-full bg-primary;
+    @apply h-full rounded-full bg-primary transition-all duration-300 ease-in-out;
   }
 
   .scada-status-card__footer {
@@ -405,26 +421,6 @@
 
   .scada-footer-actions {
     @apply grid grid-cols-2 gap-3;
-  }
-
-  .scada-btn {
-    @apply inline-flex h-11 items-center justify-center rounded-full px-4 text-sm font-extrabold transition;
-  }
-
-  .scada-btn--outline {
-    @apply border border-primary bg-transparent text-primary;
-  }
-
-  .scada-btn--outline:hover {
-    @apply bg-[color-mix(in_oklab,var(--color-primary)_15%,transparent)];
-  }
-
-  .scada-btn--solid {
-    @apply bg-primary text-white;
-  }
-
-  .scada-btn--solid:hover {
-    @apply bg-[var(--color-primary-active)];
   }
 }
 

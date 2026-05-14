@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Button } from "../../../lib/design-system/components/Button";
 
 import type { DeviceLite, PositionLite } from "../types";
 
@@ -323,12 +324,8 @@ export function StatusCard({
 
         <div className="scada-status-card__footer">
           <div className="scada-footer-actions">
-            <button type="button" className="scada-btn scada-btn--outline">
-              Ir a comandos
-            </button>
-            <button type="button" className="scada-btn scada-btn--solid">
-              Ver reportes
-            </button>
+            <Button variant="secundario">Ir a comandos</Button>
+            <Button variant="principal">Ver reportes</Button>
           </div>
         </div>
       </div>
