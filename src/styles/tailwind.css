@@ -240,7 +240,15 @@
   }
 
   .scada-device-card {
-    @apply mb-3 rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] p-3 shadow-sm;
+    @apply rounded-2xl border border-border-subtle bg-[var(--scada-card-bg)] p-3 shadow-sm;
+  }
+
+  .scada-device-card--selected {
+    @apply border-[color-mix(in_oklab,var(--color-primary)_55%,var(--color-border-subtle))] shadow-md;
+  }
+
+  .scada-spinner {
+    @apply inline-block h-5 w-5 rounded-full border-2 border-border-subtle border-t-primary animate-spin;
   }
 
   .scada-device-card__top {
@@ -301,6 +309,14 @@
 
   .scada-status-card__panel {
     @apply pointer-events-auto flex h-full flex-col overflow-hidden border-l border-border-subtle bg-[var(--scada-panel-bg)] shadow-[-10px_0_20px_-10px_rgba(0,0,0,0.25)];
+  }
+
+  .scada-status-card__panel--inline {
+    @apply flex flex-col h-auto border-0 shadow-none bg-transparent overflow-visible;
+  }
+
+  .scada-status-card__body-inline {
+    @apply px-5 py-4;
   }
 
   .scada-status-card__header {

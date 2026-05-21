@@ -1,6 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
 import { useCallback, useEffect, useMemo, useRef } from "react";
-
 import { DeviceRow } from "./DeviceRow";
 import { usePagedDevices } from "../../hooks/usePagedDevices";
 
@@ -8,13 +6,14 @@ export function DeviceList({
   keyword,
   selectedDeviceId,
   onSelectDevice,
+  onShowDetail,
 }: Readonly<{
   keyword: string;
   selectedDeviceId: number | null;
   onSelectDevice: (deviceId: number) => void;
+  onShowDetail?: (deviceId: number) => void;
 }>) {
   const { items, initialLoading, loading, error, hasMore, loadMore } = usePagedDevices(keyword);
-
   const listRef = useRef<HTMLDivElement | null>(null);
 
   const onNearBottom = useCallback(() => {
@@ -25,13 +24,10 @@ export function DeviceList({
   useEffect(() => {
     const container = listRef.current;
     if (!container) return;
-
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = container;
-      const isNearBottom = scrollHeight - scrollTop - clientHeight < 400;
-      if (isNearBottom) onNearBottom();
+      if (scrollHeight - scrollTop - clientHeight < 400) onNearBottom();
     };
-
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
   }, [onNearBottom]);
@@ -40,44 +36,28 @@ export function DeviceList({
 
   if (initialLoading) {
     return (
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
-        <CircularProgress size={24} />
-      </Box>
+      <div className="flex h-full items-center justify-center">
+        <span className="scada-spinner" />
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Box sx={{ p: 2 }}>
-        <Typography color="error" variant="body2">
-          {error}
-        </Typography>
-      </Box>
+      <div className="p-3 text-sm text-error">{error}</div>
     );
   }
 
   if (!loading && rows.length === 0) {
     return (
-      <Box sx={{ p: 2 }}>
-        <Typography variant="body2" color="text.secondary">
-          Sin dispositivos aún
-        </Typography>
-      </Box>
+      <div className="p-3 text-sm text-text-muted">Sin dispositivos aún</div>
     );
   }
 
   return (
-    <Box
+    <div
       ref={listRef}
-      className="scada-scrollbar"
-      sx={{
-        overflowY: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 1.5,
-        p: 1.5,
-        height: "100%",
-      }}
+      className="scada-scrollbar flex h-full flex-col gap-3 overflow-y-auto"
     >
       {rows.map((d) => (
         <DeviceRow
@@ -85,14 +65,14 @@ export function DeviceList({
           device={d}
           selected={selectedDeviceId === Number(d.id)}
           onSelect={() => onSelectDevice(Number(d.id))}
+          onShowDetail={onShowDetail ? () => onShowDetail(Number(d.id)) : undefined}
         />
       ))}
-      {loading && hasMore ? (
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: 200 }}>
-          <CircularProgress size={40} />
-        </Box>
-      ) : null}
-    </Box>
+      {loading && hasMore && (
+        <div className="flex items-center justify-center py-6">
+          <span className="scada-spinner" />
+        </div>
+      )}
+    </div>
   );
 }
-

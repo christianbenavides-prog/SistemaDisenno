@@ -51,11 +51,15 @@ export function StatusCard({
   device,
   position,
   onClose,
+  variant = "overlay",
 }: Readonly<{
   deviceId: number;
   device: DeviceLite | null;
   position: PositionLite | null;
   onClose: () => void;
+  /** "overlay" renders as an absolute panel over the map (default).
+   *  "inline" renders as a plain content block inside a scroll container. */
+  variant?: "overlay" | "inline";
 }>) {
   const title = useMemo(() => {
     if (!device) return `#${deviceId}`;
@@ -150,40 +154,39 @@ export function StatusCard({
 
   if (!device || !position) return null;
 
-  return (
-    <div className="scada-status-card">
-      <div className="scada-status-card__panel">
-        <div className="scada-status-card__header">
-          <div className="min-w-0">
-            <div className="scada-status-card__title truncate">{title}</div>
-            <div className="text-sm font-semibold text-text-muted truncate">{view.model}</div>
-            <div className="scada-status-card__subtitle">Última actualización: {view.lastUpdateText}</div>
-          </div>
-
-          <div className="scada-status-card__actions">
-            {view.mapsQuery ? (
-              <a
-                className="scada-icon-btn"
-                href={`https://www.google.com/maps/search/?api=1&query=${view.mapsQuery}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Ver mapas"
-              >
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
-                  <path d="M12 5c4.5 0 8 3.5 8 7s-3.5 7-8 7-8-3.5-8-7 3.5-7 8-7Z" stroke="currentColor" strokeWidth="1.7" opacity="0.9" />
-                  <path d="M12 9.2c1.6 0 2.9 1.2 2.9 2.8 0 1.6-1.3 2.8-2.9 2.8s-2.9-1.2-2.9-2.8c0-1.6 1.3-2.8 2.9-2.8Z" fill="currentColor" opacity="0.9" />
-                </svg>
-              </a>
-            ) : null}
-            <button type="button" className="scada-icon-btn" onClick={onClose} aria-label="Cerrar">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
-                <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
-              </svg>
-            </button>
-          </div>
+  const inner = (
+    <>
+      <div className="scada-status-card__header">
+        <div className="min-w-0">
+          <div className="scada-status-card__title truncate">{title}</div>
+          <div className="text-sm font-semibold text-text-muted truncate">{view.model}</div>
+          <div className="scada-status-card__subtitle">Última actualización: {view.lastUpdateText}</div>
         </div>
 
-        <div className="scada-status-card__body scada-scrollbar">
+        <div className="scada-status-card__actions">
+          {view.mapsQuery ? (
+            <a
+              className="scada-icon-btn"
+              href={`https://www.google.com/maps/search/?api=1&query=${view.mapsQuery}`}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Ver mapas"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                <path d="M12 5c4.5 0 8 3.5 8 7s-3.5 7-8 7-8-3.5-8-7 3.5-7 8-7Z" stroke="currentColor" strokeWidth="1.7" opacity="0.9" />
+                <path d="M12 9.2c1.6 0 2.9 1.2 2.9 2.8 0 1.6-1.3 2.8-2.9 2.8s-2.9-1.2-2.9-2.8c0-1.6 1.3-2.8 2.9-2.8Z" fill="currentColor" opacity="0.9" />
+              </svg>
+            </a>
+          ) : null}
+          <button type="button" className="scada-icon-btn" onClick={onClose} aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+              <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className={variant === "inline" ? "scada-status-card__body-inline" : "scada-status-card__body scada-scrollbar"}>
           <div className="scada-location">
             <div className="scada-location__label">Ubicación</div>
             <div className="scada-location__value">{view.address}</div>
@@ -322,13 +325,22 @@ export function StatusCard({
           </div>
         </div>
 
-        <div className="scada-status-card__footer">
-          <div className="scada-footer-actions">
-            <Button variant="secundario">Ir a comandos</Button>
-            <Button variant="principal">Ver reportes</Button>
-          </div>
+      <div className="scada-status-card__footer">
+        <div className="scada-footer-actions">
+          <Button variant="secundario">Ir a comandos</Button>
+          <Button variant="principal">Ver reportes</Button>
         </div>
       </div>
+    </>
+  );
+
+  if (variant === "inline") {
+    return <div className="scada-status-card__panel scada-status-card__panel--inline">{inner}</div>;
+  }
+
+  return (
+    <div className="scada-status-card">
+      <div className="scada-status-card__panel">{inner}</div>
     </div>
   );
 }
