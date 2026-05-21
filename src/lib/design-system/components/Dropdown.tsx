@@ -4,7 +4,7 @@ import { forwardRef, useState, type HTMLAttributes, type ReactNode } from "react
  * Design System SM — Dropdown (Organism)
  *
  * Figma specs:
- *   Container: white bg, 1px neutral-200 border, radius-sm (8px)
+ *   Container: white bg, 0.0625rem neutral-200 border, radius-sm (0.5rem)
  *   Shadow: shadow-sm
  *   Uses DropdownItem molecule for items
  *   Max height: scrollable

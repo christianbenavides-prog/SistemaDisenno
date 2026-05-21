@@ -3,8 +3,8 @@
  *
  * Figma specs:
  *   Remote command/action card for vehicle control
- *   Container: white bg, radius-sm, border neutral-200, padding 16px
- *   Icon: 40px circle, colored bg based on command type
+ *   Container: white bg, radius-sm, border neutral-200, padding 1rem
+ *   Icon: 2.5rem circle, colored bg based on command type
  *   Title: Body semibold, neutral-900
  *   Description: Body SM, neutral-400
  *   Status: pending/sent/success/error indicators
@@ -37,9 +37,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 62.4375rem;
     flex-shrink: 0;
     background: var(--color-neutral-100);
     color: var(--color-neutral-600);
@@ -91,7 +91,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-1);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: var(--font-weight-semibold);
   }
 

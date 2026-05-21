@@ -15,24 +15,15 @@ import { MapDefaultCamera } from "../traccar/main/MapDefaultCamera";
 import { PoiMap } from "../traccar/main/PoiMap";
 import { MapNotification } from "../traccar/notification/MapNotification";
 import { MapPadding } from "../traccar/MapPadding";
-import { StatusCard } from "../components/StatusCard";
+import { MapDevicePopup } from "../components/MapDevicePopup";
+import { VehicleDetailPage } from "./VehicleDetailPage";
 import { MapLayout } from "../../../lib/design-system/components/MapLayout";
 import { Input } from "../../../lib/design-system/components/Input";
+import { Button } from "../../../lib/design-system/components/Button";
+import { Switch } from "../../../lib/design-system/components/Switch";
 import { Icon } from "../../../lib/design-system/icons";
 
-function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
-  return (
-    <label className="flex cursor-pointer items-center gap-2 select-none">
-      <span className="relative inline-flex h-5 w-9 items-center rounded-full transition-colors"
-        style={{ background: checked ? "var(--color-primary)" : "var(--color-neutral-300)" }}>
-        <span className="absolute left-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform"
-          style={{ transform: checked ? "translateX(16px)" : "translateX(0)" }} />
-        <input type="checkbox" className="sr-only" checked={checked} onChange={() => onChange(!checked)} />
-      </span>
-      <span className="text-[11px] font-semibold text-text-muted">{label}</span>
-    </label>
-  );
-}
+type ViewState = "list" | "detail";
 
 export function MapPage() {
   const { config } = useScada();
@@ -41,6 +32,8 @@ export function MapPage() {
   const [onlyAlarmed, setOnlyAlarmed] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState("");
+  const [popupDeviceId, setPopupDeviceId] = useState<number | null>(null);
+  const [viewState, setViewState] = useState<ViewState>("list");
   const [detailDeviceId, setDetailDeviceId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -51,15 +44,32 @@ export function MapPage() {
   const onSelectDevice = useCallback((deviceId: number | null) => {
     setSelectedDeviceId(deviceId);
     setSelectionTick((t) => t + 1);
-    if (deviceId == null) setDetailDeviceId(null);
+    if (deviceId != null) {
+      setPopupDeviceId(deviceId);
+    } else {
+      setPopupDeviceId(null);
+    }
+  }, []);
+
+  const onClosePopup = useCallback(() => {
+    setPopupDeviceId(null);
+  }, []);
+
+  const onViewDetails = useCallback((deviceId: number) => {
+    setDetailDeviceId(deviceId);
+    setViewState("detail");
+    setPopupDeviceId(null);
+  }, []);
+
+  const onBackFromDetail = useCallback(() => {
+    setViewState("list");
+    setDetailDeviceId(null);
   }, []);
 
   const onShowDetail = useCallback((deviceId: number) => {
-    setDetailDeviceId(deviceId);
-  }, []);
-
-  const onCloseDetail = useCallback(() => {
-    setDetailDeviceId(null);
+    setSelectedDeviceId(deviceId);
+    setSelectionTick((t) => t + 1);
+    setPopupDeviceId(deviceId);
   }, []);
 
   const devicesById = (config.devicesById ?? {}) as unknown as Record<string, DeviceLite>;
@@ -93,59 +103,60 @@ export function MapPage() {
     return normalizedPositions.find((p) => Number(p.deviceId) === selectedDeviceId) ?? null;
   }, [normalizedPositions, selectedDeviceId]);
 
-  const detailDevice = useMemo(() => {
-    if (detailDeviceId == null) return null;
-    return devicesById[String(detailDeviceId)] ?? null;
-  }, [devicesById, detailDeviceId]);
+  const popupDevice = popupDeviceId != null ? devicesById[String(popupDeviceId)] ?? null : null;
+  const popupPosition = useMemo(() => {
+    if (popupDeviceId == null) return null;
+    return normalizedPositions.find((p) => Number(p.deviceId) === popupDeviceId) ?? null;
+  }, [normalizedPositions, popupDeviceId]);
 
-  const detailPosition = useMemo(() => {
-    if (detailDeviceId == null) return null;
-    return normalizedPositions.find((p) => Number(p.deviceId) === detailDeviceId) ?? null;
-  }, [normalizedPositions, detailDeviceId]);
-
-  const showDetail = detailDeviceId != null;
+  // Vehicle detail view
+  if (viewState === "detail" && detailDeviceId != null) {
+    return (
+      <div className="flex flex-1 min-h-0 flex-col">
+        <VehicleDetailPage deviceId={detailDeviceId} onBack={onBackFromDetail} />
+      </div>
+    );
+  }
 
   return (
-    <div className="h-full w-full p-4 flex flex-col">
+    <div className="flex flex-1 min-h-0 flex-col">
       <MapLayout
         className="flex-1 min-h-0"
-        panelWidth="360px"
+        panelWidth="425px"
         panelHeader={
-          showDetail ? (
-            <button
-              type="button"
-              className="flex items-center gap-2 text-sm font-semibold text-text-muted hover:text-text transition"
-              onClick={onCloseDetail}
-            >
-              <Icon name="chevron-left" size={16} />
-              <span>Detalles del vehículo</span>
-            </button>
-          ) : (
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <Input
               placeholder="Buscar por placa o IMEI"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               leftIcon={<Icon name="search" size={16} />}
+              className="flex-1"
             />
-          )
+            <Button
+              variant="secundario"
+              size="sm"
+              leftIcon={<Icon name="sliders-horizontal" size={16} />}
+            />
+          </div>
         }
         cards={
-          showDetail ? (
-            <StatusCard
-              variant="inline"
-              deviceId={detailDeviceId!}
-              device={detailDevice}
-              position={detailPosition}
-              onClose={onCloseDetail}
+          <DevicesSidebar
+            keyword={debouncedKeyword}
+            selectedDeviceId={selectedDeviceId}
+            onSelectDevice={onSelectDevice}
+            onShowDetail={onShowDetail}
+          />
+        }
+        overlay={
+          <>
+            <Icon name="alert-triangle" size={14} style={{ color: "var(--color-warning)" }} />
+            <span className="text-[11px] font-semibold text-text">Solo vehículos alarmados</span>
+            <Switch
+              checked={onlyAlarmed}
+              aria-label="Solo vehiculos alarmados"
+              onChange={(event) => setOnlyAlarmed(event.target.checked)}
             />
-          ) : (
-            <DevicesSidebar
-              keyword={debouncedKeyword}
-              selectedDeviceId={selectedDeviceId}
-              onSelectDevice={onSelectDevice}
-              onShowDetail={onShowDetail}
-            />
-          )
+          </>
         }
         map={
           <MapView>
@@ -154,14 +165,6 @@ export function MapPage() {
                 positions: {positions.length}
               </div>
             )}
-
-            <div className="scada-map-overlay">
-              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="var(--color-warning)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M8 1L1 14h14L8 1Z" /><path d="M8 6v3" /><circle cx="8" cy="12" r="0.5" fill="var(--color-warning)" />
-              </svg>
-              <span className="text-[11px] font-semibold text-text">Solo vehículos alarmados</span>
-              <Toggle checked={onlyAlarmed} onChange={setOnlyAlarmed} label="" />
-            </div>
 
             <MapOverlay />
             <MapGeofence onGeofenceSelected={() => {}} />
@@ -187,6 +190,16 @@ export function MapPage() {
             <MapCurrentLocation />
             <MapNotification enabled={Boolean((config.events ?? []).length)} onClick={() => {}} />
             <MapPadding start={0} />
+
+            {/* Device popup on map */}
+            {popupDevice && popupDeviceId != null && (
+              <MapDevicePopup
+                device={popupDevice}
+                position={popupPosition}
+                onClose={onClosePopup}
+                onViewDetails={() => onViewDetails(popupDeviceId)}
+              />
+            )}
           </MapView>
         }
       />

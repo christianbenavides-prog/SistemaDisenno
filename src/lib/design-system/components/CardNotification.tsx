@@ -4,16 +4,16 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — CardNotification (Molecule)
  *
  * Figma specs:
- *   Width: flexible (553px reference)
- *   Padding: 16px
- *   Gap: 8px
- *   Border radius: radius-md (12px)
- *   Border: 1px neutral-50
- *   Icon circle: 48px
+ *   Width: flexible (34.5625rem reference)
+ *   Padding: 1rem
+ *   Gap: 0.5rem
+ *   Border radius: radius-md (0.75rem)
+ *   Border: 0.0625rem neutral-50
+ *   Icon circle: 3rem
  *     Email: warning-50 bg, triangle-alert icon
  *     Notification: brand-50 bg, bell-dot icon
- *   Body text: Body (16px) regular, neutral-900
- *   Time: Body L (20px) regular, neutral-400
+ *   Body text: Body (1rem) regular, neutral-900
+ *   Time: Body L (1.25rem) regular, neutral-400
  *   Badge: brand-50 bg, brand-800 text
  * ────────────────────────────────────────────── */
 

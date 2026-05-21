@@ -4,12 +4,12 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
  * Design System SM — MenuItem (Molecule)
  *
  * Figma specs:
- *   Width: 220px (flexible)
- *   Padding: 12px
- *   Gap: 8px
- *   Border radius: 8px (radius-sm)
- *   Icon: 20x20px (Lucide icons)
- *   Text: Body (16px) regular
+ *   Width: 13.75rem (flexible)
+ *   Padding: 0.75rem
+ *   Gap: 0.5rem
+ *   Border radius: 0.5rem (radius-sm)
+ *   Icon: 1.25x1.25rem (Lucide icons)
+ *   Text: Body (1rem) regular
  *   States:
  *     enable: white bg, neutral-400 text
  *     hover: neutral-50 bg, neutral-400 text

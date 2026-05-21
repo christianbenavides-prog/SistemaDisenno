@@ -1,6 +1,6 @@
-import greenCar from "../../../../assets/green_car.png";
-import redCar from "../../../../assets/red_car.png";
-import greyCar from "../../../../assets/grey_car.png";
+import greenCar from "../../../assets/green_car.png";
+import redCar from "../../../assets/red_car.png";
+import greyCar from "../../../assets/grey_car.png";
 
 export const mapImages: Record<string, HTMLImageElement | ImageData> = {};
 

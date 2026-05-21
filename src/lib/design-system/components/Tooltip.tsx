@@ -7,11 +7,11 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  *   Position: bottom-center | bottom-left | bottom-right |
  *             up-center | up-left | up-right | left | right
  *   Background: neutral-50 (#F6F6F6)
- *   Border radius: 8px (radius-sm)
- *   Padding: 12px
- *   Backdrop blur: 15px
- *   Header: Body S (12px) bold
- *   Body: Body S (12px) regular
+ *   Border radius: 0.5rem (radius-sm)
+ *   Padding: 0.75rem
+ *   Backdrop blur: 0.9375rem
+ *   Header: Body S (0.75rem) bold
+ *   Body: Body S (0.75rem) regular
  *   Arrow: CSS triangle
  * ────────────────────────────────────────────── */
 

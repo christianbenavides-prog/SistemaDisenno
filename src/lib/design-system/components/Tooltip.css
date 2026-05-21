@@ -3,20 +3,20 @@
  *
  * Figma specs:
  *   Background: neutral-50 (#F6F6F6)
- *   Border radius: radius-sm (8px)
- *   Padding: 12px
- *   Gap: 4px between header/body
- *   Backdrop blur: 15px
- *   Max width: 316px
- *   Arrow: 6px CSS triangle
+ *   Border radius: radius-sm (0.5rem)
+ *   Padding: 0.75rem
+ *   Gap: 0.25rem between header/body
+ *   Backdrop blur: 0.9375rem
+ *   Max width: 19.75rem
+ *   Arrow: 0.375rem CSS triangle
  */
 
 @layer components {
   .ds-tooltip {
     display: inline-flex;
-    max-width: 316px;
+    max-width: 19.75rem;
     position: relative;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(0.9375rem);
   }
 
   /* ── Direction layout ── */
@@ -103,52 +103,52 @@
   .ds-tooltip__arrow--bottom-center,
   .ds-tooltip__arrow--bottom-left,
   .ds-tooltip__arrow--bottom-right {
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid var(--color-neutral-50);
+    border-left: 0.375rem solid transparent;
+    border-right: 0.375rem solid transparent;
+    border-top: 0.375rem solid var(--color-neutral-50);
     align-self: center;
   }
 
   .ds-tooltip__arrow--bottom-left {
     align-self: flex-start;
-    margin-left: 24px;
+    margin-left: 1.5rem;
   }
 
   .ds-tooltip__arrow--bottom-right {
     align-self: flex-end;
-    margin-right: 24px;
+    margin-right: 1.5rem;
   }
 
   /* Up arrows (pointing up) */
   .ds-tooltip__arrow--up-center,
   .ds-tooltip__arrow--up-left,
   .ds-tooltip__arrow--up-right {
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid var(--color-neutral-50);
+    border-left: 0.375rem solid transparent;
+    border-right: 0.375rem solid transparent;
+    border-bottom: 0.375rem solid var(--color-neutral-50);
     align-self: center;
   }
 
   .ds-tooltip__arrow--up-left {
     align-self: flex-start;
-    margin-left: 24px;
+    margin-left: 1.5rem;
   }
 
   .ds-tooltip__arrow--up-right {
     align-self: flex-end;
-    margin-right: 24px;
+    margin-right: 1.5rem;
   }
 
   /* Side arrows */
   .ds-tooltip__arrow--right {
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-left: 6px solid var(--color-neutral-50);
+    border-top: 0.375rem solid transparent;
+    border-bottom: 0.375rem solid transparent;
+    border-left: 0.375rem solid var(--color-neutral-50);
   }
 
   .ds-tooltip__arrow--left {
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 6px solid var(--color-neutral-50);
+    border-top: 0.375rem solid transparent;
+    border-bottom: 0.375rem solid transparent;
+    border-right: 0.375rem solid var(--color-neutral-50);
   }
 }

@@ -9,14 +9,14 @@ import {
  * Design System SM — Accordion (Molecule)
  *
  * Figma specs:
- *   Border radius: 12px (radius-md)
- *   Header padding: 24px horizontal, 16px vertical
- *   Content padding: 24px, gap 24px
- *   Header text: Body L (20px) semibold
- *   Header icon left: 24px (plus)
- *   Chevron right: 24px (up/down)
+ *   Border radius: 0.75rem (radius-md)
+ *   Header padding: 1.5rem horizontal, 1rem vertical
+ *   Content padding: 1.5rem, gap 1.5rem
+ *   Header text: Body L (1.25rem) semibold
+ *   Header icon left: 1.5rem (plus)
+ *   Chevron right: 1.5rem (up/down)
  *   States: default (white) | hover (brand-50) | disabled (neutral-100)
- *   Border bottom: 1px neutral-200
+ *   Border bottom: 0.0625rem neutral-200
  * ────────────────────────────────────────────── */
 
 export interface AccordionProps extends Omit<HTMLAttributes<HTMLDivElement>, "onToggle"> {

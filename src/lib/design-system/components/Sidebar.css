@@ -2,9 +2,9 @@
  * Design System SM — Sidebar Styles
  *
  * Figma specs:
- *   Width: 268px (full) / 64px (collapsed)
+ *   Width: 16.75rem (full) / 4rem (collapsed)
  *   Background: white
- *   Border-right: 1px neutral-200
+ *   Border-right: 0.0625rem neutral-200
  */
 
 @layer components {
@@ -12,7 +12,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 268px;
+    width: 16.75rem;
     height: 100%;
     background: var(--ds-color-surface);
     border-right: 0;
@@ -25,7 +25,7 @@
   }
 
   .ds-sidebar--collapsed {
-    width: 96px;
+    width: 6rem;
     padding: var(--spacing-6);
     gap: var(--spacing-12);
   }
@@ -43,13 +43,13 @@
 
   .ds-sidebar__logo > img,
   .ds-sidebar__logo > [role="img"] svg {
-    height: 32px;
+    height: 2rem;
     width: auto;
   }
 
   .ds-sidebar__menu-button {
-    width: 40px;
-    min-width: 40px;
+    width: 2.5rem;
+    min-width: 2.5rem;
     padding: 0;
     color: var(--ds-color-text-muted);
   }
@@ -59,8 +59,8 @@
   }
 
   .ds-sidebar__logo-spacer {
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     flex-shrink: 0;
   }
 
@@ -111,10 +111,10 @@
   /* ── Watermark / decorative shape ── */
   .ds-sidebar__watermark {
     position: absolute;
-    bottom: 98px;
-    left: -128px;
-    width: 266px;
-    height: 411px;
+    bottom: 6.125rem;
+    left: -8rem;
+    width: 16.625rem;
+    height: 25.6875rem;
     pointer-events: none;
     z-index: 0;
     opacity: 1;
@@ -127,7 +127,7 @@
 
   /* ── Collapsed: menu items show icon only ── */
   .ds-sidebar--collapsed .ds-menu-item {
-    width: 44px;
+    width: 2.75rem;
   }
 
   .ds-sidebar--collapsed .ds-menu-item__label {
@@ -143,10 +143,10 @@
   }
 
   .ds-sidebar--collapsed .ds-sidebar__watermark {
-    left: -150px;
-    bottom: 60px;
-    width: 190px;
-    height: 293px;
+    left: -9.375rem;
+    bottom: 3.75rem;
+    width: 11.875rem;
+    height: 18.3125rem;
   }
 
   .ds-sidebar--collapsed .ds-sidebar__section {
@@ -172,7 +172,7 @@
   }
 
   .ds-sidebar__sub-items--open {
-    max-height: 600px;
+    max-height: 37.5rem;
   }
 
   .ds-sidebar__sub-items .ds-menu-item {

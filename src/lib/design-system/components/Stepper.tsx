@@ -5,16 +5,16 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  *
  * Figma specs:
  *   States: enable | in-progress | correct | error
- *   Text: Body (16px)
+ *   Text: Body (1rem)
  *     enable: regular, neutral-400
  *     in-progress: semibold, brand-800
  *     correct: semibold, success-800
  *     error: semibold, error-800
  *   Indicator:
- *     enable: 12px gray dot
- *     in-progress: 24px brand circle
- *     correct: 24px neutral-200 circle + check
- *     error: 24px neutral-200 circle + X
+ *     enable: 0.75rem gray dot
+ *     in-progress: 1.5rem brand circle
+ *     correct: 1.5rem neutral-200 circle + check
+ *     error: 1.5rem neutral-200 circle + X
  *   Hover: neutral-50 background
  * ────────────────────────────────────────────── */
 

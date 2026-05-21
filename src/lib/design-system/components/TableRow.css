@@ -4,8 +4,8 @@
  * Figma specs:
  *   Header: neutral-50 bg, semibold
  *   Normal: white (odd), neutral-50 (even)
- *   Padding: 12px 16px per cell
- *   Border-bottom: 1px neutral-200
+ *   Padding: 0.75rem 1rem per cell
+ *   Border-bottom: 0.0625rem neutral-200
  */
 
 @layer components {
@@ -44,7 +44,7 @@
   }
 
   .ds-table-row__check {
-    width: 40px;
+    width: 2.5rem;
     text-align: center;
   }
 

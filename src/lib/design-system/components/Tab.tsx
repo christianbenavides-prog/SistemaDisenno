@@ -4,16 +4,16 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
  * Design System SM — Tab (Molecule)
  *
  * Figma specs:
- *   Height: 44px
- *   Padding: 16px vertical, 20px horizontal
- *   Gap: 8px
- *   Icon: 12x12px (Lucide)
- *   Text: Body (16px)
+ *   Height: 2.75rem
+ *   Padding: 1rem vertical, 1.25rem horizontal
+ *   Gap: 0.5rem
+ *   Icon: 0.75x0.75rem (Lucide)
+ *   Text: Body (1rem)
  *   States:
  *     enable: pill, white bg, neutral-400 text regular
  *     hover: pill, brand-50 bg, brand-800 text
- *     pressed: pill, white bg, 4px brand-100 border
- *     selected: flat bottom, white bg, 2px brand-600 bottom border, brand-800 semibold
+ *     pressed: pill, white bg, 0.25rem brand-100 border
+ *     selected: flat bottom, white bg, 0.125rem brand-600 bottom border, brand-800 semibold
  *     disabled: pill, neutral-100 bg, neutral-400 text
  * ────────────────────────────────────────────── */
 

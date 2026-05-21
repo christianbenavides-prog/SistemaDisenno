@@ -309,6 +309,7 @@ export function ReportsPage() {
       onNavItemSelect={(item) => {
         if (item.id === "map") navigate("/scada/map");
         if (item.id === "panic") navigate("/scada/panic");
+        if (item.id === "geofences") navigate("/scada/geofences");
         if (!isReportType(item.label)) return;
         setActiveReport(item.label);
         setPage(1);

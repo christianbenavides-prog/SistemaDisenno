@@ -1,55 +1,8 @@
-import type { ReactNode } from "react";
 import type { DeviceLite } from "../../types";
+import { VehicleCard } from "../../../../lib/design-system/components/VehicleCard";
 import { Badge } from "../../../../lib/design-system/components/Badge";
 import { Button } from "../../../../lib/design-system/components/Button";
-
-function IconMovement() {
-  return (
-    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 6h10" /><path d="M8 3l3 3-3 3" />
-    </svg>
-  );
-}
-
-function IconSignal() {
-  return (
-    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 2l8 8" /><path d="M4 6a3 3 0 0 1 2-1" /><circle cx="6" cy="9" r="0.7" fill="currentColor" />
-    </svg>
-  );
-}
-
-function IconPanic() {
-  return (
-    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 1L1 11h10L6 1Z" /><path d="M6 5v2" /><circle cx="6" cy="9" r="0.5" fill="currentColor" />
-    </svg>
-  );
-}
-
-function IconSpeed() {
-  return (
-    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 1a5 5 0 0 0-4.5 7" /><path d="M6 1a5 5 0 0 1 4.5 7" /><path d="M6 6l2-3" /><circle cx="6" cy="6" r="0.7" fill="currentColor" />
-    </svg>
-  );
-}
-
-function IconBattery() {
-  return (
-    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="3" width="9" height="6" rx="1" /><path d="M11 5v2" /><path d="M3 5l2 2 3-3" />
-    </svg>
-  );
-}
-
-function IconGeofence() {
-  return (
-    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="6" cy="5" r="4" /><path d="M6 9v2" /><path d="M3 11h6" />
-    </svg>
-  );
-}
+import { Icon } from "../../../../lib/design-system/icons";
 
 function normalizeStatus(status: unknown) {
   if (typeof status !== "string") return "unknown";
@@ -62,44 +15,48 @@ function safeIsoString(v: unknown) {
   return typeof v === "string" && v.length > 10 ? v : null;
 }
 
-function formatAgo(isoMaybe: string | null) {
-  if (!isoMaybe) return null;
-  const ms = Date.parse(isoMaybe);
-  if (!Number.isFinite(ms)) return null;
-  const diff = Date.now() - ms;
-  if (!Number.isFinite(diff) || diff < 0) return null;
-  const min = Math.floor(diff / 60000);
-  if (min < 1) return "Hace < 1 min";
-  if (min < 60) return `Hace ${min} min`;
-  const h = Math.floor(min / 60);
-  if (h < 24) return `Hace ${h} h`;
-  return `Hace ${Math.floor(h / 24)} d`;
+function formatDate(isoMaybe: string | null) {
+  if (!isoMaybe) return "—";
+  const d = new Date(isoMaybe);
+  if (isNaN(d.getTime())) return "—";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const day = pad(d.getDate());
+  const mon = pad(d.getMonth() + 1);
+  const year = d.getFullYear();
+  let hours = d.getHours();
+  const mins = pad(d.getMinutes());
+  const ampm = hours >= 12 ? "p.m." : "a.m.";
+  hours = hours % 12 || 12;
+  return `${day}/${mon}/${year} ${pad(hours)}:${mins} ${ampm}`;
 }
 
-type EventColor = "error" | "warning" | "success" | "secondary";
+type EventInfo = { label: string; color: "success" | "error" | "warning" | "secondary"; accentColor: string };
 
-const ALARM_EVENT_MAP: Record<string, { label: string; icon: () => ReactNode; color: EventColor }> = {
-  sos:           { label: "Botón de pánico",        icon: IconPanic,    color: "error" },
-  panic:         { label: "Botón de pánico",        icon: IconPanic,    color: "error" },
-  overspeed:     { label: "Exceso de velocidad",    icon: IconSpeed,    color: "error" },
-  powerCut:      { label: "Desconexión de batería", icon: IconBattery,  color: "error" },
-  lowBattery:    { label: "Batería baja",           icon: IconBattery,  color: "warning" },
-  geofenceEnter: { label: "Entrada a geocerca",     icon: IconGeofence, color: "secondary" },
-  geofenceExit:  { label: "Salida de geocerca",     icon: IconGeofence, color: "secondary" },
-  movement:      { label: "En movimiento",          icon: IconMovement, color: "success" },
-};
-
-function getEventInfo(device: DeviceLite, statusKey: string): { label: string; Icon: () => ReactNode; color: EventColor } {
+function getEventInfo(device: DeviceLite, statusKey: string): EventInfo {
   const attrs: any = device.attributes ?? {};
   const alarm = attrs.alarm ?? attrs.lastAlarm;
-  if (alarm && typeof alarm === "string" && ALARM_EVENT_MAP[alarm]) {
-    const ev = ALARM_EVENT_MAP[alarm];
-    return { label: ev.label, Icon: ev.icon, color: ev.color };
+
+  if (alarm && typeof alarm === "string") {
+    const alarmMap: Record<string, EventInfo> = {
+      sos: { label: "Botón de pánico", color: "error", accentColor: "var(--color-error-500, #d32f2f)" },
+      panic: { label: "Botón de pánico", color: "error", accentColor: "var(--color-error-500, #d32f2f)" },
+      overspeed: { label: "Exceso de velocidad", color: "error", accentColor: "var(--color-error-500, #d32f2f)" },
+      powerCut: { label: "Desconexión de batería", color: "error", accentColor: "var(--color-error-500, #d32f2f)" },
+      lowBattery: { label: "Batería baja", color: "warning", accentColor: "var(--color-warning-500)" },
+      geofenceEnter: { label: "Entrada a geocerca", color: "secondary", accentColor: "var(--color-neutral-400)" },
+      geofenceExit: { label: "Salida de geocerca", color: "secondary", accentColor: "var(--color-neutral-400)" },
+      movement: { label: "En movimiento", color: "success", accentColor: "var(--color-success-500, #2e7d32)" },
+    };
+    if (alarmMap[alarm]) return alarmMap[alarm];
   }
+
   if (statusKey === "online") {
-    return { label: "En movimiento", Icon: IconMovement, color: "success" };
+    return { label: "En movimiento", color: "success", accentColor: "var(--color-success-500, #2e7d32)" };
   }
-  return { label: "Sin señal", Icon: IconSignal, color: "secondary" };
+  if (statusKey === "offline") {
+    return { label: "Apagado", color: "secondary", accentColor: "var(--color-neutral-400)" };
+  }
+  return { label: "Desconocido", color: "secondary", accentColor: "var(--color-neutral-300)" };
 }
 
 export function DeviceRow({
@@ -113,61 +70,75 @@ export function DeviceRow({
   onSelect: () => void;
   onShowDetail?: () => void;
 }>) {
-  const plate = typeof device.attributes?.plate === "string" ? device.attributes.plate : "";
+  const attrs: any = device.attributes ?? {};
+  const plate = typeof attrs.plate === "string" ? attrs.plate : "";
   const name = plate || device.name || device.uniqueId || `#${device.id}`;
   const statusKey = normalizeStatus((device as any).status);
-  const statusBadgeColor = statusKey === "online" ? "success" : statusKey === "offline" ? "error" : "secondary";
-  const statusLabel = statusKey === "online" ? "En ruta" : statusKey === "offline" ? "Sin señal" : "Desconocido";
-
   const eventInfo = getEventInfo(device, statusKey);
 
   const lastUpdate =
     safeIsoString((device as any)?.lastUpdate) ??
-    safeIsoString((device as any)?.attributes?.lastUpdate) ??
-    safeIsoString((device as any)?.attributes?.lastUpdateTime) ??
+    safeIsoString(attrs.lastUpdate) ??
+    safeIsoString(attrs.lastUpdateTime) ??
     null;
-  const ago = formatAgo(lastUpdate);
+  const dateStr = formatDate(lastUpdate);
+
+  const batteryVal = attrs.batteryLevel ?? attrs.battery;
+  const batteryStr = batteryVal != null ? `${batteryVal} V` : "—";
+
+  const sat = attrs.sat ?? attrs.satellites;
+  const coverageVal = sat != null ? Number(sat) : null;
+  const coverageLabel = coverageVal != null
+    ? (coverageVal >= 5 ? "Buena" : coverageVal >= 3 ? "Regular" : "Débil")
+    : "—";
+  const coverageText = coverageVal != null ? `${coverageLabel} (${coverageVal})` : coverageLabel;
+  const coverageColor: "success" | "warning" | "error" | undefined =
+    coverageVal != null ? (coverageVal >= 5 ? "success" : coverageVal >= 3 ? "warning" : "error") : undefined;
+
+  const dateRow = { icon: <Icon name="calendar" size={16} />, label: "Fecha", value: dateStr };
+  const batteryRow = { icon: <Icon name="battery" size={16} />, label: "Batería", value: batteryStr };
+  const coverageRow = {
+    icon: <Icon name="signal" size={16} />,
+    label: "Cobertura",
+    value: <span style={coverageColor ? { color: coverageColor === "success" ? "var(--color-success-400, #66BB6A)" : coverageColor === "warning" ? "var(--color-warning-400, #FFA726)" : "var(--color-error-400, #EF5350)" } : undefined}>{coverageText}</span>,
+  };
+
+  const allInfoRows = [dateRow, batteryRow, coverageRow];
+  const minInfoRows = [dateRow];
 
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onSelect}
-      className={[
-        "scada-device-card w-full text-left relative transition",
-        selected ? "scada-device-card--selected" : "",
-      ].join(" ")}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelect(); }}
+      style={{ cursor: "pointer" }}
     >
-      <div className="scada-device-card__top">
-        <div className="min-w-0 flex-1 flex flex-col gap-2">
-          <div className="flex items-center justify-between gap-2">
-            <span className="scada-device-card__title truncate">{name}</span>
-            <Badge color={statusBadgeColor} shape="rounded" className="shrink-0 text-[10px]">
-              {statusLabel}
-            </Badge>
-          </div>
-
-          <div className="flex items-center justify-between gap-2">
-            <Badge color={eventInfo.color} shape="rounded" icon={<eventInfo.Icon />}>
-              {eventInfo.label}
-            </Badge>
-            <span className="scada-device-card__time shrink-0">{ago ?? "—"}</span>
-          </div>
-        </div>
-      </div>
-
-      {selected && onShowDetail && (
-        <div className="mt-3 pt-2 border-t border-border-subtle">
+      <VehicleCard
+        variant="corporativo"
+        name={name}
+        selected={selected}
+        accentColor={eventInfo.accentColor}
+        statusBadge={
+          <Badge color={eventInfo.color} shape="rounded">
+            {eventInfo.label}
+          </Badge>
+        }
+        infoRows={selected ? allInfoRows : minInfoRows}
+        actions={
           <Button
-            type="button"
-            variant="principal"
+            variant="link"
             size="sm"
-            className="w-full"
-            onClick={(e) => { e.stopPropagation(); onShowDetail(); }}
+            rightIcon={<Icon name="chevron-right" size={16} />}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onShowDetail) onShowDetail();
+            }}
           >
-            Ver detalles
+            Localizar
           </Button>
-        </div>
-      )}
-    </button>
+        }
+      />
+    </div>
   );
 }

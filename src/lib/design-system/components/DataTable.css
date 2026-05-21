@@ -14,7 +14,7 @@
   }
 
   .ds-data-table::-webkit-scrollbar {
-    height: 6px;
+    height: 0.375rem;
   }
 
   .ds-data-table::-webkit-scrollbar-track {
@@ -35,7 +35,7 @@
 
   .ds-data-table th,
   .ds-data-table td {
-    height: 44px;
+    height: 2.75rem;
     padding: 0 var(--spacing-4);
     border: 0;
     border-right: var(--border-xs) solid var(--ds-color-border);
@@ -70,7 +70,7 @@
   }
 
   .ds-data-table__empty {
-    height: 44px;
+    height: 2.75rem;
     text-align: left;
     color: var(--ds-color-text-muted);
   }

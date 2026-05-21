@@ -2,7 +2,7 @@
  * Design System SM — Uploader Styles
  *
  * Figma specs:
- *   Radius: radius-sm (8px), padding 24px
+ *   Radius: radius-sm (0.5rem), padding 1.5rem
  *   Enable: dashed border, neutral-200
  *   Loading: progress bar, brand-400
  *   Success: solid border, success-500
@@ -74,8 +74,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     flex-shrink: 0;
   }
 
@@ -122,9 +122,9 @@
   /* ── Progress ── */
   .ds-uploader__progress {
     width: 100%;
-    height: 4px;
+    height: 0.25rem;
     background: var(--color-neutral-100);
-    border-radius: 2px;
+    border-radius: 0.125rem;
     overflow: hidden;
     margin-top: var(--spacing-2);
   }
@@ -132,7 +132,7 @@
   .ds-uploader__progress-bar {
     height: 100%;
     background: var(--color-brand-400);
-    border-radius: 2px;
+    border-radius: 0.125rem;
     transition: width 0.3s ease;
   }
 
@@ -141,8 +141,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     flex-shrink: 0;
     background: transparent;
     border: none;

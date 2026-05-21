@@ -2,13 +2,13 @@
  * Design System SM — Accordion Styles
  *
  * Figma specs:
- *   Radius: radius-md (12px)
- *   Header: 24px horizontal, 16px vertical, gap 12px
- *   Content: 24px padding, 24px gap
- *   Default: white bg, 1px neutral-200 border-bottom
+ *   Radius: radius-md (0.75rem)
+ *   Header: 1.5rem horizontal, 1rem vertical, gap 0.75rem
+ *   Content: 1.5rem padding, 1.5rem gap
+ *   Default: white bg, 0.0625rem neutral-200 border-bottom
  *   Hover: brand-50 bg
- *   Disabled: neutral-100 bg, 1px neutral-400 border
- *   Text: Body L (20px) semibold
+ *   Disabled: neutral-100 bg, 0.0625rem neutral-400 border
+ *   Text: Body L (1.25rem) semibold
  */
 
 @layer components {
@@ -49,8 +49,8 @@
   }
 
   .ds-accordion__header:focus-visible {
-    outline: 2px solid var(--color-brand-400);
-    outline-offset: -2px;
+    outline: 0.125rem solid var(--color-brand-400);
+    outline-offset: -0.125rem;
   }
 
   .ds-accordion__header:disabled {
@@ -64,8 +64,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     flex-shrink: 0;
     color: var(--color-neutral-900);
   }
@@ -97,15 +97,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     flex-shrink: 0;
     color: var(--color-neutral-900);
   }
 
   .ds-accordion__chevron svg {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   .ds-accordion--disabled .ds-accordion__chevron {

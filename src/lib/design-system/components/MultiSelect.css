@@ -6,7 +6,7 @@
  *   States: enable, completed, error, success, disabled
  *   Trigger: shows comma-separated selected labels, same as Select
  *   Dropdown: checkbox + label per option
- *   Checkbox: 20×20 brand-400 bg, 2px radius, white check icon
+ *   Checkbox: 20×20 brand-400 bg, 0.125rem radius, white check icon
  */
 
 @layer components {
@@ -54,7 +54,7 @@
   }
 
   .ds-multi-select--open .ds-multi-select__trigger {
-    box-shadow: 0 0 0 4px var(--ds-color-focus-ring);
+    box-shadow: 0 0 0 0.25rem var(--ds-color-focus-ring);
   }
 
   .ds-multi-select--error .ds-multi-select__trigger {
@@ -62,7 +62,7 @@
   }
 
   .ds-multi-select--error.ds-multi-select--open .ds-multi-select__trigger {
-    box-shadow: 0 0 0 4px var(--color-error-50);
+    box-shadow: 0 0 0 0.25rem var(--color-error-50);
   }
 
   .ds-multi-select--success .ds-multi-select__trigger {
@@ -70,7 +70,7 @@
   }
 
   .ds-multi-select--success.ds-multi-select--open .ds-multi-select__trigger {
-    box-shadow: 0 0 0 4px var(--color-success-50);
+    box-shadow: 0 0 0 0.25rem var(--color-success-50);
   }
 
   .ds-multi-select--disabled .ds-multi-select__trigger {
@@ -106,8 +106,8 @@
   .ds-multi-select__chevron {
     display: inline-flex;
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     color: var(--ds-color-text-muted);
   }
 
@@ -125,7 +125,7 @@
     border: var(--border-xs) solid var(--ds-color-border);
     background: var(--ds-color-surface);
     box-shadow: var(--shadow-sm);
-    max-height: 240px;
+    max-height: 15rem;
     overflow: hidden auto;
   }
 
@@ -159,9 +159,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.125rem;
     border: var(--border-xs) solid var(--ds-color-border-strong);
     background: var(--ds-color-surface);
     flex-shrink: 0;

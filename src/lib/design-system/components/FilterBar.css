@@ -33,14 +33,14 @@
     line-height: var(--text-body-lg-line-height);
   }
 
-  @media (max-width: 1180px) {
+  @media (max-width: 73.75rem) {
     .ds-filter-bar {
       align-items: stretch;
       flex-direction: column;
     }
 
     .ds-filter-bar__controls {
-      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      grid-template-columns: repeat(2, minmax(11.25rem, 1fr));
     }
 
     .ds-filter-bar__actions {
@@ -48,7 +48,7 @@
     }
   }
 
-  @media (max-width: 620px) {
+  @media (max-width: 38.75rem) {
     .ds-filter-bar__controls {
       grid-template-columns: 1fr;
     }

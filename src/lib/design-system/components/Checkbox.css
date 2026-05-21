@@ -2,8 +2,8 @@
  * Design System SM — Checkbox Styles
  *
  * Figma specs:
- *   Box: 20x20px, radius-xs (4px)
- *   Unchecked: 2px neutral-200 border, white fill
+ *   Box: 1.25x1.25rem, radius-xs (0.25rem)
+ *   Unchecked: 0.125rem neutral-200 border, white fill
  *   Checked: brand-400 fill, white checkmark
  *   Indeterminate: brand-400 fill, white dash
  */
@@ -26,16 +26,16 @@
   /* ── Box container ── */
   .ds-checkbox__box {
     position: relative;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     flex-shrink: 0;
   }
 
   /* ── Native input (visually hidden) ── */
   .ds-checkbox__input {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     border: var(--border-sm) solid var(--color-neutral-200);
     border-radius: var(--radius-xs);
     background: var(--color-white);
@@ -49,8 +49,8 @@
   }
 
   .ds-checkbox__input:focus-visible {
-    outline: 2px solid var(--color-brand-400);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--color-brand-400);
+    outline-offset: 0.125rem;
   }
 
   .ds-checkbox__input:checked,
@@ -63,10 +63,10 @@
   .ds-checkbox__check,
   .ds-checkbox__indeterminate {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 16px;
-    height: 16px;
+    top: 0.125rem;
+    left: 0.125rem;
+    width: 1rem;
+    height: 1rem;
     color: var(--color-white);
     pointer-events: none;
     opacity: 0;

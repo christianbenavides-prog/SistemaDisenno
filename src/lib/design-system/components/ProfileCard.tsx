@@ -5,11 +5,11 @@ import { Icon } from "../icons";
  * Design System SM — ProfileCard (Molecule)
  *
  * Figma specs:
- *   Layout: horizontal, gap 12px
- *   Avatar: 40px (uses Avatar atom or img)
- *   Name: H6 (20px) semibold, black
- *   Role: Body S (12px) regular, brand-800
- *   Dropdown: 24px chevron-up (open) / chevron-down (close)
+ *   Layout: horizontal, gap 0.75rem
+ *   Avatar: 2.5rem (uses Avatar atom or img)
+ *   Name: H6 (1.25rem) semibold, black
+ *   Role: Body S (0.75rem) regular, brand-800
+ *   Dropdown: 1.5rem chevron-up (open) / chevron-down (close)
  *   Type: open | close (controls chevron direction)
  * ────────────────────────────────────────────── */
 

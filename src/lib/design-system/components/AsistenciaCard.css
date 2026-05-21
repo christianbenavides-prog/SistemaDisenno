@@ -4,7 +4,7 @@
  * Figma specs:
  *   Assistance/roadside help card
  *   Container: white bg, radius-sm, border neutral-200
- *   Left: icon circle (40px, colored bg)
+ *   Left: icon circle (2.5rem, colored bg)
  *   Title: Body semibold
  *   Detail: Body SM, neutral-400
  *   Status: badge (active/completed/cancelled)
@@ -32,9 +32,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 62.4375rem;
     flex-shrink: 0;
   }
 

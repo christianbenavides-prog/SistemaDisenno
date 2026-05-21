@@ -2,9 +2,9 @@
  * Design System SM — NavBar Styles
  *
  * Figma specs:
- *   Padding: 16px horizontal, 8px vertical
+ *   Padding: 1rem horizontal, 0.5rem vertical
  *   Background: white
- *   Border-bottom: 1px neutral-200
+ *   Border-bottom: 0.0625rem neutral-200
  *   Layout: space-between
  */
 
@@ -18,14 +18,14 @@
     border-bottom: 0;
     border-radius: var(--radius-lg);
     width: 100%;
-    min-height: 80px;
+    min-height: 5rem;
     gap: var(--spacing-3);
     overflow: hidden;
   }
 
   .ds-navbar--mobile {
     padding: var(--spacing-3);
-    min-height: 48px;
+    min-height: 3rem;
     border-radius: var(--radius-md);
   }
 
@@ -45,13 +45,13 @@
 
   .ds-navbar__logo img,
   .ds-navbar__logo svg {
-    height: 32px;
+    height: 2rem;
     width: auto;
   }
 
   .ds-navbar--mobile .ds-navbar__logo img,
   .ds-navbar--mobile .ds-navbar__logo svg {
-    height: 24px;
+    height: 1.5rem;
   }
 
   /* ── Center ── */

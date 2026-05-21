@@ -1,0 +1,48 @@
+@layer components {
+  .geofences-page {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    flex-direction: column;
+    gap: var(--spacing-6);
+  }
+
+  .geofences-page__toolbar,
+  .geofences-page__cards,
+  .geofences-page__table {
+    width: 100%;
+    border-radius: var(--radius-md);
+    background: var(--ds-color-surface);
+  }
+
+  .geofences-page__toolbar {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) auto;
+    gap: var(--spacing-4);
+    padding: var(--spacing-6);
+  }
+
+  .geofences-page__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-4);
+    padding: var(--spacing-6);
+  }
+
+  .geofences-page__table {
+    min-height: 0;
+    padding: var(--spacing-6);
+  }
+
+  @media (max-width: 860px) {
+    .geofences-page {
+      gap: var(--spacing-4);
+    }
+
+    .geofences-page__cards,
+    .geofences-page__toolbar {
+      grid-template-columns: 1fr;
+      padding: var(--spacing-4);
+    }
+  }
+}

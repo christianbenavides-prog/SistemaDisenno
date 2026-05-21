@@ -5,7 +5,7 @@
  *   GEOZONA CARD / GEOZONA CARD 2
  *   Geofence zone display card
  *   Container: white bg, radius-sm, border neutral-200
- *   Left accent: 4px colored bar (brand/success/warning/error)
+ *   Left accent: 0.25rem colored bar (brand/success/warning/error)
  *   Icon: map pin or polygon icon
  *   Title: Body L semibold, neutral-900
  *   Subtitle: Body SM regular, neutral-400
@@ -18,20 +18,20 @@
     display: flex;
     align-items: stretch;
     border-radius: var(--radius-sm);
-    border: var(--border-xs) solid var(--color-neutral-200);
-    background: var(--color-white);
+    border: var(--border-xs) solid var(--ds-color-border);
+    background: var(--ds-color-surface);
     font-family: var(--font-body);
     overflow: hidden;
     transition: border-color 0.15s ease;
   }
 
   .ds-geozona-card:hover {
-    border-color: var(--color-neutral-300);
+    border-color: var(--ds-color-border-strong);
   }
 
   /* ── Left accent bar ── */
   .ds-geozona-card__accent {
-    width: 4px;
+    width: 0.25rem;
     flex-shrink: 0;
     background: var(--color-brand-400);
   }
@@ -39,7 +39,7 @@
   .ds-geozona-card__accent--success { background: var(--color-success-500); }
   .ds-geozona-card__accent--warning { background: var(--color-warning-500); }
   .ds-geozona-card__accent--error { background: var(--color-error-500); }
-  .ds-geozona-card__accent--neutral { background: var(--color-neutral-300); }
+  .ds-geozona-card__accent--neutral { background: var(--ds-color-border-strong); }
 
   /* ── Body ── */
   .ds-geozona-card__body {
@@ -55,11 +55,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: var(--radius-xs);
-    background: var(--color-brand-50);
-    color: var(--color-brand-400);
+    background: var(--ds-color-surface-selected);
+    color: var(--ds-color-brand-text);
     flex-shrink: 0;
   }
 
@@ -75,7 +75,7 @@
     font-size: var(--text-body-l-size);
     line-height: var(--text-body-l-line-height);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-neutral-900);
+    color: var(--ds-color-text-strong);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -85,7 +85,7 @@
     font-size: var(--text-body-sm-size);
     line-height: var(--text-body-sm-line-height);
     font-weight: var(--font-weight-regular);
-    color: var(--color-neutral-400);
+    color: var(--ds-color-text-muted);
   }
 
   .ds-geozona-card__meta {
@@ -93,7 +93,7 @@
     align-items: center;
     gap: var(--spacing-3);
     font-size: var(--text-body-sm-size);
-    color: var(--color-neutral-400);
+    color: var(--ds-color-text-muted);
   }
 
   .ds-geozona-card__meta-item {
@@ -115,20 +115,20 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
     background: transparent;
     border: none;
     border-radius: var(--radius-xs);
     cursor: pointer;
-    color: var(--color-neutral-400);
+    color: var(--ds-color-text-muted);
     padding: 0;
     transition: background 0.15s ease, color 0.15s ease;
   }
 
   .ds-geozona-card__action:hover {
-    background: var(--color-neutral-100);
-    color: var(--color-neutral-600);
+    background: var(--ds-color-surface-hover);
+    color: var(--ds-color-text);
   }
 
   /* ── Variant 2 (expanded with map preview) ── */
@@ -138,12 +138,12 @@
 
   .ds-geozona-card--expanded .ds-geozona-card__accent {
     width: 100%;
-    height: 4px;
+    height: 0.25rem;
   }
 
   .ds-geozona-card__map {
-    height: 120px;
-    background: var(--color-neutral-100);
+    height: 7.5rem;
+    background: var(--ds-color-surface-alt);
     overflow: hidden;
   }
 

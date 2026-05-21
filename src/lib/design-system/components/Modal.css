@@ -2,10 +2,10 @@
  * Design System SM — Modal Styles
  *
  * Figma specs:
- *   Border: 1px neutral-300, radius-md (12px)
- *   Header: 16px padding, H6 bold
- *   Body: 24px padding, 24px gap
- *   Footer: 16px padding, right-aligned buttons
+ *   Border: 0.0625rem neutral-300, radius-md (0.75rem)
+ *   Header: 1rem padding, H6 bold
+ *   Body: 1.5rem padding, 1.5rem gap
+ *   Footer: 1rem padding, right-aligned buttons
  */
 
 @layer components {
@@ -17,7 +17,7 @@
     background: var(--ds-color-surface);
     overflow: hidden;
     width: 100%;
-    max-width: 680px;
+    max-width: 42.5rem;
   }
 
   /* ── Header ── */
@@ -48,7 +48,7 @@
 
   .ds-modal__header-subtitle {
     font-family: var(--font-body);
-    font-size: var(--text-body-sm-size, 14px);
+    font-size: var(--text-body-sm-size, 0.875rem);
     line-height: var(--text-body-sm-line-height, 1.4);
     font-weight: var(--font-weight-regular);
     color: var(--ds-color-text-muted);
@@ -58,8 +58,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     flex-shrink: 0;
     background: transparent;
     border: none;
@@ -86,8 +86,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     flex-shrink: 0;
     color: var(--color-error-500);
   }
@@ -128,7 +128,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--spacing-2);
-    min-height: 40px;
+    min-height: 2.5rem;
     padding: var(--spacing-3) var(--spacing-4);
     border-radius: var(--radius-full);
     border: none;

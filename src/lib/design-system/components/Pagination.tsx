@@ -4,14 +4,14 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — Pagination (Organism)
  *
  * Figma specs:
- *   Items: 40x40, radius-sm (8px)
+ *   Items: 40x40, radius-sm (0.5rem)
  *   States per item:
  *     enable: white bg, neutral-400 text
  *     hover: brand-50 bg, brand-800 text
  *     selected: brand-400 bg, brand-950 text
  *     disabled: neutral-100 bg, neutral-400 text
  *   Arrows: chevron-left / chevron-right
- *   Gap: 8px
+ *   Gap: 0.5rem
  * ────────────────────────────────────────────── */
 
 export interface PaginationProps extends HTMLAttributes<HTMLElement> {

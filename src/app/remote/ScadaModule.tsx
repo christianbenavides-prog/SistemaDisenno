@@ -3,7 +3,7 @@ import "../../styles/globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import type { ScadaModuleConfig } from "./contracts";
 import { ScadaProvider } from "./ScadaProvider";
 import { buildScadaThemeCssVars } from "./traccarTheme";
@@ -14,6 +14,7 @@ import { CommandCenterPage } from "../../features/commands/pages/CommandCenterPa
 import { MapPage } from "../../features/map/pages/MapPage";
 import { ReportsPage } from "../../features/reports/pages/ReportsPage";
 import { PanicPage } from "../../features/panic/pages/PanicPage";
+import { GeofencesPage } from "../../features/geofences/pages/GeofencesPage";
 
 import { ModuleShell } from "../../lib/design-system/components/ModuleShell";
 import { Sidebar } from "../../lib/design-system/components/Sidebar";
@@ -28,6 +29,7 @@ export default function ScadaModule({
   config,
 }: Readonly<{ config?: ScadaModuleConfig }>) {
   const location = useLocation();
+  const navigate = useNavigate();
   const path = location.pathname || "";
   
   // Track theme locally to allow toggling, falling back to config.themeMode
@@ -44,31 +46,43 @@ export default function ScadaModule({
     [themeMode, config?.themeCssVars, config?.colorPrimary, config?.colorSecondary],
   );
 
+  // Pages that bring their own ModuleTemplate (independent apps)
+  const isStandalonePage =
+    path.startsWith("/scada/panic") ||
+    path.startsWith("/scada/alerts") ||
+    path.startsWith("/scada/reports");
+
+  let standaloneContent: React.ReactNode = null;
+  if (path.startsWith("/scada/panic")) {
+    standaloneContent = <PanicPage />;
+  } else if (path.startsWith("/scada/alerts")) {
+    standaloneContent = <OperationsAlarmsPage />;
+  } else if (path.startsWith("/scada/reports")) {
+    standaloneContent = <ReportsPage />;
+  }
+
+  // Pages that need the shared ModuleShell wrapper
   let content: React.ReactNode = null;
   let title = "Scada";
-  if (path.startsWith("/scada/panic")) {
-    title = "Botón de Pánico";
-    content = <PanicPage />;
-  } else if (path.startsWith("/scada/alerts")) { 
-    title = "Gestor de Alarmas";
-    content = <OperationsAlarmsPage />;
-  } else if (path.startsWith("/scada/reports")) {
-    title = "Reportes";
-    content = <ReportsPage />;
-  } else if (path.startsWith("/scada/commands")) {
-    title = "Comandos";
-    const tail = path.replace("/scada/commands", "") || "";
-    const looksLikeEditor = tail.startsWith("/new") || /^\/\d+/.test(tail);
-    if (tail.startsWith("/center") || tail === "") {
-      content = <CommandCenterPage />;
-    } else if (tail.startsWith("/device/")) {
-      content = <CommandCenterPage />;
+  if (!isStandalonePage) {
+    if (path.startsWith("/scada/geofences")) {
+      title = "Geocercas";
+      content = <GeofencesPage />;
+    } else if (path.startsWith("/scada/commands")) {
+      title = "Comandos";
+      const tail = path.replace("/scada/commands", "") || "";
+      const looksLikeEditor = tail.startsWith("/new") || /^\/\d+/.test(tail);
+      if (tail.startsWith("/center") || tail === "") {
+        content = <CommandCenterPage />;
+      } else if (tail.startsWith("/device/")) {
+        content = <CommandCenterPage />;
+      } else {
+        content = looksLikeEditor ? <CommandEditorPage /> : <CommandsPage />;
+      }
     } else {
-      content = looksLikeEditor ? <CommandEditorPage /> : <CommandsPage />;
+      title = "Mapa";
+      content = <MapPage />;
     }
-  } else {
-    title = "Mapa";
-    content = <MapPage />;
   }
 
   return (
@@ -78,44 +92,69 @@ export default function ScadaModule({
       data-theme={themeMode}
     >
       <ScadaProvider config={{ ...config, themeMode }}>
-        <ModuleShell
-          title={title}
-          theme={themeMode}
-          sidebar={
-            <Sidebar
-              logo={<SimonLogo variant={themeMode === "dark" ? "dark" : "light"} />}
-              footer={
-                <div className="flex flex-col gap-6 w-full">
-                  <ThemeToggle value={themeMode} onChange={(v) => setThemeMode(v)} />
-                  <div className="flex flex-col gap-2">
-                    <ProfileCard
-                      name="Mario Rojas"
-                      role="Administrador"
-                      avatar={<Avatar src="https://i.pravatar.cc/150?u=mario" size="sm" />}
-                    />
-                    <div className="text-xs text-ds-text-muted mt-2">Versión 1.0.0</div>
+        {isStandalonePage ? (
+          standaloneContent
+        ) : (
+          <ModuleShell
+            title={title}
+            theme={themeMode}
+            sidebar={
+              <Sidebar
+                logo={<SimonLogo variant={themeMode === "dark" ? "dark" : "light"} />}
+                footer={
+                  <div className="flex flex-col gap-6 w-full">
+                    <ThemeToggle value={themeMode} onChange={(v) => setThemeMode(v)} />
+                    <div className="flex flex-col gap-2">
+                      <ProfileCard
+                        name="Mario Rojas"
+                        role="Administrador"
+                        avatar={<Avatar src="https://i.pravatar.cc/150?u=mario" size="sm" />}
+                      />
+                      <div className="text-xs text-ds-text-muted mt-2">Versión 1.0.0</div>
+                    </div>
                   </div>
-                </div>
-              }
-            >
-              <MenuItem
-                icon={<Icon name="map-pinned" />}
-                label="Mapa"
-                state={path.startsWith("/scada/map") || path === "/scada/" || path === "/scada" ? "selected" : "enable"}
-              />
-              <MenuItem icon={<Icon name="cmd-car" />} label="Vehículos" />
-              <MenuItem icon={<Icon name="microchip" />} label="Configuración AVL" />
-              <MenuItem icon={<Icon name="bell" />} label="Gestor de Alarmas" />
-              <MenuItem icon={<Icon name="chart-column" />} label="Reportes" />
-              <MenuItem icon={<Icon name="settings-2" />} label="Comandos" />
-              <MenuItem icon={<Icon name="target" />} label="Geocercas" />
-              <MenuItem icon={<Icon name="user" />} label="Administrativo" />
-              <MenuItem icon={<Icon name="settings" />} label="Preferencias" />
-            </Sidebar>
-          }
-        >
-          {content}
-        </ModuleShell>
+                }
+              >
+                <MenuItem
+                  icon={<Icon name="map-pinned" />}
+                  label="Mapa"
+                  state={path.startsWith("/scada/map") || path === "/scada/" || path === "/scada" ? "selected" : "enable"}
+                  onClick={() => navigate("/scada/map")}
+                />
+                <MenuItem icon={<Icon name="cmd-car" />} label="Vehículos" />
+                <MenuItem icon={<Icon name="microchip" />} label="Configuración AVL" />
+                <MenuItem
+                  icon={<Icon name="bell" />}
+                  label="Gestor de Alarmas"
+                  state={path.startsWith("/scada/alerts") ? "selected" : "enable"}
+                  onClick={() => navigate("/scada/alerts")}
+                />
+                <MenuItem
+                  icon={<Icon name="chart-column" />}
+                  label="Reportes"
+                  state={path.startsWith("/scada/reports") ? "selected" : "enable"}
+                  onClick={() => navigate("/scada/reports")}
+                />
+                <MenuItem
+                  icon={<Icon name="settings-2" />}
+                  label="Comandos"
+                  state={path.startsWith("/scada/commands") ? "selected" : "enable"}
+                  onClick={() => navigate("/scada/commands/center")}
+                />
+                <MenuItem
+                  icon={<Icon name="target" />}
+                  label="Geocercas"
+                  state={path.startsWith("/scada/geofences") ? "selected" : "enable"}
+                  onClick={() => navigate("/scada/geofences")}
+                />
+                <MenuItem icon={<Icon name="user" />} label="Administrativo" />
+                <MenuItem icon={<Icon name="settings" />} label="Preferencias" />
+              </Sidebar>
+            }
+          >
+            {content}
+          </ModuleShell>
+        )}
       </ScadaProvider>
     </div>
   );

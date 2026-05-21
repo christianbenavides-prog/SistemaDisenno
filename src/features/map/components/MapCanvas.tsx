@@ -48,7 +48,7 @@ export function MapCanvas({
     const map = mapRef.current;
     if (!map || !map.getSource("devices")) return;
 
-    const features = map.querySourceFeatures("devices", { layers: ["devices-dummy"] });
+    const features = map.querySourceFeatures("devices");
     const currentIds = new Set<string>();
 
     features.forEach((feature) => {
@@ -102,11 +102,15 @@ export function MapCanvas({
           `;
 
           el.addEventListener("click", () => {
-             const source = map.getSource("devices") as maplibregl.GeoJSONSource;
-             source.getClusterExpansionZoom(props.cluster_id, (err, zoom) => {
-               if (err || !zoom) return;
-               map.easeTo({ center: [coords[0], coords[1]], zoom: zoom + 1 });
-             });
+            const source = map.getSource("devices") as maplibregl.GeoJSONSource;
+            source
+              .getClusterExpansionZoom(Number(props.cluster_id))
+              .then((zoom) => {
+                map.easeTo({ center: [coords[0], coords[1]], zoom: zoom + 1 });
+              })
+              .catch(() => {
+                map.easeTo({ center: [coords[0], coords[1]], zoom: map.getZoom() + 1 });
+              });
           });
 
           marker = new maplibregl.Marker({ element: el })

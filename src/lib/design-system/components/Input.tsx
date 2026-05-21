@@ -10,12 +10,12 @@ import {
  *
  * Figma specs:
  *   States: default | completed | error | success | disabled
- *   Border radius: 8px (radius-sm)
- *   Padding: 16px horizontal, 8px vertical
- *   Font: Body L (20px) for input text
+ *   Border radius: 0.5rem (radius-sm)
+ *   Padding: 1rem horizontal, 0.5rem vertical
+ *   Font: Body L (1.25rem) for input text
  *   Focus ring: brand-400 outline
- *   Label: Body SM (12px) semibold, neutral-500
- *   Helper text: Body SM (12px), color per status
+ *   Label: Body SM (0.75rem) semibold, neutral-500
+ *   Helper text: Body SM (0.75rem), color per status
  * ────────────────────────────────────────────── */
 
 export type InputStatus = "default" | "error" | "success" | "disabled";

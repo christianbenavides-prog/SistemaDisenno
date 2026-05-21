@@ -21,6 +21,9 @@ export type { BadgeProps, BadgeColor, BadgeShape } from "./Badge";
 export { Checkbox } from "./Checkbox";
 export type { CheckboxProps } from "./Checkbox";
 
+export { Switch } from "./Switch";
+export type { SwitchProps } from "./Switch";
+
 export { Avatar } from "./Avatar";
 export type { AvatarProps, AvatarSize, AvatarStatus } from "./Avatar";
 
@@ -77,6 +80,36 @@ export type { AppHeaderActionsProps, AppHeaderUser } from "./AppHeaderActions";
 
 export { ModuleTemplate } from "./ModuleTemplate";
 export type { ModuleTemplateProps, ModuleNavItem } from "./ModuleTemplate";
+
+export { KpiCard } from "./KpiCard";
+export type { KpiCardProps, KpiTrend } from "./KpiCard";
+
+export { VehicleCard } from "./VehicleCard";
+export type { VehicleCardProps, VehicleCardVariant, VehicleInfoRow } from "./VehicleCard";
+
+export { SpeedCard } from "./SpeedCard";
+export type { SpeedCardProps, SpeedZone, SpeedMetaItem } from "./SpeedCard";
+
+export { GeozonaCard } from "./GeozonaCard";
+export type { GeozonaCardProps, GeozonaAccent, GeozonaVariant, GeozonaMetaItem } from "./GeozonaCard";
+
+export { GuanteraCard } from "./GuanteraCard";
+export type { GuanteraCardProps, GuanteraIconType } from "./GuanteraCard";
+
+export { CommandCard } from "./CommandCard";
+export type { CommandCardProps, CommandIconColor, CommandStatus } from "./CommandCard";
+
+export { CardInfo } from "./CardInfo";
+export type { CardInfoProps, CardInfoColor } from "./CardInfo";
+
+export { CarCard } from "./CarCard";
+export type { CarCardProps, CarStatus, CarCardDetail } from "./CarCard";
+
+export { CardTipo } from "./CardTipo";
+export type { CardTipoProps } from "./CardTipo";
+
+export { AsistenciaCard } from "./AsistenciaCard";
+export type { AsistenciaCardProps, AsistenciaStatus } from "./AsistenciaCard";
 
 /* ── Organisms ── */
 export { Alert } from "./Alert";

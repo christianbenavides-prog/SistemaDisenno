@@ -9,7 +9,7 @@ import { forwardRef, useState, type HTMLAttributes, type ReactNode } from "react
  *   Tabs: Todas / No leídas
  *   Items: icon/avatar + title + message + time
  *   Unread: brand-50 bg, brand-400 left accent
- *   Container: white bg, radius-md, shadow-md, 380px width
+ *   Container: white bg, radius-md, shadow-md, 23.75rem width
  * ────────────────────────────────────────────── */
 
 export interface NotificationItem {

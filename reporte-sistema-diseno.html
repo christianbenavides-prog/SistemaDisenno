@@ -1,0 +1,3593 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Diseno Simon — Reporte Ejecutivo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    /* ── Reset & Base ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --brand-50: #E7FFFA;
+      --brand-100: #C6FFF0;
+      --brand-200: #92FFE7;
+      --brand-300: #4DFFE0;
+      --brand-400: #00F1C7;
+      --brand-500: #00E8BD;
+      --brand-600: #00BE9C;
+      --brand-700: #009882;
+      --brand-800: #007868;
+      --brand-900: #006257;
+      --brand-950: #003833;
+      --neutral-50: #F6F6F6;
+      --neutral-100: #E7E7E7;
+      --neutral-200: #D1D1D1;
+      --neutral-300: #B0B0B0;
+      --neutral-400: #888888;
+      --neutral-500: #6D6D6D;
+      --neutral-600: #5D5D5D;
+      --neutral-700: #454545;
+      --neutral-800: #373737;
+      --neutral-900: #1A1A1A;
+      --success-500: #26C130;
+      --warning-500: #FAD900;
+      --error-500: #F63D3D;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--neutral-50);
+      color: var(--neutral-900);
+      line-height: 1.6;
+    }
+
+    /* ── Header / Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--neutral-900) 0%, var(--brand-950) 50%, var(--neutral-900) 100%);
+      color: white;
+      padding: 3.75rem 2.5rem 3.125rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -7.5rem;
+      right: -7.5rem;
+      width: 25rem;
+      height: 25rem;
+      background: radial-gradient(circle, rgba(0, 241, 199, .15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -5rem;
+      left: 30%;
+      width: 18.75rem;
+      height: 18.75rem;
+      background: radial-gradient(circle, rgba(0, 241, 199, .08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      max-width: 75rem;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-logo svg {
+      flex-shrink: 0;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span {
+      color: var(--brand-400);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--neutral-300);
+      max-width: 40rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0, 241, 199, .12);
+      border: 0.0625rem solid rgba(0, 241, 199, .25);
+      color: var(--brand-400);
+      padding: 0.25rem 0.875rem;
+      border-radius: 7.5rem;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      text-align: center;
+    }
+
+    .hero-meta-item .number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brand-400);
+      display: block;
+    }
+
+    .hero-meta-item .label {
+      font-size: .75rem;
+      color: var(--neutral-400);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* ── Navigation ── */
+    .nav-bar {
+      background: white;
+      border-bottom: 0.0625rem solid var(--neutral-200);
+      padding: 0 2.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, .04);
+    }
+
+    .nav-inner {
+      max-width: 75rem;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    .nav-inner a {
+      display: block;
+      padding: 0.875rem 1.25rem;
+      color: var(--neutral-600);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      border-bottom: 0.125rem solid transparent;
+      transition: all .2s;
+    }
+
+    .nav-inner a:hover {
+      color: var(--brand-700);
+      border-bottom-color: var(--brand-400);
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 75rem;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    /* ── Section ── */
+    .section {
+      padding: 4rem 0;
+    }
+
+    .section+.section {
+      border-top: 0.0625rem solid var(--neutral-200);
+    }
+
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--brand-600);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-desc {
+      color: var(--neutral-500);
+      font-size: .95rem;
+      max-width: 42.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Cards Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 0.75rem;
+      border: 0.0625rem solid var(--neutral-200);
+      padding: 1.75rem;
+      transition: box-shadow .2s, transform .15s;
+    }
+
+    .card:hover {
+      box-shadow: 0 1rem 2rem -0.25rem rgba(26, 26, 26, .10), 0 0.125rem 0.25rem rgba(26, 26, 26, .04);
+      transform: translateY(-0.125rem);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--neutral-600);
+      font-size: .9rem;
+    }
+
+    .card-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Atomic Design Diagram ── */
+    .atomic-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin: 2.5rem 0;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .atomic-step {
+      flex: 1;
+      min-width: 11.25rem;
+      padding: 1.75rem 1.5rem;
+      background: white;
+      border: 0.0625rem solid var(--neutral-200);
+      position: relative;
+      text-align: center;
+    }
+
+    .atomic-step:first-child {
+      border-radius: 0.75rem 0 0 0.75rem;
+    }
+
+    .atomic-step:last-child {
+      border-radius: 0 0.75rem 0.75rem 0;
+    }
+
+    .atomic-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 0.875rem solid transparent;
+      border-bottom: 0.875rem solid transparent;
+      border-left: 0.875rem solid var(--brand-400);
+      z-index: 2;
+    }
+
+    .atomic-step .level-num {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      border-radius: 50%;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      font-weight: 700;
+      font-size: .85rem;
+      margin-bottom: 0.625rem;
+    }
+
+    .atomic-step h4 {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: 0.375rem;
+      color: var(--neutral-900);
+    }
+
+    .atomic-step p {
+      font-size: .78rem;
+      color: var(--neutral-500);
+      line-height: 1.4;
+    }
+
+    .atomic-step .examples {
+      margin-top: 0.625rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      justify-content: center;
+    }
+
+    .atomic-step .examples span {
+      display: inline-block;
+      background: var(--neutral-50);
+      border: 0.0625rem solid var(--neutral-200);
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: .7rem;
+      color: var(--neutral-700);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── Token Swatches ── */
+    .color-palette {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch {
+      width: 3.75rem;
+      text-align: center;
+    }
+
+    .color-swatch .box {
+      height: 3rem;
+      border-radius: 0.5rem;
+      border: 0.0625rem solid rgba(0, 0, 0, .06);
+      margin-bottom: 0.25rem;
+    }
+
+    .color-swatch .hex {
+      font-size: .6rem;
+      font-family: monospace;
+      color: var(--neutral-500);
+    }
+
+    .color-swatch .shade {
+      font-size: .6rem;
+      color: var(--neutral-400);
+      font-weight: 600;
+    }
+
+    .palette-label {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--neutral-700);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* ── Token Table ── */
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      margin: 1.25rem 0;
+      background: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 0.0625rem solid var(--neutral-200);
+    }
+
+    .token-table th {
+      background: var(--neutral-50);
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--neutral-600);
+      border-bottom: 0.0625rem solid var(--neutral-200);
+    }
+
+    .token-table td {
+      padding: 0.625rem 1rem;
+      border-bottom: 0.0625rem solid var(--neutral-100);
+      vertical-align: middle;
+    }
+
+    .token-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .token-table code {
+      background: var(--neutral-50);
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: .8rem;
+      color: var(--brand-800);
+      border: 0.0625rem solid var(--neutral-200);
+    }
+
+    /* ── Component Showcase ── */
+    .component-showcase {
+      background: white;
+      border: 0.0625rem solid var(--neutral-200);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .showcase-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 0.0625rem solid var(--neutral-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .showcase-header h4 {
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .showcase-header .tag {
+      font-size: .65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 0.1875rem 0.625rem;
+      border-radius: 7.5rem;
+      background: var(--brand-50);
+      color: var(--brand-700);
+    }
+
+    .showcase-preview {
+      padding: 2rem 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+      background: var(--neutral-50);
+    }
+
+    .showcase-code {
+      padding: 1rem 1.5rem;
+      background: var(--neutral-900);
+      color: #d4d4d4;
+      font-family: 'Courier New', monospace;
+      font-size: .78rem;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+
+    .showcase-code .kw {
+      color: #c586c0;
+    }
+
+    .showcase-code .str {
+      color: #ce9178;
+    }
+
+    .showcase-code .tag {
+      color: #569cd6;
+    }
+
+    .showcase-code .attr {
+      color: #9cdcfe;
+    }
+
+    .showcase-code .cmt {
+      color: #6a9955;
+    }
+
+    .showcase-code .fn {
+      color: #dcdcaa;
+    }
+
+    .showcase-code .comp {
+      color: #4ec9b0;
+    }
+
+    /* ── Simulated Components ── */
+    .sim-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all .15s;
+      border: 0.125rem solid transparent;
+      font-size: .85rem;
+      padding: 0.625rem 1.25rem;
+    }
+
+    .sim-btn.principal {
+      background: var(--brand-400);
+      color: var(--brand-950);
+    }
+
+    .sim-btn.principal:hover {
+      background: var(--brand-500);
+    }
+
+    .sim-btn.secundario {
+      background: transparent;
+      border-color: var(--brand-400);
+      color: var(--brand-700);
+    }
+
+    .sim-btn.ghost {
+      background: transparent;
+      color: var(--brand-700);
+    }
+
+    .sim-btn.ghost:hover {
+      background: var(--brand-50);
+    }
+
+    .sim-btn.link {
+      background: transparent;
+      color: var(--brand-700);
+      text-decoration: underline;
+      padding: 0.625rem 0.5rem;
+    }
+
+    .sim-btn.sm {
+      padding: 0.375rem 0.875rem;
+      font-size: .78rem;
+    }
+
+    .sim-btn.lg {
+      padding: 0.875rem 1.75rem;
+      font-size: 1rem;
+    }
+
+    .sim-input {
+      padding: 0.625rem 0.875rem;
+      border: 0.0625rem solid var(--neutral-300);
+      border-radius: 0.5rem;
+      font-size: .9rem;
+      font-family: inherit;
+      width: 15rem;
+      outline: none;
+      transition: border-color .15s;
+      background: white;
+      color: var(--neutral-900);
+    }
+
+    .sim-input:focus {
+      border-color: var(--brand-400);
+      box-shadow: 0 0 0 0.1875rem var(--brand-50);
+    }
+
+    .sim-input.error {
+      border-color: var(--error-500);
+    }
+
+    .sim-badge {
+      display: inline-block;
+      padding: 0.1875rem 0.625rem;
+      border-radius: 7.5rem;
+      font-size: .72rem;
+      font-weight: 600;
+    }
+
+    .sim-badge.brand {
+      background: var(--brand-50);
+      color: var(--brand-800);
+    }
+
+    .sim-badge.success {
+      background: #F0FDF0;
+      color: #187D1F;
+    }
+
+    .sim-badge.error {
+      background: #FFF1F1;
+      color: #C01515;
+    }
+
+    .sim-badge.warning {
+      background: #FEFFE7;
+      color: #A67502;
+    }
+
+    .sim-badge.neutral {
+      background: var(--neutral-100);
+      color: var(--neutral-700);
+    }
+
+    .sim-avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: var(--brand-400);
+      color: var(--brand-950);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .85rem;
+    }
+
+    .sim-avatar.sm {
+      width: 2rem;
+      height: 2rem;
+      font-size: .72rem;
+    }
+
+    .sim-avatar.lg {
+      width: 3.25rem;
+      height: 3.25rem;
+      font-size: 1.1rem;
+    }
+
+    .sim-checkbox {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 0.25rem;
+      border: 0.125rem solid var(--neutral-300);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .sim-checkbox.checked {
+      background: var(--brand-400);
+      border-color: var(--brand-400);
+      color: var(--brand-950);
+    }
+
+    .sim-switch {
+      width: 2.75rem;
+      height: 1.5rem;
+      border-radius: 0.75rem;
+      background: var(--neutral-300);
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .sim-switch::after {
+      content: '';
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      top: 0.1875rem;
+      left: 0.1875rem;
+      transition: transform .15s;
+      box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, .15);
+    }
+
+    .sim-switch.on {
+      background: var(--brand-400);
+    }
+
+    .sim-switch.on::after {
+      transform: translateX(1.25rem);
+    }
+
+    .sim-alert {
+      padding: 0.875rem 1.125rem;
+      border-radius: 0.5rem;
+      font-size: .85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      margin: 0.25rem 0;
+    }
+
+    .sim-alert.success {
+      background: #F0FDF0;
+      border-left: 0.25rem solid var(--success-500);
+      color: #187D1F;
+    }
+
+    .sim-alert.error {
+      background: #FFF1F1;
+      border-left: 0.25rem solid var(--error-500);
+      color: #C01515;
+    }
+
+    .sim-alert.warning {
+      background: #FEFFE7;
+      border-left: 0.25rem solid var(--warning-500);
+      color: #A67502;
+    }
+
+    .sim-alert.brand {
+      background: var(--brand-50);
+      border-left: 0.25rem solid var(--brand-500);
+      color: var(--brand-800);
+    }
+
+    .sim-card {
+      background: white;
+      border: 0.0625rem solid var(--neutral-200);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      min-width: 12.5rem;
+    }
+
+    .sim-card .card-title {
+      font-weight: 600;
+      font-size: .9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sim-card .card-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-600);
+    }
+
+    .sim-card .card-trend {
+      font-size: .75rem;
+      color: var(--success-500);
+      font-weight: 600;
+    }
+
+    .sim-tab-bar {
+      display: flex;
+      gap: 0;
+      border-bottom: 0.125rem solid var(--neutral-200);
+    }
+
+    .sim-tab {
+      padding: 0.625rem 1.25rem;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--neutral-500);
+      border-bottom: 0.125rem solid transparent;
+      margin-bottom: -0.125rem;
+      cursor: pointer;
+    }
+
+    .sim-tab.active {
+      color: var(--brand-700);
+      border-bottom-color: var(--brand-400);
+      font-weight: 600;
+    }
+
+    .sim-tooltip {
+      display: inline-block;
+      position: relative;
+      padding: 0.375rem 0.75rem;
+      background: var(--neutral-900);
+      color: white;
+      border-radius: 0.375rem;
+      font-size: .78rem;
+    }
+
+    .sim-tooltip::after {
+      content: '';
+      position: absolute;
+      bottom: -0.3125rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 0.375rem solid transparent;
+      border-right: 0.375rem solid transparent;
+      border-top: 0.375rem solid var(--neutral-900);
+    }
+
+    /* ── Spacing Demo ── */
+    .spacing-demo {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .spacing-item {
+      text-align: center;
+    }
+
+    .spacing-bar {
+      background: var(--brand-400);
+      border-radius: 0.25rem 0.25rem 0 0;
+      width: 2.5rem;
+      margin: 0 auto 0.25rem;
+      opacity: .8;
+    }
+
+    .spacing-label {
+      font-size: .6rem;
+      font-family: monospace;
+      color: var(--neutral-500);
+    }
+
+    /* ── Links Section ── */
+    .link-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+      gap: 1.25rem;
+    }
+
+    .link-card {
+      background: white;
+      border: 0.0625rem solid var(--neutral-200);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all .2s;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .link-card:hover {
+      border-color: var(--brand-400);
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 241, 199, .1);
+      transform: translateY(-0.125rem);
+    }
+
+    .link-card .link-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .link-card h4 {
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .link-card p {
+      font-size: .8rem;
+      color: var(--neutral-500);
+    }
+
+    .link-card .arrow {
+      margin-left: auto;
+      color: var(--brand-400);
+      font-size: 1.2rem;
+      align-self: center;
+    }
+
+    /* ── Quick Ref Table ── */
+    .import-block {
+      background: var(--neutral-900);
+      color: #d4d4d4;
+      padding: 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      font-family: 'Courier New', monospace;
+      font-size: .82rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 1.25rem 0;
+    }
+
+    .import-block .kw {
+      color: #c586c0;
+    }
+
+    .import-block .str {
+      color: #ce9178;
+    }
+
+    .import-block .cmt {
+      color: #6a9955;
+    }
+
+    .import-block .comp {
+      color: #4ec9b0;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--neutral-900);
+      color: var(--neutral-400);
+      padding: 2.5rem;
+      text-align: center;
+      font-size: .82rem;
+    }
+
+    .footer a {
+      color: var(--brand-400);
+      text-decoration: none;
+    }
+
+    .footer-brand {
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Shadows demo ── */
+    .shadow-grid {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .shadow-box {
+      width: 6.25rem;
+      height: 6.25rem;
+      background: white;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--neutral-500);
+    }
+
+    /* ── Radius demo ── */
+    .radius-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: end;
+    }
+
+    .radius-box {
+      width: 4rem;
+      height: 4rem;
+      background: var(--brand-100);
+      border: 0.125rem solid var(--brand-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .6rem;
+      font-weight: 600;
+      color: var(--brand-800);
+      flex-direction: column;
+      gap: 0.125rem;
+    }
+
+    .radius-box .r-label {
+      font-family: monospace;
+      font-size: .55rem;
+      color: var(--brand-600);
+    }
+
+    /* ── Typography Scale ── */
+    .type-scale {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      padding: 0.75rem 0;
+      border-bottom: 0.0625rem solid var(--neutral-100);
+    }
+
+    .type-label {
+      width: 5rem;
+      flex-shrink: 0;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--neutral-400);
+    }
+
+    .type-size {
+      width: 5rem;
+      flex-shrink: 0;
+      font-size: .7rem;
+      font-family: monospace;
+      color: var(--neutral-500);
+    }
+
+    .type-preview {
+      color: var(--neutral-900);
+      font-weight: 500;
+    }
+
+    /* ── Two column layout ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 48rem) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .atomic-flow {
+        flex-direction: column;
+      }
+
+      .atomic-step:first-child {
+        border-radius: 0.75rem 0.75rem 0 0;
+      }
+
+      .atomic-step:last-child {
+        border-radius: 0 0 0.75rem 0.75rem;
+      }
+
+      .atomic-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero {
+        padding: 2.5rem 1.25rem;
+      }
+
+      .container {
+        padding: 0 1.25rem;
+      }
+
+      .nav-inner a {
+        padding: 0.75rem 0.875rem;
+        font-size: .8rem;
+      }
+    }
+
+    /* ── Info callout ── */
+    .callout {
+      background: var(--brand-50);
+      border: 0.0625rem solid var(--brand-200);
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      font-size: .9rem;
+      color: var(--brand-900);
+      margin: 1.5rem 0;
+    }
+
+    .callout strong {
+      color: var(--brand-800);
+    }
+
+    /* ── Dark preview panel ── */
+    .dark-preview {
+      background: var(--neutral-900);
+      border-radius: 0.75rem;
+      padding: 2rem 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .dark-preview .sim-btn.principal {
+      color: var(--brand-950);
+    }
+
+    .dark-preview .sim-badge.brand {
+      background: rgba(0, 241, 199, .12);
+      color: var(--brand-300);
+    }
+
+    .dark-preview .sim-input {
+      background: var(--neutral-800);
+      border-color: var(--neutral-700);
+      color: white;
+    }
+
+    /* Heading underline */
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 3rem;
+      height: 0.1875rem;
+      background: var(--brand-400);
+      border-radius: 0.125rem;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════ -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-logo">
+        <!-- Simon Logo Dark Variant (SVG inline) -->
+        <svg width="182" height="52" viewBox="0 0 182 52" fill="none">
+          <path
+            d="M33.9172 14.6729v.6416H22.6655v-.2166c0-1.9327-1.3619-3.7612-4.8395-3.7612-3.4777 0-4.9449 1.1307-4.9449 2.4219 0 5.5336 21.7981 1.1789 22.0656 14.8927 0 9.1906-7.0688 12.9038-16.4641 12.9038C7.99291 41.5551 0 38.9246 0 28.3786h11.3571c0 3.9778 2.3346 4.6755 6.0311 4.6755 2.1725 0 5.2692-.1604 5.2692-2.4701 0-5.3251-22.0656-1.0747-22.0656-15.4862C.599873 6.50076 8.53604 3.27682 17.3882 3.27682c8.8522 0 16.3587 3.49661 16.529 11.39608z"
+            fill="white" />
+          <path d="M40.5322 9.79198V2.53412h10.814v7.25786H40.5322zM40.5322 41.5181V13.1282h10.814v28.3899H40.5322z"
+            fill="white" />
+          <path
+            d="M106.129 23.1288v18.3893H95.3154V24.42c0-2.3658-1.1998-4.0339-3.4209-4.0339-2.6103 0-4.2964 2.045-4.2964 4.467v16.665H76.7842V24.42c0-2.3658-1.1917-4.0339-3.4209-4.0339-2.6103 0-4.2964 2.045-4.2964 4.467v16.665H58.2529V13.1282h8.8603l.7053 4.2505c2.1725-3.0074 6.0311-4.892 10.0033-4.892 4.4017 0 7.2795 1.7724 8.6981 4.8921 2.2293-2.9593 5.9826-4.8921 9.8412-4.8921 6.6309 0 9.785 3.9217 9.785 10.6503l-.017.008z"
+            fill="white" />
+          <path
+            d="M181.316 22.5592v18.3893h-10.814V23.8504c0-2.3658-1.248-4.0339-3.64-4.0339-2.715 0-4.515 2.045-4.515 4.467v16.665h-10.814V12.5506h8.861l.705 4.2986c2.229-3.0074 6.144-4.9408 10.222-4.9408 6.793 0 10.003 3.9217 10.003 10.6508l-.008.008z"
+            fill="white" />
+          <path
+            d="M146.969 26.4892c0-5.4213-2.627-10.2332-6.696-13.2486V8.17212C140.054 5.34115 137.679 0 130.196 0c-7.482 0-9.857 5.25293-10.068 8.02776v5.18874c-4.118 3.0155-6.769 7.8433-6.769 13.2807 0 1.4837.211 2.9032.568 4.2665.057.2326.113.4652.178.6897 0 .0161.008.0321.016.0481 1.557 5.4855 5.886 9.8162 11.406 11.4121V52l13.295-10.7705c4.88-2.8951 8.147-8.1801 8.147-14.2190 0-.0802-.017-.1524-.017-.2326 0-.0962.017-.1844.017-.2807v-.008zm-21.158-18.1968c.105-.8180.6-2.919 4.385-2.919 3.972 0 4.41 2.262 4.508 3.056v2.109c-1.427-.393-2.919-.601-4.467-.601s-3.008.201-4.418.57V8.292h-.008zM132.053 34.14l.283 4.026h-4.32l.381-4.018c-3.535-.802-6.121-3.889-6.121-7.651 0-4.314 3.519-7.795 7.945-7.795 4.426 0 7.879 3.481 7.879 7.795 0 3.745-2.578 6.833-6.055 7.643h.008z"
+            fill="#00F1C7" />
+        </svg>
+      </div>
+      <span class="hero-badge">SISTEMA DE DISENO v1.5</span>
+      <h1>Reporte Ejecutivo del <span>Sistema de Diseno</span></h1>
+      <p>Guia completa de la arquitectura Atomic Design, tokens, componentes y patrones de uso para el ecosistema de
+        productos Simon.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="number">60+</span>
+          <span class="label">Componentes</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="number">5</span>
+          <span class="label">Paletas de Color</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="number">18</span>
+          <span class="label">Escalas Spacing</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="number">9</span>
+          <span class="label">Escalas Tipograficas</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="number">2</span>
+          <span class="label">Temas (Light/Dark)</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════
+     NAV
+     ═══════════════════════════════════════════════════ -->
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="#que-es">Que es</a>
+      <a href="#arquitectura">Arquitectura</a>
+      <a href="#atomic-design">Atomic Design</a>
+      <a href="#tokens">Tokens</a>
+      <a href="#colores">Colores</a>
+      <a href="#tipografia">Tipografia</a>
+      <a href="#componentes">Componentes</a>
+      <a href="#temas">Temas</a>
+      <a href="#responsividad">Responsivo</a>
+      <a href="#plantillas">Plantillas</a>
+      <a href="#como-usar">Como Usar</a>
+      <a href="#vistas">Vistas</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════
+     1. QUE ES
+     ═══════════════════════════════════════════════════ -->
+  <div class="container">
+    <section class="section" id="que-es">
+      <span class="section-label">Introduccion</span>
+      <h2 class="section-title">Que es el Sistema de Diseno Simon?</h2>
+      <p class="section-desc">
+        El Sistema de Diseno Simon (SD-SM) es la fuente unica de verdad visual y funcional para todos los productos de
+        la plataforma Simon de rastreo y gestion vehicular.
+      </p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon" style="background: var(--brand-50); color: var(--brand-600);">&#9881;</div>
+          <h3>Consistencia Visual</h3>
+          <p>Garantiza que todas las pantallas, modulos y micro-frontends compartan la misma identidad visual, colores,
+            tipografia y patrones de interaccion.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: #F0FDF0; color: #187D1F;">&#9889;</div>
+          <h3>Desarrollo Acelerado</h3>
+          <p>Los desarrolladores importan componentes pre-construidos y tokens CSS/TypeScript, eliminando la necesidad
+            de reinventar estilos en cada feature.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: #FFF1F1; color: #C01515;">&#128270;</div>
+          <h3>Mantenimiento Centralizado</h3>
+          <p>Un cambio en un token o componente del Design System se propaga automaticamente a toda la aplicacion,
+            reduciendo errores y deuda tecnica.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: #FEFFE7; color: #A67502;">&#128640;</div>
+          <h3>Escalable con Micro-Frontends</h3>
+          <p>Construido sobre Vite Module Federation y React 19, permite que multiples equipos trabajen en modulos
+            independientes con la misma base de diseno.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 2rem;">
+        <strong>Stack Tecnologico:</strong> React 19 + TypeScript + Vite 7 + Tailwind CSS 4 + MUI 7 + MapLibre GL.
+        El sistema vive en <code>src/lib/design-system/</code> y se importa via <code>@/lib/design-system</code>.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     1.5 ARQUITECTURA DE DISENO
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="arquitectura">
+      <span class="section-label">Arquitectura</span>
+      <h2 class="section-title">Arquitectura del Sistema de Diseno</h2>
+      <p class="section-desc">
+        El SD-SM se construyo como una arquitectura por capas donde cada nivel depende solo de los niveles inferiores.
+        Esta separacion permite que los tokens evolucionen sin romper componentes, y que los componentes se reutilicen
+        sin acoplarse a features especificos.
+      </p>
+
+      <!-- Diagrama de capas -->
+      <h3 style="font-size: 1rem; margin-bottom: 20px;">Capas de la Arquitectura</h3>
+      <div style="display:flex; flex-direction:column; gap:0; margin-bottom:32px; max-width:800px;">
+        <!-- Capa 5: Pages -->
+        <div
+          style="background:var(--neutral-900);color:white;padding:18px 24px;border-radius:12px 12px 0 0;display:flex;align-items:center;gap:16px;">
+          <div
+            style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">
+            5</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.9rem;">Pages <span
+                style="font-weight:400;color:var(--neutral-400);">&mdash; Instancias con datos reales</span></div>
+            <div style="font-size:.72rem;color:var(--neutral-400);margin-top:2px;">MapPage, GeofencesPage, PanicPage
+              &bull; <code
+                style="color:var(--brand-400);background:transparent;border:none;font-size:.7rem;">src/features/*/pages/</code>
+            </div>
+          </div>
+        </div>
+        <!-- Capa 4: Features -->
+        <div
+          style="background:var(--neutral-800);color:white;padding:18px 24px;display:flex;align-items:center;gap:16px;">
+          <div
+            style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">
+            4</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.9rem;">Features <span
+                style="font-weight:400;color:var(--neutral-400);">&mdash; Modulos de dominio</span></div>
+            <div style="font-size:.72rem;color:var(--neutral-400);margin-top:2px;">alerts, commands, geofences, map,
+              panic &bull; <code
+                style="color:var(--brand-400);background:transparent;border:none;font-size:.7rem;">src/features/</code>
+            </div>
+          </div>
+        </div>
+        <!-- Capa 3: Templates -->
+        <div
+          style="background:var(--brand-950);color:white;padding:18px 24px;display:flex;align-items:center;gap:16px;">
+          <div
+            style="width:40px;height:40px;border-radius:10px;background:rgba(0,241,199,.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--brand-400);font-weight:700;flex-shrink:0;">
+            3</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.9rem;">Templates + Componentes <span
+                style="font-weight:400;color:var(--brand-200);">&mdash; UI reutilizable</span></div>
+            <div style="font-size:.72rem;color:var(--brand-200);margin-top:2px;">AppShell, MapLayout, Button, Modal,
+              DataTable &bull; <code
+                style="color:var(--brand-400);background:transparent;border:none;font-size:.7rem;">src/lib/design-system/components/</code>
+            </div>
+          </div>
+        </div>
+        <!-- Capa 2: Tokens -->
+        <div
+          style="background:var(--brand-800);color:white;padding:18px 24px;display:flex;align-items:center;gap:16px;">
+          <div
+            style="width:40px;height:40px;border-radius:10px;background:rgba(0,241,199,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:white;font-weight:700;flex-shrink:0;">
+            2</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.9rem;">Design Tokens <span
+                style="font-weight:400;color:var(--brand-200);">&mdash; Variables de diseno</span></div>
+            <div style="font-size:.72rem;color:var(--brand-200);margin-top:2px;">Colores, espaciado, tipografia,
+              sombras, breakpoints &bull; <code
+                style="color:var(--brand-300);background:transparent;border:none;font-size:.7rem;">tokens.css + tokens.ts</code>
+            </div>
+          </div>
+        </div>
+        <!-- Capa 1: Fundacion -->
+        <div
+          style="background:var(--brand-400);color:var(--brand-950);padding:18px 24px;border-radius:0 0 12px 12px;display:flex;align-items:center;gap:16px;">
+          <div
+            style="width:40px;height:40px;border-radius:10px;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;flex-shrink:0;">
+            1</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:.9rem;">Fundacion <span style="font-weight:400;">&mdash; Figma + Marca
+                + Tipografia</span></div>
+            <div style="font-size:.72rem;margin-top:2px;opacity:.7;">Museo Sans, paleta Simon, lineamientos de marca,
+              Figma &quot;Sistema de diseno - SM&quot;</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Regla de dependencia:</strong> Cada capa solo importa de las capas inferiores. Un <code>Button</code>
+        (capa 3) usa <code>tokens.css</code> (capa 2), pero nunca importa de <code>features/</code> (capa 4). Una
+        <code>Page</code> (capa 5) usa templates y componentes (capa 3), pero los componentes no saben en que pagina
+        viven.
+      </div>
+
+      <!-- Estrategia CSS -->
+      <h3 style="font-size: 1rem; margin: 40px 0 16px;">Estrategia CSS: Triple Capa</h3>
+      <p style="font-size:.9rem; color:var(--neutral-600); margin-bottom:20px;">
+        El sistema combina tres estrategias de CSS que se complementan entre si, cada una con un rol definido.
+      </p>
+
+      <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card" style="border-top:3px solid var(--brand-400);">
+          <div class="card-icon"
+            style="background:var(--brand-50);color:var(--brand-700);font-size:1rem;font-weight:700;width:40px;height:40px;border-radius:8px;">
+            1</div>
+          <h3 style="font-size:.95rem;">CSS Custom Properties</h3>
+          <p style="margin-bottom:12px;">Los tokens viven como variables CSS nativas, accesibles en cualquier contexto
+            (componentes, Tailwind, inline styles).</p>
+          <div class="import-block" style="font-size:.68rem;margin:0;padding:12px;">
+            <span class="cmt">/* tokens.css */</span>
+            --color-brand-400: #00F1C7;
+            --spacing-4: 16px;
+            --radius-md: 12px;
+
+            <span class="cmt">/* Temas via selectores */</span>
+            [data-theme=<span class="str">"dark"</span>] {
+            --ds-color-surface: #000;
+            }
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--warning-500);">
+          <div class="card-icon"
+            style="background:#FEFFE7;color:#A67502;font-size:1rem;font-weight:700;width:40px;height:40px;border-radius:8px;">
+            2</div>
+          <h3 style="font-size:.95rem;">BEM para Componentes</h3>
+          <p style="margin-bottom:12px;">Cada componente del DS tiene CSS co-localizado con nomenclatura BEM y prefijo
+            <code>ds-</code> para evitar colisiones.</p>
+          <div class="import-block" style="font-size:.68rem;margin:0;padding:12px;">
+            <span class="cmt">/* Button.css */</span>
+            .ds-btn { }
+            .ds-btn--principal { }
+            .ds-btn--sm { }
+            .ds-btn__icon { }
+
+            <span class="cmt">/* MapLayout.css */</span>
+            .ds-map-layout { }
+            .ds-map-layout__panel { }
+            .ds-map-layout__overlay { }
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--error-500);">
+          <div class="card-icon"
+            style="background:#FFF1F1;color:#C01515;font-size:1rem;font-weight:700;width:40px;height:40px;border-radius:8px;">
+            3</div>
+          <h3 style="font-size:.95rem;">Tailwind Utilities</h3>
+          <p style="margin-bottom:12px;">Tailwind CSS v4 consume los tokens del DS como valores de tema. Se usa para
+            layouts rapidos y en features.</p>
+          <div class="import-block" style="font-size:.68rem;margin:0;padding:12px;">
+            <span class="cmt">/* tailwind.css @theme */</span>
+            --color-primary: <span class="fn">var</span>(--color-brand-800);
+            --color-surface: <span class="fn">var</span>(--ds-color-surface);
+
+            <span class="cmt">&lt;!-- En JSX --&gt;</span>
+            &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"grid grid-cols-2
+              gap-4 bg-surface rounded-lg"</span>&gt;
+          </div>
+        </div>
+      </div>
+
+      <!-- Flujo de datos CSS -->
+      <div
+        style="background:white;border:1px solid var(--neutral-200);border-radius:12px;padding:24px;margin-top:24px;">
+        <h4 style="font-size:.85rem;font-weight:600;margin-bottom:16px;color:var(--neutral-700);">Flujo: Figma &rarr;
+          Tokens &rarr; Componentes &rarr; App</h4>
+        <div style="display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:4px;">
+          <div
+            style="background:var(--neutral-100);border-radius:8px;padding:10px 16px;text-align:center;white-space:nowrap;">
+            <div
+              style="font-size:.65rem;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.04em;">
+              Figma</div>
+            <div style="font-size:.75rem;font-weight:600;margin-top:2px;">Diseno SM</div>
+          </div>
+          <div style="color:var(--brand-400);font-size:1.2rem;padding:0 8px;">&rarr;</div>
+          <div
+            style="background:var(--brand-50);border:1px solid var(--brand-200);border-radius:8px;padding:10px 16px;text-align:center;white-space:nowrap;">
+            <div
+              style="font-size:.65rem;font-weight:700;color:var(--brand-600);text-transform:uppercase;letter-spacing:.04em;">
+              tokens.css</div>
+            <div style="font-size:.75rem;font-weight:600;color:var(--brand-800);margin-top:2px;">CSS Variables</div>
+          </div>
+          <div style="color:var(--brand-400);font-size:1.2rem;padding:0 8px;">&rarr;</div>
+          <div
+            style="background:var(--brand-50);border:1px solid var(--brand-200);border-radius:8px;padding:10px 16px;text-align:center;white-space:nowrap;">
+            <div
+              style="font-size:.65rem;font-weight:700;color:var(--brand-600);text-transform:uppercase;letter-spacing:.04em;">
+              tokens.ts</div>
+            <div style="font-size:.75rem;font-weight:600;color:var(--brand-800);margin-top:2px;">TypeScript Constants
+            </div>
+          </div>
+          <div style="color:var(--brand-400);font-size:1.2rem;padding:0 8px;">&rarr;</div>
+          <div
+            style="background:var(--neutral-900);border-radius:8px;padding:10px 16px;text-align:center;white-space:nowrap;">
+            <div
+              style="font-size:.65rem;font-weight:700;color:var(--neutral-400);text-transform:uppercase;letter-spacing:.04em;">
+              Components</div>
+            <div style="font-size:.75rem;font-weight:600;color:white;margin-top:2px;">BEM + React</div>
+          </div>
+          <div style="color:var(--brand-400);font-size:1.2rem;padding:0 8px;">&rarr;</div>
+          <div
+            style="background:var(--neutral-900);border-radius:8px;padding:10px 16px;text-align:center;white-space:nowrap;">
+            <div
+              style="font-size:.65rem;font-weight:700;color:var(--neutral-400);text-transform:uppercase;letter-spacing:.04em;">
+              Tailwind</div>
+            <div style="font-size:.75rem;font-weight:600;color:white;margin-top:2px;">Utilities + Aliases</div>
+          </div>
+          <div style="color:var(--brand-400);font-size:1.2rem;padding:0 8px;">&rarr;</div>
+          <div
+            style="background:var(--brand-400);border-radius:8px;padding:10px 16px;text-align:center;white-space:nowrap;">
+            <div
+              style="font-size:.65rem;font-weight:700;color:var(--brand-950);text-transform:uppercase;letter-spacing:.04em;">
+              App</div>
+            <div style="font-size:.75rem;font-weight:600;color:var(--brand-950);margin-top:2px;">Producto Final</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Micro-frontends -->
+      <h3 style="font-size: 1rem; margin: 40px 0 16px;">Arquitectura Micro-Frontend</h3>
+      <p style="font-size:.9rem; color:var(--neutral-600); margin-bottom:20px;">
+        El sistema esta preparado para funcionar como modulo remoto dentro de una aplicacion host via <strong>Vite
+          Module Federation</strong>. Esto permite que equipos independientes consuman el mismo Design System sin
+        acoplar sus builds.
+      </p>
+
+      <div class="two-col">
+        <div>
+          <div class="component-showcase" style="margin:0;">
+            <div class="showcase-header">
+              <h4>Exposicion del Modulo</h4>
+              <span class="tag">vite.config.ts</span>
+            </div>
+            <div class="showcase-code" style="font-size:.72rem;">
+              <span class="fn">federation</span>({
+              <span class="attr">name</span>: <span class="str">"scada"</span>,
+              <span class="attr">filename</span>: <span class="str">"remoteEntry.js"</span>,
+              <span class="attr">exposes</span>: {
+              <span class="str">"./ScadaModule"</span>: <span class="str">"./src/app/remote/ScadaModule.tsx"</span>,
+              <span class="str">"./ScadaStyles"</span>: <span class="str">"./src/app/remote/ScadaStyles.ts"</span>,
+              },
+              <span class="attr">shared</span>: [<span class="str">"react"</span>, <span class="str">"react-dom"</span>,
+              <span class="str">"react-router-dom"</span>],
+              })
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="background:white;border:1px solid var(--neutral-200);border-radius:12px;padding:20px;">
+            <h4 style="font-size:.85rem;font-weight:600;margin-bottom:12px;">Principios de Integracion</h4>
+            <ul
+              style="font-size:.82rem;color:var(--neutral-600);list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <li style="display:flex;gap:8px;align-items:flex-start;">
+                <span style="color:var(--brand-400);font-weight:700;flex-shrink:0;">&#10003;</span>
+                <span><strong>CSS auto-inyectado:</strong> Los estilos se empaquetan en JS y se inyectan al DOM, sin que
+                  el host necesite importar CSS.</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start;">
+                <span style="color:var(--brand-400);font-weight:700;flex-shrink:0;">&#10003;</span>
+                <span><strong>Temas del host:</strong> El host puede inyectar CSS variables custom que sobreescriben los
+                  tokens del DS.</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start;">
+                <span style="color:var(--brand-400);font-weight:700;flex-shrink:0;">&#10003;</span>
+                <span><strong>React compartido:</strong> React, ReactDOM y React Router se comparten entre host y remoto
+                  para evitar duplicados.</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start;">
+                <span style="color:var(--brand-400);font-weight:700;flex-shrink:0;">&#10003;</span>
+                <span><strong>ScadaProvider:</strong> Context provider que recibe configuracion del host (API URLs,
+                  tema, permisos).</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start;">
+                <span style="color:var(--brand-400);font-weight:700;flex-shrink:0;">&#10003;</span>
+                <span><strong>Prefijo BEM ds-:</strong> Evita colisiones de CSS con los estilos del host.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theme Architecture -->
+      <h3 style="font-size: 1rem; margin: 40px 0 16px;">Arquitectura de Temas</h3>
+      <p style="font-size:.9rem; color:var(--neutral-600); margin-bottom:20px;">
+        El sistema de temas opera en tres niveles, desde los tokens base hasta la personalizacion en runtime por parte
+        del host.
+      </p>
+
+      <div style="display:flex;gap:0;flex-direction:column;max-width:800px;margin-bottom:24px;">
+        <div
+          style="background:var(--brand-400);color:var(--brand-950);padding:16px 24px;border-radius:12px 12px 0 0;display:flex;align-items:center;gap:16px;">
+          <div style="font-size:.75rem;font-weight:700;width:100px;flex-shrink:0;">Nivel 1</div>
+          <div>
+            <div style="font-weight:700;font-size:.85rem;">Tokens Base</div>
+            <div style="font-size:.72rem;opacity:.8;margin-top:2px;"><code
+                style="background:transparent;border:none;color:inherit;">--color-brand-400: #00F1C7</code> &mdash;
+              Valores absolutos definidos en Figma.</div>
+          </div>
+        </div>
+        <div
+          style="background:var(--brand-700);color:white;padding:16px 24px;display:flex;align-items:center;gap:16px;">
+          <div style="font-size:.75rem;font-weight:700;width:100px;flex-shrink:0;">Nivel 2</div>
+          <div>
+            <div style="font-weight:700;font-size:.85rem;">Alias Semanticos</div>
+            <div style="font-size:.72rem;opacity:.85;margin-top:2px;"><code
+                style="background:transparent;border:none;color:inherit;">--ds-color-surface: var(--color-white)</code>
+              &mdash; Mapeo contextual que cambia entre light/dark.</div>
+          </div>
+        </div>
+        <div
+          style="background:var(--neutral-900);color:white;padding:16px 24px;border-radius:0 0 12px 12px;display:flex;align-items:center;gap:16px;">
+          <div style="font-size:.75rem;font-weight:700;width:100px;flex-shrink:0;color:var(--neutral-400);">Nivel 3
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:.85rem;">Runtime Override</div>
+            <div style="font-size:.72rem;color:var(--neutral-400);margin-top:2px;"><code
+                style="background:transparent;border:none;color:var(--brand-400);">buildScadaThemeCssVars()</code>
+              &mdash; El host inyecta CSS vars custom via <code
+                style="background:transparent;border:none;color:var(--brand-400);">style={themeVars}</code> en runtime.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Separacion de responsabilidades -->
+      <h3 style="font-size: 1rem; margin: 40px 0 16px;">Separacion de Responsabilidades</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Capa</th>
+            <th>Ubicacion</th>
+            <th>Responsabilidad</th>
+            <th>Conoce a</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;color:var(--brand-700);">lib/design-system</td>
+            <td><code>src/lib/design-system/</code></td>
+            <td>Tokens, componentes UI genericos, templates de layout. <strong>Cero logica de negocio.</strong></td>
+            <td>Solo tokens</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--brand-700);">shared/brand</td>
+            <td><code>src/shared/brand/</code></td>
+            <td>Logo Simon (3 variantes), watermark. Identidad visual de marca.</td>
+            <td>Solo tokens de color</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--brand-700);">shared/domain-cards</td>
+            <td><code>src/shared/domain-cards/</code></td>
+            <td>Cards de dominio (VehicleCard, GeozonaCard, SpeedCard). Reutilizables entre features.</td>
+            <td>Design System + tipos de dominio</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--brand-700);">features/*</td>
+            <td><code>src/features/</code></td>
+            <td>Modulos de negocio: paginas, hooks, logica especifica. Cada feature es independiente.</td>
+            <td>Design System + shared + API</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--brand-700);">app/remote</td>
+            <td><code>src/app/remote/</code></td>
+            <td>Integracion micro-frontend: ScadaModule, ScadaProvider, inyeccion de CSS y temas.</td>
+            <td>Todo (orquestador)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Decisiones clave -->
+      <h3 style="font-size: 1rem; margin: 40px 0 16px;">Decisiones Arquitectonicas Clave</h3>
+      <div class="card-grid">
+        <div class="card">
+          <h3 style="font-size:.9rem;color:var(--brand-700);">Tokens duales: CSS + TypeScript</h3>
+          <p>Cada token existe en CSS (para estilos) <strong>y</strong> en TypeScript (para logica, charts, inline
+            styles). Ambos se sincronizan manualmente desde Figma, garantizando paridad.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.9rem;color:var(--brand-700);">BEM con prefijo ds-</h3>
+          <p>Todos los componentes del DS usan nomenclatura BEM con prefijo <code>ds-</code> (ej:
+            <code>.ds-btn--principal</code>). Esto aísla los estilos del DS de los del host y de Tailwind.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.9rem;color:var(--brand-700);">CSS co-localizado</h3>
+          <p>Cada componente tiene su archivo CSS junto al TSX (<code>Button.tsx</code> + <code>Button.css</code>).
+            Facilita encontrar, mantener y eliminar estilos sin efectos secundarios.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.9rem;color:var(--brand-700);">Barrel exports tipados</h3>
+          <p>Un unico <code>index.ts</code> exporta todos los componentes y sus tipos. Los features importan con
+            <code>import { Button } from '@/lib/design-system'</code> sin conocer la estructura interna.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.9rem;color:var(--brand-700);">Templates como contratos</h3>
+          <p>AppShell, MapLayout, FormLayout y TableLayout definen <strong>slots</strong> (sidebar, navbar, cards,
+            footer). Los features solo proveen contenido; el layout lo resuelve el template.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.9rem;color:var(--brand-700);">Temas sin JavaScript</h3>
+          <p>El cambio light/dark se resuelve 100% en CSS con selectores <code>[data-theme]</code> y
+            <code>.ds-theme-*</code>. No hay re-renders de React al cambiar de tema.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     2. ATOMIC DESIGN
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="atomic-design">
+      <span class="section-label">Metodologia</span>
+      <h2 class="section-title">Arquitectura Atomic Design</h2>
+      <p class="section-desc">
+        El sistema sigue la metodologia <strong>Atomic Design</strong> de Brad Frost, organizando los componentes en
+        cinco niveles jerarquicos de complejidad creciente. Cada nivel se construye a partir del anterior.
+      </p>
+
+      <div class="atomic-flow">
+        <div class="atomic-step">
+          <span class="level-num">1</span>
+          <h4>Atoms</h4>
+          <p>Elementos UI basicos e indivisibles. Son los bloques de construccion fundamentales.</p>
+          <div class="examples">
+            <span>Button</span>
+            <span>Input</span>
+            <span>Badge</span>
+            <span>Avatar</span>
+            <span>Checkbox</span>
+            <span>Switch</span>
+            <span>Icon</span>
+          </div>
+        </div>
+        <div class="atomic-step">
+          <span class="level-num">2</span>
+          <h4>Molecules</h4>
+          <p>Combinaciones de atomos que forman unidades funcionales con un proposito claro.</p>
+          <div class="examples">
+            <span>Tooltip</span>
+            <span>Tab</span>
+            <span>FilterBar</span>
+            <span>KpiCard</span>
+            <span>VehicleCard</span>
+            <span>ProfileCard</span>
+          </div>
+        </div>
+        <div class="atomic-step">
+          <span class="level-num">3</span>
+          <h4>Organisms</h4>
+          <p>Secciones complejas de UI que combinan moleculas y atomos en interfaces completas.</p>
+          <div class="examples">
+            <span>Modal</span>
+            <span>NavBar</span>
+            <span>Sidebar</span>
+            <span>Select</span>
+            <span>DataTable</span>
+            <span>Calendar</span>
+          </div>
+        </div>
+        <div class="atomic-step">
+          <span class="level-num">4</span>
+          <h4>Templates</h4>
+          <p>Layouts de pagina que definen la estructura y distribucion del contenido.</p>
+          <div class="examples">
+            <span>AppShell</span>
+            <span>MapLayout</span>
+            <span>FormLayout</span>
+            <span>TableLayout</span>
+            <span>ModuleShell</span>
+          </div>
+        </div>
+        <div class="atomic-step">
+          <span class="level-num">5</span>
+          <h4>Pages</h4>
+          <p>Instancias concretas de templates con datos reales del dominio.</p>
+          <div class="examples">
+            <span>MapPage</span>
+            <span>ReportsPage</span>
+            <span>GeofencesPage</span>
+            <span>CommandsPage</span>
+            <span>AlarmsPage</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Principio clave:</strong> Los niveles inferiores nunca deben depender de los superiores.
+        Un <code>Button</code> (atomo) no importa un <code>Modal</code> (organismo). El flujo de dependencia es siempre
+        de abajo hacia arriba.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     3. TOKENS
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="tokens">
+      <span class="section-label">Fundamentos</span>
+      <h2 class="section-title">Design Tokens</h2>
+      <p class="section-desc">
+        Los <strong>Design Tokens</strong> son las variables fundamentales del sistema: valores atomicos de color,
+        espaciado, tipografia, sombras y bordes. Son la "fuente unica de verdad" que conecta diseno (Figma) con codigo.
+      </p>
+
+      <div class="two-col">
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--neutral-800);">Que son los Tokens?</h3>
+          <p style="font-size: .9rem; color: var(--neutral-600); margin-bottom: 1rem;">
+            Son <strong>decisiones de diseno convertidas en variables</strong>. En lugar de escribir
+            <code>#00F1C7</code> directamente,
+            usamos <code>var(--color-brand-400)</code> en CSS o <code>colors.brand[400]</code> en TypeScript.
+          </p>
+          <p style="font-size: .9rem; color: var(--neutral-600); margin-bottom: 1rem;">
+            Esto permite que un cambio en la paleta de colores, por ejemplo, se propague a todos los componentes
+            automaticamente,
+            sin necesidad de buscar y reemplazar valores hardcodeados.
+          </p>
+          <p style="font-size: .9rem; color: var(--neutral-600);">
+            El sistema provee tokens en <strong>dos formatos</strong>: CSS Custom Properties (para estilos) y constantes
+            TypeScript (para logica, charts, inline styles).
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--neutral-800);">Categorias de Tokens</h3>
+          <table class="token-table">
+            <tr>
+              <td style="font-weight:600;">Colores</td>
+              <td>5 paletas &times; 11 tonos = 55 valores</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Espaciado</td>
+              <td>18 escalas (base: 0.25rem)</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Tipografia</td>
+              <td>9 escalas + 4 pesos + 3 breakpoints</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Bordes</td>
+              <td>7 radios + 4 anchos</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Sombras</td>
+              <td>5 niveles de elevacion</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Breakpoints</td>
+              <td>4 puntos de quiebre responsivo</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <h3 style="font-size: 1rem; margin: 2rem 0 0.75rem; color: var(--neutral-800);">Acceso a Tokens</h3>
+
+      <div class="import-block">
+        <span class="cmt">/* ── En CSS / Tailwind ── */</span>
+        .mi-componente {
+        background: <span class="fn">var</span>(--color-brand-400);
+        padding: <span class="fn">var</span>(--spacing-4);
+        border-radius: <span class="fn">var</span>(--radius-md);
+        box-shadow: <span class="fn">var</span>(--shadow-sm);
+        }
+
+        <span class="cmt">/* ── En TypeScript ── */</span>
+        <span class="kw">import</span> { <span class="comp">colors</span>, <span class="comp">spacing</span>, <span
+          class="comp">radius</span> } <span class="kw">from</span> <span
+          class="str">'@/lib/design-system/tokens'</span>;
+
+        <span class="kw">const</span> chartColor = <span class="comp">colors</span>.brand[400]; <span class="cmt">//
+          "#00F1C7"</span>
+        <span class="kw">const</span> gap = <span class="comp">spacing</span>[4]; <span class="cmt">// "1rem"</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     4. COLORES
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="colores">
+      <span class="section-label">Tokens</span>
+      <h2 class="section-title">Paleta de Colores</h2>
+      <p class="section-desc">Cinco familias cromaticas con 11 tonalidades cada una (50–950), desde fondos sutiles hasta
+        acentos profundos.</p>
+
+      <!-- Brand -->
+      <p class="palette-label">Brand &mdash; Verde Aguamarina</p>
+      <div class="color-palette">
+        <div class="color-swatch">
+          <div class="box" style="background:#E7FFFA"></div><span class="shade">50</span><br><span
+            class="hex">#E7FFFA</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#C6FFF0"></div><span class="shade">100</span><br><span
+            class="hex">#C6FFF0</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#92FFE7"></div><span class="shade">200</span><br><span
+            class="hex">#92FFE7</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#4DFFE0"></div><span class="shade">300</span><br><span
+            class="hex">#4DFFE0</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#00F1C7"></div><span class="shade">400</span><br><span
+            class="hex">#00F1C7</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#00E8BD"></div><span class="shade">500</span><br><span
+            class="hex">#00E8BD</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#00BE9C"></div><span class="shade">600</span><br><span
+            class="hex">#00BE9C</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#009882"></div><span class="shade">700</span><br><span
+            class="hex">#009882</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#007868"></div><span class="shade">800</span><br><span
+            class="hex">#007868</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#006257"></div><span class="shade">900</span><br><span
+            class="hex">#006257</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#003833"></div><span class="shade">950</span><br><span
+            class="hex">#003833</span>
+        </div>
+      </div>
+
+      <!-- Neutral -->
+      <p class="palette-label">Neutral &mdash; Escala de Grises</p>
+      <div class="color-palette">
+        <div class="color-swatch">
+          <div class="box" style="background:#F6F6F6"></div><span class="shade">50</span><br><span
+            class="hex">#F6F6F6</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#E7E7E7"></div><span class="shade">100</span><br><span
+            class="hex">#E7E7E7</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#D1D1D1"></div><span class="shade">200</span><br><span
+            class="hex">#D1D1D1</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#B0B0B0"></div><span class="shade">300</span><br><span
+            class="hex">#B0B0B0</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#888888"></div><span class="shade">400</span><br><span
+            class="hex">#888888</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#6D6D6D"></div><span class="shade">500</span><br><span
+            class="hex">#6D6D6D</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#5D5D5D"></div><span class="shade">600</span><br><span
+            class="hex">#5D5D5D</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#454545; border-color:rgba(255,255,255,.1)"></div><span
+            class="shade">700</span><br><span class="hex">#454545</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#373737; border-color:rgba(255,255,255,.1)"></div><span
+            class="shade">800</span><br><span class="hex">#373737</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#1A1A1A; border-color:rgba(255,255,255,.1)"></div><span
+            class="shade">900</span><br><span class="hex">#1A1A1A</span>
+        </div>
+        <div class="color-swatch">
+          <div class="box" style="background:#000000; border-color:rgba(255,255,255,.1)"></div><span
+            class="shade">950</span><br><span class="hex">#000000</span>
+        </div>
+      </div>
+
+      <!-- Semantic -->
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 0.5rem;">
+        <div>
+          <p class="palette-label">Success &mdash; Verde</p>
+          <div class="color-palette" style="margin-bottom:0">
+            <div class="color-swatch">
+              <div class="box" style="background:#F0FDF0"></div><span class="shade">50</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#4EDA56"></div><span class="shade">400</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#26C130"></div><span class="shade">500</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#187D1F"></div><span class="shade">700</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#062D0A; border-color:rgba(255,255,255,.1)"></div><span
+                class="shade">950</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="palette-label">Warning &mdash; Amarillo</p>
+          <div class="color-palette" style="margin-bottom:0">
+            <div class="color-swatch">
+              <div class="box" style="background:#FEFFE7"></div><span class="shade">50</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#FFEC0D"></div><span class="shade">400</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#FAD900"></div><span class="shade">500</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#A67502"></div><span class="shade">700</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#442704; border-color:rgba(255,255,255,.1)"></div><span
+                class="shade">950</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="palette-label">Error &mdash; Rojo</p>
+          <div class="color-palette" style="margin-bottom:0">
+            <div class="color-swatch">
+              <div class="box" style="background:#FFF1F1"></div><span class="shade">50</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#FE6B6B"></div><span class="shade">400</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#F63D3D"></div><span class="shade">500</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#C01515"></div><span class="shade">700</span>
+            </div>
+            <div class="color-swatch">
+              <div class="box" style="background:#470808; border-color:rgba(255,255,255,.1)"></div><span
+                class="shade">950</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <table class="token-table" style="margin-top: 2rem;">
+        <thead>
+          <tr>
+            <th>Uso Semantico</th>
+            <th>CSS Variable</th>
+            <th>Descripcion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fondo de app</td>
+            <td><code>--ds-color-app-bg</code></td>
+            <td>Fondo principal de la aplicacion</td>
+          </tr>
+          <tr>
+            <td>Superficie</td>
+            <td><code>--ds-color-surface</code></td>
+            <td>Cards, paneles, modals</td>
+          </tr>
+          <tr>
+            <td>Borde</td>
+            <td><code>--ds-color-border</code></td>
+            <td>Separadores, bordes de inputs</td>
+          </tr>
+          <tr>
+            <td>Texto principal</td>
+            <td><code>--ds-color-text</code></td>
+            <td>Texto de lectura general</td>
+          </tr>
+          <tr>
+            <td>Texto atenuado</td>
+            <td><code>--ds-color-text-muted</code></td>
+            <td>Labels secundarios, hints</td>
+          </tr>
+          <tr>
+            <td>Texto de marca</td>
+            <td><code>--ds-color-brand-text</code></td>
+            <td>Enlaces, resaltes de marca</td>
+          </tr>
+          <tr>
+            <td>Hover de menu</td>
+            <td><code>--ds-color-menu-hover</code></td>
+            <td>Estado hover en items de navegacion</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     5. TIPOGRAFIA
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="tipografia">
+      <span class="section-label">Tokens</span>
+      <h2 class="section-title">Tipografia</h2>
+      <p class="section-desc">Familia tipografica <strong>Museo Sans</strong> con escala responsiva que se adapta
+        automaticamente entre Desktop, Tablet y Mobile.</p>
+
+      <div class="type-scale">
+        <div class="type-row">
+          <span class="type-label">H1</span>
+          <span class="type-size">4rem / 4rem</span>
+          <span class="type-preview" style="font-size:2.2rem;font-weight:700;">Sistema de Diseno</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">H2</span>
+          <span class="type-size">3rem / 3rem</span>
+          <span class="type-preview" style="font-size:1.8rem;font-weight:700;">Componentes UI</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">H3</span>
+          <span class="type-size">2.5rem / 2.5rem</span>
+          <span class="type-preview" style="font-size:1.5rem;font-weight:700;">Paleta de Colores</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">H4</span>
+          <span class="type-size">2rem / 2rem</span>
+          <span class="type-preview" style="font-size:1.3rem;font-weight:600;">Tokens de Espaciado</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">H5</span>
+          <span class="type-size">1.5rem / 1.5rem</span>
+          <span class="type-preview" style="font-size:1.1rem;font-weight:600;">Detalle del Vehiculo</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">H6</span>
+          <span class="type-size">1.25rem / 1.25rem</span>
+          <span class="type-preview" style="font-size:1rem;font-weight:600;">Estado de Conexion</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Body LG</span>
+          <span class="type-size">1.25rem / 1.25rem</span>
+          <span class="type-preview" style="font-size:1rem;">Texto de lectura principal en secciones destacadas.</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Body</span>
+          <span class="type-size">1rem / 1rem</span>
+          <span class="type-preview" style="font-size:.9rem;">Parrafos, descripciones y contenido general del
+            sistema.</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Body SM</span>
+          <span class="type-size">0.75rem / 0.75rem</span>
+          <span class="type-preview" style="font-size:.78rem; color: var(--neutral-500);">Labels, captions, timestamps,
+            metadata.</span>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top: 2rem;">
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">Pesos Tipograficos</h3>
+          <table class="token-table">
+            <tr>
+              <td style="font-weight:100;">Light</td>
+              <td><code>100</code></td>
+              <td style="font-weight:100;">Subtitulos decorativos</td>
+            </tr>
+            <tr>
+              <td style="font-weight:300;">Regular</td>
+              <td><code>300</code></td>
+              <td style="font-weight:300;">Cuerpo de texto general</td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">Semibold</td>
+              <td><code>500</code></td>
+              <td style="font-weight:500;">Labels, encabezados de card</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">Bold</td>
+              <td><code>700</code></td>
+              <td style="font-weight:700;">Titulos, botones, CTA</td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">Clases CSS Disponibles</h3>
+          <div class="import-block" style="margin:0;">
+            <span class="cmt">&lt;!-- Headings --&gt;</span>
+            &lt;<span class="tag">h1</span> <span class="attr">class</span>=<span class="str">"ds-h1
+              ds-font-bold"</span>&gt;...&lt;/<span class="tag">h1</span>&gt;
+            &lt;<span class="tag">h2</span> <span class="attr">class</span>=<span class="str">"ds-h2
+              ds-font-bold"</span>&gt;...&lt;/<span class="tag">h2</span>&gt;
+
+            <span class="cmt">&lt;!-- Body --&gt;</span>
+            &lt;<span class="tag">p</span> <span class="attr">class</span>=<span
+              class="str">"ds-body"</span>&gt;...&lt;/<span class="tag">p</span>&gt;
+            &lt;<span class="tag">span</span> <span class="attr">class</span>=<span class="str">"ds-body-sm
+              ds-font-semibold"</span>&gt;...&lt;/<span class="tag">span</span>&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     SPACING, RADIUS, SHADOWS
+     ═══════════════════════════════════════════════════ -->
+    <section class="section">
+      <span class="section-label">Tokens</span>
+      <h2 class="section-title">Espaciado, Bordes y Elevacion</h2>
+
+      <h3 style="font-size: 1rem; margin-bottom: 1rem;">Escala de Espaciado (base: 0.25rem)</h3>
+      <div class="spacing-demo">
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:0.25rem;"></div><span class="spacing-label">1 &middot; 0.25rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:0.5rem;"></div><span class="spacing-label">2 &middot; 0.5rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:0.75rem;"></div><span class="spacing-label">3 &middot; 0.75rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:1rem;"></div><span class="spacing-label">4 &middot; 1rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:1.25rem;"></div><span class="spacing-label">5 &middot; 1.25rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:1.5rem;"></div><span class="spacing-label">6 &middot; 1.5rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:1.75rem;"></div><span class="spacing-label">7 &middot; 1.75rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:2rem;"></div><span class="spacing-label">8 &middot; 2rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:2.5rem;"></div><span class="spacing-label">10 &middot; 2.5rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:3rem;"></div><span class="spacing-label">12 &middot; 3rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:4rem;"></div><span class="spacing-label">16 &middot; 4rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:5rem;"></div><span class="spacing-label">20 &middot; 5rem</span>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-bar" style="height:6.25rem;"></div><span class="spacing-label">30 &middot; 7.5rem</span>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top: 2.5rem;">
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 1rem;">Border Radius</h3>
+          <div class="radius-grid">
+            <div class="radius-box" style="border-radius:0.125rem;"><strong>xxs</strong><span
+                class="r-label">0.125rem</span></div>
+            <div class="radius-box" style="border-radius:0.25rem;"><strong>xs</strong><span
+                class="r-label">0.25rem</span></div>
+            <div class="radius-box" style="border-radius:0.5rem;"><strong>sm</strong><span class="r-label">0.5rem</span>
+            </div>
+            <div class="radius-box" style="border-radius:0.75rem;"><strong>md</strong><span
+                class="r-label">0.75rem</span></div>
+            <div class="radius-box" style="border-radius:1rem;"><strong>lg</strong><span class="r-label">1rem</span>
+            </div>
+            <div class="radius-box" style="border-radius:1.25rem;"><strong>xl</strong><span
+                class="r-label">1.25rem</span></div>
+            <div class="radius-box" style="border-radius:7.5rem;width:5rem;"><strong>full</strong><span
+                class="r-label">7.5rem</span></div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 1rem;">Elevacion / Sombras</h3>
+          <div class="shadow-grid">
+            <div class="shadow-box" style="box-shadow:0 0.125rem 0.25rem 0 rgba(93,93,93,.16);">xs</div>
+            <div class="shadow-box"
+              style="box-shadow:0 1rem 2rem -0.25rem rgba(26,26,26,.10),0 0.125rem 0.25rem rgba(26,26,26,.04);">sm</div>
+            <div class="shadow-box"
+              style="box-shadow:0 1.5rem 3rem -0.5rem rgba(26,26,26,.12),0 0.125rem 0.25rem rgba(26,26,26,.04);">md
+            </div>
+            <div class="shadow-box"
+              style="box-shadow:0 2.5rem 5rem -1rem rgba(26,26,26,.16),0 0.125rem 0.25rem rgba(26,26,26,.04);">lg</div>
+            <div class="shadow-box"
+              style="box-shadow:0 3.5rem 7rem -1.25rem rgba(26,26,26,.18),0 0.125rem 0.25rem rgba(26,26,26,.04);">xl
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     6. COMPONENTES
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="componentes">
+      <span class="section-label">Catalogo</span>
+      <h2 class="section-title">Componentes del Sistema</h2>
+      <p class="section-desc">Mas de 60 componentes React con tipado TypeScript, estilos co-localizados y soporte de
+        temas. Aqui se muestran los mas representativos de cada nivel atomico.</p>
+
+      <!-- Button -->
+      <div class="component-showcase">
+        <div class="showcase-header">
+          <h4>Button</h4>
+          <span class="tag">Atomo</span>
+        </div>
+        <div class="showcase-preview">
+          <button class="sim-btn principal">Principal</button>
+          <button class="sim-btn secundario">Secundario</button>
+          <button class="sim-btn ghost">Ghost</button>
+          <button class="sim-btn link">Link</button>
+          <span style="color:var(--neutral-300);">|</span>
+          <button class="sim-btn principal sm">Small</button>
+          <button class="sim-btn principal">Medium</button>
+          <button class="sim-btn principal lg">Large</button>
+        </div>
+        <div class="showcase-code">
+          <span class="kw">import</span> { <span class="comp">Button</span> } <span class="kw">from</span> <span
+            class="str">'@/lib/design-system'</span>;
+
+          &lt;<span class="comp">Button</span> <span class="attr">variant</span>=<span class="str">"principal"</span>
+          <span class="attr">size</span>=<span class="str">"md"</span>&gt;Guardar&lt;/<span
+            class="comp">Button</span>&gt;
+          &lt;<span class="comp">Button</span> <span class="attr">variant</span>=<span
+            class="str">"secundario"</span>&gt;Cancelar&lt;/<span class="comp">Button</span>&gt;
+          &lt;<span class="comp">Button</span> <span class="attr">variant</span>=<span class="str">"ghost"</span> <span
+            class="attr">size</span>=<span class="str">"sm"</span>&gt;Mas opciones&lt;/<span
+            class="comp">Button</span>&gt;
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="component-showcase">
+        <div class="showcase-header">
+          <h4>Input / TextArea</h4>
+          <span class="tag">Atomo</span>
+        </div>
+        <div class="showcase-preview">
+          <input class="sim-input" placeholder="Buscar vehiculo..." />
+          <input class="sim-input error" value="email invalido" />
+          <input class="sim-input" style="border-color:var(--success-500);" value="Correcto" />
+        </div>
+        <div class="showcase-code">
+          <span class="kw">import</span> { <span class="comp">Input</span> } <span class="kw">from</span> <span
+            class="str">'@/lib/design-system'</span>;
+
+          &lt;<span class="comp">Input</span> <span class="attr">placeholder</span>=<span class="str">"Buscar
+            vehiculo..."</span> /&gt;
+          &lt;<span class="comp">Input</span> <span class="attr">status</span>=<span class="str">"error"</span> <span
+            class="attr">value</span>=<span class="str">"email invalido"</span> /&gt;
+        </div>
+      </div>
+
+      <!-- Badge, Avatar, Checkbox, Switch -->
+      <div class="component-showcase">
+        <div class="showcase-header">
+          <h4>Badge, Avatar, Checkbox, Switch</h4>
+          <span class="tag">Atomos</span>
+        </div>
+        <div class="showcase-preview">
+          <span class="sim-badge brand">Activo</span>
+          <span class="sim-badge success">En linea</span>
+          <span class="sim-badge error">Alerta</span>
+          <span class="sim-badge warning">Pendiente</span>
+          <span class="sim-badge neutral">Inactivo</span>
+          <span style="color:var(--neutral-300);">|</span>
+          <span class="sim-avatar sm">CS</span>
+          <span class="sim-avatar">JR</span>
+          <span class="sim-avatar lg">MA</span>
+          <span style="color:var(--neutral-300);">|</span>
+          <span class="sim-checkbox checked">&#10003;</span>
+          <span class="sim-checkbox"></span>
+          <span style="color:var(--neutral-300);">|</span>
+          <span class="sim-switch on"></span>
+          <span class="sim-switch"></span>
+        </div>
+        <div class="showcase-code">
+          &lt;<span class="comp">Badge</span> <span class="attr">color</span>=<span
+            class="str">"brand"</span>&gt;Activo&lt;/<span class="comp">Badge</span>&gt;
+          &lt;<span class="comp">Avatar</span> <span class="attr">size</span>=<span class="str">"md"</span> <span
+            class="attr">initials</span>=<span class="str">"JR"</span> /&gt;
+          &lt;<span class="comp">Checkbox</span> <span class="attr">checked</span> /&gt;
+          &lt;<span class="comp">Switch</span> <span class="attr">checked</span> /&gt;
+        </div>
+      </div>
+
+      <!-- Alert -->
+      <div class="component-showcase">
+        <div class="showcase-header">
+          <h4>Alert</h4>
+          <span class="tag">Organismo</span>
+        </div>
+        <div class="showcase-preview" style="flex-direction:column; align-items:stretch;">
+          <div class="sim-alert success">&#10003; Geocerca creada exitosamente.</div>
+          <div class="sim-alert error">&#10007; Error al conectar con el servidor.</div>
+          <div class="sim-alert warning">&#9888; La velocidad excede el limite configurado.</div>
+          <div class="sim-alert brand">&#9432; Nuevo reporte disponible para descarga.</div>
+        </div>
+        <div class="showcase-code">
+          &lt;<span class="comp">Alert</span> <span class="attr">color</span>=<span
+            class="str">"success"</span>&gt;Geocerca creada exitosamente.&lt;/<span class="comp">Alert</span>&gt;
+          &lt;<span class="comp">Alert</span> <span class="attr">color</span>=<span class="str">"error"</span>&gt;Error
+          al conectar con el servidor.&lt;/<span class="comp">Alert</span>&gt;
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="component-showcase">
+        <div class="showcase-header">
+          <h4>Tab</h4>
+          <span class="tag">Molecula</span>
+        </div>
+        <div class="showcase-preview" style="flex-direction:column; align-items:stretch;">
+          <div class="sim-tab-bar">
+            <span class="sim-tab active">General</span>
+            <span class="sim-tab">Ubicacion</span>
+            <span class="sim-tab">Historial</span>
+            <span class="sim-tab">Comandos</span>
+          </div>
+        </div>
+        <div class="showcase-code">
+          &lt;<span class="comp">Tab</span> <span class="attr">state</span>=<span
+            class="str">"active"</span>&gt;General&lt;/<span class="comp">Tab</span>&gt;
+          &lt;<span class="comp">Tab</span> <span class="attr">state</span>=<span
+            class="str">"default"</span>&gt;Ubicacion&lt;/<span class="comp">Tab</span>&gt;
+        </div>
+      </div>
+
+      <!-- KPI Card & Tooltip -->
+      <div class="component-showcase">
+        <div class="showcase-header">
+          <h4>KpiCard + Tooltip</h4>
+          <span class="tag">Molecula</span>
+        </div>
+        <div class="showcase-preview">
+          <div class="sim-card">
+            <div class="card-title">Vehiculos Activos</div>
+            <div class="card-value">1,247</div>
+            <div class="card-trend">&#9650; 12.5%</div>
+          </div>
+          <div class="sim-card">
+            <div class="card-title">Alertas Hoy</div>
+            <div class="card-value" style="color:var(--error-500);">38</div>
+            <div class="card-trend" style="color:var(--error-500);">&#9660; 5.2%</div>
+          </div>
+          <div class="sim-card">
+            <div class="card-title">Km Recorridos</div>
+            <div class="card-value">89.4K</div>
+            <div class="card-trend">&#9650; 3.1%</div>
+          </div>
+          <div style="padding-top: 0.5rem;">
+            <div class="sim-tooltip">1,247 vehiculos conectados</div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          &lt;<span class="comp">KpiCard</span> <span class="attr">title</span>=<span class="str">"Vehiculos
+            Activos"</span> <span class="attr">value</span>=<span class="str">"1,247"</span> <span
+            class="attr">trend</span>={{ <span class="attr">value</span>: 12.5, <span class="attr">direction</span>:
+          <span class="str">"up"</span> }} /&gt;
+          &lt;<span class="comp">Tooltip</span> <span class="attr">content</span>=<span class="str">"1,247 vehiculos
+            conectados"</span>&gt;...&lt;/<span class="comp">Tooltip</span>&gt;
+        </div>
+      </div>
+
+      <!-- Full Component List -->
+      <h3 style="font-size: 1.1rem; margin: 2.5rem 0 1.25rem;">Catalogo Completo de Componentes</h3>
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+        <div>
+          <p class="palette-label" style="margin-bottom:0.75rem;">Atomos (7)</p>
+          <div style="display:flex; flex-direction:column; gap:0.25rem;">
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Button</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Input / TextArea</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Badge</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Checkbox</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Switch</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Avatar</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Icon</code>
+          </div>
+        </div>
+        <div>
+          <p class="palette-label" style="margin-bottom:0.75rem;">Moleculas (20)</p>
+          <div style="display:flex; flex-direction:column; gap:0.25rem;">
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Tooltip</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">DropdownItem</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">MenuItem</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Tab / Step</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">ProfileCard</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Accordion</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">CardKit</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">FilterBar</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">SummaryTile</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">DataTable</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">KpiCard</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">VehicleCard</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">SpeedCard</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">GeozonaCard</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">CommandCard</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">CarCard</code>
+          </div>
+        </div>
+        <div>
+          <p class="palette-label" style="margin-bottom:0.75rem;">Organismos (14)</p>
+          <div style="display:flex; flex-direction:column; gap:0.25rem;">
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Alert</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Modal</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Select / MultiSelect</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Pagination</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">NavBar / NavBottom</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Sidebar</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Dropdown</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">TableRow</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Uploader</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Calendar</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">TimePicker</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">Notification</code>
+          </div>
+        </div>
+        <div>
+          <p class="palette-label" style="margin-bottom:0.75rem;">Templates (6)</p>
+          <div style="display:flex; flex-direction:column; gap:0.25rem;">
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">AppShell</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">MapLayout</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">FormLayout</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">TableLayout</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">ModuleShell</code>
+            <code
+              style="font-size:.78rem; padding:0.25rem 0.5rem; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.25rem;">VehicleInfo</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     7. TEMAS
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="temas">
+      <span class="section-label">Apariencia</span>
+      <h2 class="section-title">Soporte de Temas: Light & Dark</h2>
+      <p class="section-desc">El sistema soporta dos temas nativos. Los tokens semanticos se adaptan automaticamente,
+        asi que los componentes no necesitan logica condicional.</p>
+
+      <div class="two-col">
+        <div>
+          <h3 style="font-size: .9rem; margin-bottom: 0.75rem; color: var(--neutral-600);">&#9728; Light Mode</h3>
+          <div class="showcase-preview" style="border-radius:0.75rem; border:0.0625rem solid var(--neutral-200);">
+            <button class="sim-btn principal">Accion</button>
+            <span class="sim-badge brand">Activo</span>
+            <input class="sim-input" value="Buscar..." style="width:10rem;" />
+            <span class="sim-avatar">SM</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size: .9rem; margin-bottom: 0.75rem; color: var(--neutral-600);">&#9790; Dark Mode</h3>
+          <div class="dark-preview">
+            <button class="sim-btn principal">Accion</button>
+            <span class="sim-badge brand">Activo</span>
+            <input class="sim-input" value="Buscar..." style="width:10rem;" />
+            <span class="sim-avatar">SM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="import-block" style="margin-top: 1.5rem;">
+        <span class="cmt">/* Activar tema via atributo HTML */</span>
+        &lt;<span class="tag">div</span> <span class="attr">data-theme</span>=<span
+          class="str">"light"</span>&gt;...&lt;/<span class="tag">div</span>&gt;
+        &lt;<span class="tag">div</span> <span class="attr">data-theme</span>=<span
+          class="str">"dark"</span>&gt;...&lt;/<span class="tag">div</span>&gt;
+
+        <span class="cmt">/* O via clase CSS */</span>
+        &lt;<span class="tag">div</span> <span class="attr">class</span>=<span
+          class="str">"ds-theme-light"</span>&gt;...&lt;/<span class="tag">div</span>&gt;
+        &lt;<span class="tag">div</span> <span class="attr">class</span>=<span
+          class="str">"ds-theme-dark"</span>&gt;...&lt;/<span class="tag">div</span>&gt;
+
+        <span class="cmt">/* Componente para toggle */</span>
+        <span class="kw">import</span> { <span class="comp">ThemeToggle</span> } <span class="kw">from</span> <span
+          class="str">'@/lib/design-system'</span>;
+        &lt;<span class="comp">ThemeToggle</span> <span class="attr">mode</span>=<span class="str">"light"</span> <span
+          class="attr">onChange</span>={handleThemeChange} /&gt;
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     7.6 RESPONSIVIDAD
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="responsividad">
+      <span class="section-label">Adaptabilidad</span>
+      <h2 class="section-title">Diseno Responsivo</h2>
+      <p class="section-desc">
+        El sistema esta construido con un enfoque <strong>mobile-first</strong> y se adapta a 4 puntos de quiebre
+        definidos en los tokens. La tipografia, los layouts y los componentes se ajustan automaticamente.
+      </p>
+
+      <!-- Breakpoints visual -->
+      <h3 style="font-size: 1rem; margin-bottom: 1.25rem;">Breakpoints del Sistema</h3>
+      <div style="display:flex; gap:0; margin-bottom:2rem; overflow-x:auto;">
+        <!-- Mobile -->
+        <div
+          style="flex:0 0 5rem;background:var(--error-500);color:white;padding:1rem 0.75rem;border-radius:0.75rem 0 0 0.75rem;text-align:center;position:relative;">
+          <div style="font-size:1.5rem;font-weight:700;">SM</div>
+          <div style="font-size:.65rem;font-weight:600;margin-top:0.125rem;">Mobile</div>
+          <div style="font-family:monospace;font-size:.6rem;margin-top:0.375rem;opacity:.8;">20rem</div>
+          <div style="font-size:1.2rem;margin-top:0.25rem;">&#128241;</div>
+        </div>
+        <!-- Tablet -->
+        <div
+          style="flex:0 0 8.75rem;background:var(--warning-500);color:var(--neutral-900);padding:1rem 0.75rem;text-align:center;">
+          <div style="font-size:1.5rem;font-weight:700;">MD</div>
+          <div style="font-size:.65rem;font-weight:600;margin-top:0.125rem;">Tablet</div>
+          <div style="font-family:monospace;font-size:.6rem;margin-top:0.375rem;opacity:.7;">48rem</div>
+          <div style="font-size:1.2rem;margin-top:0.25rem;">&#128221;</div>
+        </div>
+        <!-- Desktop -->
+        <div
+          style="flex:0 0 12.5rem;background:var(--brand-400);color:var(--brand-950);padding:1rem 0.75rem;text-align:center;">
+          <div style="font-size:1.5rem;font-weight:700;">LG</div>
+          <div style="font-size:.65rem;font-weight:600;margin-top:0.125rem;">Desktop</div>
+          <div style="font-family:monospace;font-size:.6rem;margin-top:0.375rem;opacity:.7;">80rem</div>
+          <div style="font-size:1.2rem;margin-top:0.25rem;">&#128187;</div>
+        </div>
+        <!-- Desktop XL -->
+        <div
+          style="flex:1;min-width:7.5rem;background:var(--brand-700);color:white;padding:1rem 0.75rem;border-radius:0 0.75rem 0.75rem 0;text-align:center;">
+          <div style="font-size:1.5rem;font-weight:700;">XL</div>
+          <div style="font-size:.65rem;font-weight:600;margin-top:0.125rem;">Desktop XL</div>
+          <div style="font-family:monospace;font-size:.6rem;margin-top:0.375rem;opacity:.8;">90rem</div>
+          <div style="font-size:1.2rem;margin-top:0.25rem;">&#128421;</div>
+        </div>
+      </div>
+
+      <!-- Typography responsive table -->
+      <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">Escala Tipografica por Breakpoint</h3>
+      <p style="font-size:.85rem; color:var(--neutral-500); margin-bottom:1rem;">Los CSS Custom Properties de tipografia
+        se redefinen automaticamente en cada breakpoint mediante media queries. No requiere logica adicional del
+        desarrollador.</p>
+      <table class="token-table" style="margin-bottom:2rem;">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th style="text-align:center;">&#128241; Mobile<br><span style="font-weight:400;text-transform:none;">&lt;
+                48rem</span></th>
+            <th style="text-align:center;">&#128221; Tablet<br><span style="font-weight:400;text-transform:none;">768 –
+                79.9375rem</span></th>
+            <th style="text-align:center;">&#128187; Desktop<br><span style="font-weight:400;text-transform:none;">&ge;
+                80rem</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--text-h1-size</code></td>
+            <td style="text-align:center;">2.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(2.25rem)</span></td>
+            <td style="text-align:center;">3.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(3.25rem)</span></td>
+            <td style="text-align:center;font-weight:600;">4rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(4rem)</span></td>
+          </tr>
+          <tr>
+            <td><code>--text-h2-size</code></td>
+            <td style="text-align:center;">2rem <span style="color:var(--neutral-400);font-size:.75rem;">(2rem)</span>
+            </td>
+            <td style="text-align:center;">2.75rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(2.75rem)</span></td>
+            <td style="text-align:center;font-weight:600;">3rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(3rem)</span></td>
+          </tr>
+          <tr>
+            <td><code>--text-h3-size</code></td>
+            <td style="text-align:center;">2.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(2.25rem)</span></td>
+            <td style="text-align:center;">2.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(2.25rem)</span></td>
+            <td style="text-align:center;font-weight:600;">2.5rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(2.5rem)</span></td>
+          </tr>
+          <tr>
+            <td><code>--text-h4-size</code></td>
+            <td style="text-align:center;">1.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(1.25rem)</span></td>
+            <td style="text-align:center;">2rem <span style="color:var(--neutral-400);font-size:.75rem;">(2rem)</span>
+            </td>
+            <td style="text-align:center;font-weight:600;">2rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(2rem)</span></td>
+          </tr>
+          <tr>
+            <td><code>--text-h5-size</code></td>
+            <td style="text-align:center;">1.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(1.25rem)</span></td>
+            <td style="text-align:center;">1.75rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(1.75rem)</span></td>
+            <td style="text-align:center;font-weight:600;">1.5rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(1.5rem)</span></td>
+          </tr>
+          <tr>
+            <td><code>--text-body-lg-size</code></td>
+            <td style="text-align:center;">1rem <span style="color:var(--neutral-400);font-size:.75rem;">(1rem)</span>
+            </td>
+            <td style="text-align:center;">1.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(1.25rem)</span></td>
+            <td style="text-align:center;font-weight:600;">1.25rem <span
+                style="color:var(--neutral-400);font-size:.75rem;">(1.25rem)</span></td>
+          </tr>
+          <tr>
+            <td><code>--text-body-size</code></td>
+            <td style="text-align:center;" colspan="3">1rem (1rem) &mdash; igual en todos los breakpoints</td>
+          </tr>
+          <tr>
+            <td><code>--text-body-sm-size</code></td>
+            <td style="text-align:center;" colspan="3">0.75rem (0.75rem) &mdash; igual en todos los breakpoints</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Layout Adaptation -->
+      <h3 style="font-size: 1rem; margin-bottom: 1rem;">Adaptacion de Layouts</h3>
+      <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <!-- Mobile -->
+        <div class="card" style="border-top:0.1875rem solid var(--error-500);">
+          <h3 style="font-size:.85rem;">&#128241; Mobile (&lt; 48rem)</h3>
+          <div
+            style="margin:1rem 0; background:var(--neutral-50); border:0.0625rem solid var(--neutral-200); border-radius:0.5rem; padding:0.5rem; min-height:10rem;">
+            <!-- Sim mobile layout -->
+            <div style="display:flex;flex-direction:column;gap:0.375rem;height:9.375rem;">
+              <!-- Topbar -->
+              <div
+                style="background:var(--neutral-900);border-radius:0.25rem;padding:0.375rem 0.5rem;display:flex;align-items:center;justify-content:space-between;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+                <span style="font-size:.5rem;color:white;font-weight:600;">Simon</span>
+                <div style="width:0.875rem;height:0.875rem;border-radius:50%;background:var(--brand-400);"></div>
+              </div>
+              <!-- Content stacked -->
+              <div
+                style="flex:1;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:0.25rem;position:relative;">
+                <div
+                  style="position:absolute;top:0.25rem;left:0.25rem;right:0.25rem;background:white;border-radius:0.1875rem;padding:0.25rem;font-size:.4rem;color:var(--neutral-500);box-shadow:0 0.0625rem 0.1875rem rgba(0,0,0,.1);">
+                  Panel apilado abajo</div>
+              </div>
+              <!-- Bottom nav -->
+              <div
+                style="background:white;border:0.0625rem solid var(--neutral-200);border-radius:0.25rem;padding:0.25rem;display:flex;justify-content:space-around;">
+                <div style="width:0.375rem;height:0.375rem;border-radius:50%;background:var(--brand-400);"></div>
+                <div style="width:0.375rem;height:0.375rem;border-radius:50%;background:var(--neutral-300);"></div>
+                <div style="width:0.375rem;height:0.375rem;border-radius:50%;background:var(--neutral-300);"></div>
+              </div>
+            </div>
+          </div>
+          <ul
+            style="font-size:.78rem; color:var(--neutral-600); list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li>&bull; Sidebar se oculta &rarr; drawer deslizable</li>
+            <li>&bull; <code>NavBottom</code> reemplaza navbar lateral</li>
+            <li>&bull; MapLayout apila panel debajo del mapa</li>
+            <li>&bull; Grids colapsan a 1 columna</li>
+          </ul>
+        </div>
+        <!-- Tablet -->
+        <div class="card" style="border-top:0.1875rem solid var(--warning-500);">
+          <h3 style="font-size:.85rem;">&#128221; Tablet (768 – 79.9375rem)</h3>
+          <div
+            style="margin:1rem 0; background:var(--neutral-50); border:0.0625rem solid var(--neutral-200); border-radius:0.5rem; padding:0.5rem; min-height:10rem;">
+            <div style="display:flex;gap:0.25rem;height:9.375rem;">
+              <!-- Collapsed sidebar -->
+              <div
+                style="width:1.75rem;background:var(--neutral-900);border-radius:0.25rem;display:flex;flex-direction:column;align-items:center;padding-top:0.375rem;gap:0.375rem;">
+                <div style="width:0.875rem;height:0.875rem;border-radius:0.1875rem;background:var(--brand-400);"></div>
+                <div style="width:0.625rem;height:0.625rem;border-radius:0.125rem;background:var(--neutral-700);"></div>
+                <div style="width:0.625rem;height:0.625rem;border-radius:0.125rem;background:var(--neutral-700);"></div>
+              </div>
+              <!-- Main -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:0.25rem;">
+                <div style="background:var(--neutral-900);border-radius:0.25rem;padding:0.25rem 0.5rem;">
+                  <span style="font-size:.45rem;color:white;font-weight:600;">Geocercas</span>
+                </div>
+                <div style="flex:1;display:flex;gap:0.25rem;">
+                  <div style="flex:1;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:0.25rem;"></div>
+                  <div
+                    style="width:50%;background:white;border:0.0625rem solid var(--neutral-200);border-radius:0.25rem;padding:0.25rem;">
+                    <div
+                      style="background:var(--neutral-50);border-radius:0.125rem;height:1.125rem;margin-bottom:0.1875rem;">
+                    </div>
+                    <div
+                      style="background:var(--neutral-50);border-radius:0.125rem;height:1.125rem;margin-bottom:0.1875rem;">
+                    </div>
+                    <div style="background:var(--neutral-50);border-radius:0.125rem;height:1.125rem;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul
+            style="font-size:.78rem; color:var(--neutral-600); list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li>&bull; Sidebar colapsado (solo iconos)</li>
+            <li>&bull; MapLayout panel con ancho reducido</li>
+            <li>&bull; Tipografia escala intermedia</li>
+            <li>&bull; Grids a 2 columnas</li>
+          </ul>
+        </div>
+        <!-- Desktop -->
+        <div class="card" style="border-top:0.1875rem solid var(--brand-400);">
+          <h3 style="font-size:.85rem;">&#128187; Desktop (&ge; 80rem)</h3>
+          <div
+            style="margin:1rem 0; background:var(--neutral-50); border:0.0625rem solid var(--neutral-200); border-radius:0.5rem; padding:0.5rem; min-height:10rem;">
+            <div style="display:flex;gap:0.25rem;height:9.375rem;">
+              <!-- Full sidebar -->
+              <div
+                style="width:3.25rem;background:var(--neutral-900);border-radius:0.25rem;display:flex;flex-direction:column;align-items:center;padding-top:0.375rem;gap:0.375rem;">
+                <div style="width:0.875rem;height:0.875rem;border-radius:0.1875rem;background:var(--brand-400);"></div>
+                <div style="width:2.25rem;height:0.5rem;border-radius:0.125rem;background:var(--neutral-800);"></div>
+                <div style="width:2.25rem;height:0.5rem;border-radius:0.125rem;background:var(--neutral-700);"></div>
+                <div style="width:2.25rem;height:0.5rem;border-radius:0.125rem;background:var(--neutral-800);"></div>
+              </div>
+              <!-- Main -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:0.25rem;">
+                <div
+                  style="background:var(--neutral-900);border-radius:0.25rem;padding:0.25rem 0.5rem;display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:.45rem;color:white;font-weight:600;">Mapa de Rastreo</span>
+                  <div style="display:flex;gap:0.1875rem;">
+                    <div style="width:1.5rem;height:0.5rem;border-radius:0.125rem;background:var(--brand-400);"></div>
+                    <div style="width:0.875rem;height:0.5rem;border-radius:0.125rem;background:var(--neutral-700);">
+                    </div>
+                  </div>
+                </div>
+                <div style="flex:1;display:flex;gap:0.25rem;">
+                  <div
+                    style="flex:1;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:0.25rem;position:relative;">
+                    <div
+                      style="position:absolute;top:0.375rem;left:0.375rem;background:white;border-radius:0.1875rem;padding:0.125rem 0.375rem;font-size:.35rem;box-shadow:0 0.0625rem 0.1875rem rgba(0,0,0,.1);">
+                      overlay</div>
+                  </div>
+                  <div
+                    style="width:35%;background:white;border:0.0625rem solid var(--neutral-200);border-radius:0.25rem;padding:0.25rem;">
+                    <div
+                      style="background:var(--neutral-50);border-radius:0.125rem;padding:0.1875rem;font-size:.35rem;color:var(--neutral-400);margin-bottom:0.1875rem;">
+                      buscar...</div>
+                    <div
+                      style="background:var(--neutral-50);border-radius:0.125rem;height:1.25rem;margin-bottom:0.1875rem;">
+                    </div>
+                    <div
+                      style="background:var(--neutral-50);border-radius:0.125rem;height:1.25rem;margin-bottom:0.1875rem;">
+                    </div>
+                    <div style="background:var(--neutral-50);border-radius:0.125rem;height:1.25rem;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul
+            style="font-size:.78rem; color:var(--neutral-600); list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li>&bull; Sidebar expandido con labels</li>
+            <li>&bull; MapLayout panel lateral completo</li>
+            <li>&bull; Tipografia a escala maxima</li>
+            <li>&bull; Grids a 3-4 columnas</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <h3 style="font-size: 1rem; margin: 2rem 0 0.75rem;">Como Funciona</h3>
+      <div class="two-col">
+        <div>
+          <div class="callout" style="margin:0;">
+            <strong>Automatico via tokens:</strong> La tipografia usa CSS Custom Properties que se redefinen en cada
+            breakpoint con <code>@media</code>.
+            Al usar clases como <code>ds-h1</code> o variables como <code>var(--text-h1-size)</code>, el tamano se
+            ajusta sin codigo adicional.
+          </div>
+        </div>
+        <div>
+          <div class="callout" style="margin:0;">
+            <strong>Tailwind + componentes:</strong> Los templates (<code>AppShell</code>, <code>MapLayout</code>)
+            manejan el layout responsivo internamente.
+            El sidebar se colapsa, el panel se apila, y <code>NavBottom</code> aparece en mobile &mdash; todo via CSS,
+            sin JavaScript condicional.
+          </div>
+        </div>
+      </div>
+
+      <div class="import-block" style="margin-top: 1.25rem;">
+        <span class="cmt">/* Los breakpoints son tokens CSS accesibles */</span>
+        <span class="kw">@media</span> (min-width: <span class="fn">var</span>(--breakpoint-md)) { <span class="cmt">/*
+          48rem — Tablet */</span> }
+        <span class="kw">@media</span> (min-width: <span class="fn">var</span>(--breakpoint-lg)) { <span class="cmt">/*
+          80rem — Desktop */</span> }
+
+        <span class="cmt">/* En Tailwind CSS, los mismos breakpoints estan disponibles como prefijos */</span>
+        &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"grid grid-cols-1
+          md:grid-cols-2 lg:grid-cols-3"</span>&gt;
+        <span class="cmt">&lt;!-- 1 col en mobile, 2 en tablet, 3 en desktop --&gt;</span>
+        &lt;/<span class="tag">div</span>&gt;
+
+        <span class="cmt">/* En TypeScript, para logica programatica */</span>
+        <span class="kw">import</span> { <span class="comp">breakpoints</span> } <span class="kw">from</span> <span
+          class="str">'@/lib/design-system/tokens'</span>;
+        <span class="kw">const</span> isTablet = window.innerWidth >= parseInt(<span
+          class="comp">breakpoints</span>.md); <span class="cmt">// 768</span>
+      </div>
+
+      <table class="token-table" style="margin-top:1.25rem;">
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th>Mobile</th>
+            <th>Tablet</th>
+            <th>Desktop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;"><code>AppShell</code></td>
+            <td>Sidebar oculto, drawer con <code>ModuleShell</code> menu button</td>
+            <td>Sidebar colapsado (solo iconos)</td>
+            <td>Sidebar expandido con labels</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;"><code>MapLayout</code></td>
+            <td>Mapa fullscreen, panel apilado debajo</td>
+            <td>Mapa + panel lateral angosto</td>
+            <td>Mapa + panel lateral completo (20rem)</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;"><code>FormLayout</code></td>
+            <td>Campos en 1 columna, botones stack</td>
+            <td>Grid de 2 columnas</td>
+            <td>Grid de 2 columnas, max-width centrado</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;"><code>TableLayout</code></td>
+            <td>Tabla con scroll horizontal</td>
+            <td>Tabla completa, filtros inline</td>
+            <td>Tabla completa, filtros + acciones en linea</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;"><code>NavBar</code> / <code>NavBottom</code></td>
+            <td><code>NavBottom</code> fijo abajo (3-5 items)</td>
+            <td><code>NavBar</code> horizontal superior</td>
+            <td><code>NavBar</code> horizontal superior</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     7.5 TEMPLATES / PLANTILLAS
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="plantillas">
+      <span class="section-label">Plantillas</span>
+      <h2 class="section-title">Templates: Layouts de Pagina</h2>
+      <p class="section-desc">Los templates son el cuarto nivel de Atomic Design. Definen la estructura y distribucion
+        de contenido de cada tipo de pagina, listos para recibir datos reales.</p>
+
+      <!-- AppShell -->
+      <div class="component-showcase" style="margin-bottom:1.5rem;">
+        <div class="showcase-header">
+          <h4>AppShell &mdash; Layout Principal</h4>
+          <span class="tag">Template</span>
+        </div>
+        <div class="showcase-preview"
+          style="padding:0; background:var(--neutral-900); min-height:13.75rem; position:relative; overflow:hidden;">
+          <!-- Simulated AppShell -->
+          <div style="display:flex; height:13.75rem; width:100%;">
+            <!-- Sidebar -->
+            <div
+              style="width:3.5rem; background:var(--neutral-950); display:flex; flex-direction:column; align-items:center; padding-top:1rem; gap:1rem; flex-shrink:0;">
+              <svg width="24" height="36" viewBox="0 0 34 52" fill="none">
+                <path
+                  d="M33.6091 26.4892c0-5.4213-2.6265-10.2332-6.6959-13.2486V8.17212C26.6944 5.34115 24.3192 0 16.837 0 9.35479 0 6.97961 5.25293 6.76885 8.02776v5.18874C2.6508 16.232 0 21.0598 0 26.4972c0 1.4837.210764 2.9032.567445 4.2665.05675.2326.11349.4652.178341.6897 0 .0161.00811.0321.01621.0481C2.31843 36.987 6.64725 41.3177 12.1677 42.9136V52l13.2945-10.7705c4.88-2.8951 8.147-8.1801 8.147-14.219 0-.0802-.0162-.1524-.0162-.2326 0-.0962.0162-.1844.0162-.2807v-.008zM12.4514 8.29241c.1054-.818.5999-2.919 4.3856-2.919 3.9721 0 4.4099 2.262 4.5071 3.056v2.109c-1.4267-.393-2.9183-.601-4.4666-.601s-3.0077.201-4.418.57V8.292h-.008zm6.2419 25.848l.2838 4.026h-4.3207l.381-4.018c-3.5344-.802-6.1204-3.889-6.1204-7.651 0-4.314 3.5182-7.795 7.9443-7.795s7.8794 3.481 7.8794 7.795c0 3.745-2.5778 6.833-6.0555 7.643h.008z"
+                  fill="#00F1C7" />
+              </svg>
+              <div
+                style="width:1.75rem;height:1.75rem;border-radius:0.375rem;background:rgba(0,241,199,.12);display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00F1C7" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <div
+                style="width:1.75rem;height:1.75rem;border-radius:0.375rem;display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+                  <polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2" />
+                </svg>
+              </div>
+              <div
+                style="width:1.75rem;height:1.75rem;border-radius:0.375rem;display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                </svg>
+              </div>
+            </div>
+            <!-- Main -->
+            <div style="flex:1; display:flex; flex-direction:column;">
+              <!-- Navbar -->
+              <div
+                style="height:2.75rem; background:var(--neutral-950); border-bottom:0.0625rem solid var(--neutral-800); display:flex; align-items:center; padding:0 1rem; justify-content:space-between;">
+                <span style="color:white; font-size:.75rem; font-weight:600;">Mapa de Rastreo</span>
+                <div style="display:flex;gap:0.5rem;align-items:center;">
+                  <span
+                    style="background:rgba(0,241,199,.12);color:#00F1C7;padding:0.125rem 0.5rem;border-radius:0.75rem;font-size:.6rem;font-weight:600;">1,247
+                    activos</span>
+                  <div
+                    style="width:1.5rem;height:1.5rem;border-radius:50%;background:#00F1C7;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#003833;">
+                    CS</div>
+                </div>
+              </div>
+              <!-- Content -->
+              <div
+                style="flex:1; background:var(--neutral-50); display:flex; align-items:center; justify-content:center;">
+                <span style="color:var(--neutral-400); font-size:.8rem; font-style:italic;">{children} &mdash; Contenido
+                  de la pagina</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <span class="cmt">// AppShell: sidebar + navbar + area de contenido</span>
+          <span class="kw">import</span> { <span class="comp">AppShell</span>, <span class="comp">Sidebar</span>, <span
+            class="comp">NavBar</span> } <span class="kw">from</span> <span class="str">'@/lib/design-system'</span>;
+
+          &lt;<span class="comp">AppShell</span>
+          <span class="attr">sidebar</span>={&lt;<span class="comp">Sidebar</span> items={menuItems} /&gt;}
+          <span class="attr">navbar</span>={&lt;<span class="comp">NavBar</span> title=<span class="str">"Mapa de
+            Rastreo"</span> /&gt;}
+          &gt;
+          {children} <span class="cmt">{/* MapLayout, TableLayout, FormLayout, etc. */}</span>
+          &lt;/<span class="comp">AppShell</span>&gt;
+        </div>
+      </div>
+
+      <!-- MapLayout -->
+      <div class="component-showcase" style="margin-bottom:1.5rem;">
+        <div class="showcase-header">
+          <h4>MapLayout &mdash; Mapa + Panel Lateral</h4>
+          <span class="tag">Template</span>
+        </div>
+        <div class="showcase-preview"
+          style="padding:0; background:var(--neutral-100); min-height:15rem; position:relative; overflow:hidden;">
+          <div style="display:flex; height:15rem; width:100%;">
+            <!-- Map area -->
+            <div
+              style="flex:1; background:linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 40%, #a5d6a7 100%); position:relative; display:flex; align-items:center; justify-content:center;">
+              <!-- Fake map grid -->
+              <div
+                style="position:absolute;inset:0;opacity:.15;background-image:linear-gradient(rgba(0,0,0,.1) 0.0625rem,transparent 0.0625rem),linear-gradient(90deg,rgba(0,0,0,.1) 0.0625rem,transparent 0.0625rem);background-size:2.5rem 2.5rem;">
+              </div>
+              <!-- Fake road -->
+              <div
+                style="position:absolute;top:40%;left:10%;right:20%;height:0.1875rem;background:rgba(0,0,0,.2);transform:rotate(-5deg);border-radius:0.125rem;">
+              </div>
+              <div
+                style="position:absolute;top:20%;left:40%;bottom:20%;width:0.1875rem;background:rgba(0,0,0,.15);transform:rotate(8deg);border-radius:0.125rem;">
+              </div>
+              <!-- Location markers -->
+              <div style="position:absolute;top:30%;left:25%;">
+                <div
+                  style="width:1.5rem;height:1.5rem;border-radius:50%;background:#26C130;border:0.1875rem solid white;box-shadow:0 0.125rem 0.5rem rgba(0,0,0,.2);">
+                </div>
+              </div>
+              <div style="position:absolute;top:55%;left:55%;">
+                <div
+                  style="width:1.5rem;height:1.5rem;border-radius:50%;background:#F63D3D;border:0.1875rem solid white;box-shadow:0 0.125rem 0.5rem rgba(0,0,0,.2);">
+                </div>
+              </div>
+              <div style="position:absolute;top:40%;left:70%;">
+                <div
+                  style="width:1.5rem;height:1.5rem;border-radius:50%;background:#00F1C7;border:0.1875rem solid white;box-shadow:0 0.125rem 0.5rem rgba(0,0,0,.2);">
+                </div>
+              </div>
+              <!-- Overlay badge -->
+              <div
+                style="position:absolute;top:0.75rem;left:0.75rem;background:white;padding:0.25rem 0.75rem;border-radius:0.5rem;font-size:.65rem;font-weight:600;box-shadow:0 0.125rem 0.5rem rgba(0,0,0,.1);color:var(--neutral-700);">
+                {overlay}
+              </div>
+              <span style="color:rgba(0,0,0,.3);font-size:.75rem;font-weight:600;z-index:1;">{map}</span>
+            </div>
+            <!-- Panel -->
+            <div
+              style="width:13.75rem; background:white; border-left:0.0625rem solid var(--neutral-200); display:flex; flex-direction:column; overflow:hidden;">
+              <!-- Panel header -->
+              <div style="padding:0.75rem;border-bottom:0.0625rem solid var(--neutral-100);">
+                <div
+                  style="background:var(--neutral-50);border:0.0625rem solid var(--neutral-200);border-radius:0.375rem;padding:0.375rem 0.625rem;font-size:.65rem;color:var(--neutral-400);">
+                  {panelHeader}</div>
+              </div>
+              <!-- Cards -->
+              <div style="flex:1;padding:0.5rem;display:flex;flex-direction:column;gap:0.5rem;overflow:hidden;">
+                <div
+                  style="background:var(--neutral-50);border:0.0625rem solid var(--neutral-200);border-radius:0.5rem;padding:0.625rem;">
+                  <div style="display:flex;align-items:center;gap:0.375rem;margin-bottom:0.25rem;">
+                    <div style="width:0.5rem;height:0.5rem;border-radius:50%;background:#26C130;"></div>
+                    <span style="font-size:.7rem;font-weight:600;color:var(--neutral-800);">ABC-123</span>
+                  </div>
+                  <span style="font-size:.6rem;color:var(--neutral-500);">Av. Principal #45</span>
+                </div>
+                <div
+                  style="background:var(--neutral-50);border:0.0625rem solid var(--neutral-200);border-radius:0.5rem;padding:0.625rem;">
+                  <div style="display:flex;align-items:center;gap:0.375rem;margin-bottom:0.25rem;">
+                    <div style="width:0.5rem;height:0.5rem;border-radius:50%;background:#F63D3D;"></div>
+                    <span style="font-size:.7rem;font-weight:600;color:var(--neutral-800);">XYZ-789</span>
+                  </div>
+                  <span style="font-size:.6rem;color:var(--neutral-500);">Calle 80 Sur</span>
+                </div>
+                <div
+                  style="background:var(--neutral-50);border:0.0625rem solid var(--neutral-200);border-radius:0.5rem;padding:0.625rem;">
+                  <div style="display:flex;align-items:center;gap:0.375rem;margin-bottom:0.25rem;">
+                    <div style="width:0.5rem;height:0.5rem;border-radius:50%;background:#00F1C7;"></div>
+                    <span style="font-size:.7rem;font-weight:600;color:var(--neutral-800);">DEF-456</span>
+                  </div>
+                  <span style="font-size:.6rem;color:var(--neutral-500);">Zona Industrial</span>
+                </div>
+              </div>
+              <!-- Actions -->
+              <div style="padding:0.5rem;border-top:0.0625rem solid var(--neutral-100);">
+                <div
+                  style="background:var(--brand-400);color:var(--brand-950);text-align:center;padding:0.375rem;border-radius:0.375rem;font-size:.65rem;font-weight:600;">
+                  {actions}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <span class="cmt">// MapLayout: area de mapa + panel lateral con cards</span>
+          <span class="kw">import</span> { <span class="comp">MapLayout</span>, <span class="comp">VehicleCard</span>,
+          <span class="comp">Input</span>, <span class="comp">Button</span> } <span class="kw">from</span> <span
+            class="str">'@/lib/design-system'</span>;
+
+          &lt;<span class="comp">MapLayout</span>
+          <span class="attr">map</span>={&lt;<span class="comp">MapCanvas</span> /&gt;}
+          <span class="attr">overlay</span>={&lt;<span class="comp">StatusCard</span> count={1247} /&gt;}
+          <span class="attr">panelHeader</span>={&lt;<span class="comp">Input</span> placeholder=<span
+            class="str">"Buscar vehiculo..."</span> /&gt;}
+          <span class="attr">cards</span>={vehicles.<span class="fn">map</span>(v =&gt; &lt;<span
+            class="comp">VehicleCard</span> key={v.id} {...v} /&gt;)}
+          <span class="attr">actions</span>={&lt;<span class="comp">Button</span> variant=<span
+            class="str">"principal"</span>&gt;Ver todos&lt;/<span class="comp">Button</span>&gt;}
+          <span class="attr">panelWidth</span>=<span class="str">"20rem"</span>
+          /&gt;
+        </div>
+      </div>
+
+      <!-- FormLayout -->
+      <div class="component-showcase" style="margin-bottom:1.5rem;">
+        <div class="showcase-header">
+          <h4>FormLayout &mdash; Formularios con Breadcrumb</h4>
+          <span class="tag">Template</span>
+        </div>
+        <div class="showcase-preview"
+          style="padding:0; background:var(--neutral-50); min-height:13.75rem; overflow:hidden;">
+          <div
+            style="max-width:100%; background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.75rem; margin:1rem; overflow:hidden;">
+            <!-- Header -->
+            <div
+              style="padding:1rem 1.25rem; border-bottom:0.0625rem solid var(--neutral-100); display:flex; align-items:center; gap:0.625rem;">
+              <div
+                style="width:1.75rem;height:1.75rem;border-radius:0.375rem;border:0.0625rem solid var(--neutral-200);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--neutral-600)"
+                  stroke-width="2">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </div>
+              <div>
+                <div style="font-size:.85rem;font-weight:600;color:var(--neutral-900);">Nueva Geocerca</div>
+                <div style="font-size:.6rem;color:var(--neutral-400);">Geocercas <span
+                    style="margin:0 0.25rem;">/</span> Crear <span style="margin:0 0.25rem;">/</span> <span
+                    style="color:var(--brand-600);">Configurar zona</span></div>
+              </div>
+              <div style="margin-left:auto;">
+                <span
+                  style="background:var(--brand-400);color:var(--brand-950);padding:0.3125rem 0.875rem;border-radius:0.375rem;font-size:.7rem;font-weight:600;">Guardar</span>
+              </div>
+            </div>
+            <!-- Description -->
+            <div
+              style="padding:0.75rem 1.25rem;background:var(--brand-50);border-bottom:0.0625rem solid var(--brand-100);font-size:.72rem;color:var(--brand-800);">
+              Define el nombre, tipo y area de la geocerca para monitorear entradas y salidas de vehiculos.
+            </div>
+            <!-- Form body -->
+            <div style="padding:1rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+              <div>
+                <div style="font-size:.65rem;font-weight:600;color:var(--neutral-500);margin-bottom:0.25rem;">Nombre
+                </div>
+                <div
+                  style="border:0.0625rem solid var(--neutral-200);border-radius:0.375rem;padding:0.4375rem 0.625rem;font-size:.75rem;color:var(--neutral-800);background:white;">
+                  Zona Norte Industrial</div>
+              </div>
+              <div>
+                <div style="font-size:.65rem;font-weight:600;color:var(--neutral-500);margin-bottom:0.25rem;">Tipo</div>
+                <div
+                  style="border:0.0625rem solid var(--neutral-200);border-radius:0.375rem;padding:0.4375rem 0.625rem;font-size:.75rem;color:var(--neutral-800);background:white;display:flex;justify-content:space-between;">
+                  <span>Circular</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--neutral-400)"
+                    stroke-width="2">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:.65rem;font-weight:600;color:var(--neutral-500);margin-bottom:0.25rem;">Radio (m)
+                </div>
+                <div
+                  style="border:0.0625rem solid var(--neutral-200);border-radius:0.375rem;padding:0.4375rem 0.625rem;font-size:.75rem;color:var(--neutral-800);background:white;">
+                  500</div>
+              </div>
+              <div>
+                <div style="font-size:.65rem;font-weight:600;color:var(--neutral-500);margin-bottom:0.25rem;">Color
+                </div>
+                <div
+                  style="border:0.0625rem solid var(--neutral-200);border-radius:0.375rem;padding:0.4375rem 0.625rem;font-size:.75rem;display:flex;align-items:center;gap:0.375rem;background:white;">
+                  <div style="width:0.875rem;height:0.875rem;border-radius:50%;background:#00F1C7;"></div>
+                  <span style="color:var(--neutral-800);">Verde Aguamarina</span>
+                </div>
+              </div>
+            </div>
+            <!-- Footer -->
+            <div
+              style="padding:0.75rem 1.25rem;border-top:0.0625rem solid var(--neutral-100);display:flex;justify-content:flex-end;gap:0.5rem;">
+              <span
+                style="border:0.0625rem solid var(--neutral-300);color:var(--neutral-600);padding:0.3125rem 0.875rem;border-radius:0.375rem;font-size:.7rem;font-weight:500;">Cancelar</span>
+              <span
+                style="background:var(--brand-400);color:var(--brand-950);padding:0.3125rem 0.875rem;border-radius:0.375rem;font-size:.7rem;font-weight:600;">Guardar
+                Geocerca</span>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <span class="cmt">// FormLayout: header con back + breadcrumb, body en grid, footer con acciones</span>
+          <span class="kw">import</span> { <span class="comp">FormLayout</span>, <span class="comp">Input</span>, <span
+            class="comp">Select</span>, <span class="comp">Button</span> } <span class="kw">from</span> <span
+            class="str">'@/lib/design-system'</span>;
+
+          &lt;<span class="comp">FormLayout</span>
+          <span class="attr">title</span>=<span class="str">"Nueva Geocerca"</span>
+          <span class="attr">breadcrumb</span>={[
+          { <span class="attr">label</span>: <span class="str">"Geocercas"</span> },
+          { <span class="attr">label</span>: <span class="str">"Crear"</span> },
+          { <span class="attr">label</span>: <span class="str">"Configurar zona"</span>, <span
+            class="attr">current</span>: <span class="kw">true</span> },
+          ]}
+          <span class="attr">onBack</span>={() =&gt; navigate(-1)}
+          <span class="attr">description</span>=<span class="str">"Define el nombre, tipo y area de la geocerca."</span>
+          <span class="attr">footer</span>={&lt;&gt;
+          &lt;<span class="comp">Button</span> variant=<span class="str">"secundario"</span>&gt;Cancelar&lt;/<span
+            class="comp">Button</span>&gt;
+          &lt;<span class="comp">Button</span> variant=<span class="str">"principal"</span>&gt;Guardar
+          Geocerca&lt;/<span class="comp">Button</span>&gt;
+          &lt;/&gt;}
+          &gt;
+          &lt;<span class="comp">Input</span> label=<span class="str">"Nombre"</span> value=<span class="str">"Zona
+            Norte Industrial"</span> /&gt;
+          &lt;<span class="comp">Select</span> label=<span class="str">"Tipo"</span> options={tiposGeozona} /&gt;
+          &lt;/<span class="comp">FormLayout</span>&gt;
+        </div>
+      </div>
+
+      <!-- TableLayout -->
+      <div class="component-showcase" style="margin-bottom:1.5rem;">
+        <div class="showcase-header">
+          <h4>TableLayout &mdash; Tablas con Filtros y Paginacion</h4>
+          <span class="tag">Template</span>
+        </div>
+        <div class="showcase-preview"
+          style="padding:0; background:var(--neutral-50); min-height:13.75rem; overflow:hidden;">
+          <div
+            style="background:white; border:0.0625rem solid var(--neutral-200); border-radius:0.75rem; margin:1rem; overflow:hidden;">
+            <!-- Header -->
+            <div
+              style="padding:0.875rem 1.25rem; border-bottom:0.0625rem solid var(--neutral-100); display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+              <span style="font-size:.9rem;font-weight:600;color:var(--neutral-900);margin-right:auto;">Alertas de
+                Panico</span>
+              <div
+                style="background:var(--neutral-50);border:0.0625rem solid var(--neutral-200);border-radius:0.375rem;padding:0.375rem 0.625rem;font-size:.65rem;color:var(--neutral-400);width:10rem;">
+                Buscar incidente...</div>
+              <span
+                style="border:0.0625rem solid var(--neutral-200);padding:0.3125rem 0.75rem;border-radius:0.375rem;font-size:.65rem;color:var(--neutral-600);font-weight:500;">Filtros</span>
+              <span
+                style="background:var(--error-500);color:white;padding:0.3125rem 0.75rem;border-radius:0.375rem;font-size:.65rem;font-weight:600;">+
+                Nueva Alerta</span>
+            </div>
+            <!-- Tabs -->
+            <div style="display:flex;border-bottom:0.0625rem solid var(--neutral-100);padding:0 1.25rem;">
+              <span
+                style="padding:0.625rem 1rem;font-size:.7rem;font-weight:600;color:var(--brand-700);border-bottom:0.125rem solid var(--brand-400);margin-bottom:-0.0625rem;">Activas
+                (12)</span>
+              <span style="padding:0.625rem 1rem;font-size:.7rem;color:var(--neutral-400);">Resueltas</span>
+              <span style="padding:0.625rem 1rem;font-size:.7rem;color:var(--neutral-400);">Todas</span>
+            </div>
+            <!-- Table -->
+            <table style="width:100%;font-size:.68rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--neutral-50);">
+                  <th
+                    style="text-align:left;padding:0.5rem 1.25rem;color:var(--neutral-500);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;">
+                    Vehiculo</th>
+                  <th
+                    style="text-align:left;padding:0.5rem 0.75rem;color:var(--neutral-500);font-weight:600;font-size:.6rem;text-transform:uppercase;">
+                    Estado</th>
+                  <th
+                    style="text-align:left;padding:0.5rem 0.75rem;color:var(--neutral-500);font-weight:600;font-size:.6rem;text-transform:uppercase;">
+                    Hora</th>
+                  <th
+                    style="text-align:left;padding:0.5rem 0.75rem;color:var(--neutral-500);font-weight:600;font-size:.6rem;text-transform:uppercase;">
+                    Ubicacion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:0.0625rem solid var(--neutral-100);">
+                  <td style="padding:0.5rem 1.25rem;font-weight:600;color:var(--neutral-800);">ABC-123</td>
+                  <td style="padding:0.5rem 0.75rem;"><span
+                      style="background:#FFF1F1;color:#C01515;padding:0.125rem 0.5rem;border-radius:0.75rem;font-size:.6rem;font-weight:600;">SOS</span>
+                  </td>
+                  <td style="padding:0.5rem 0.75rem;color:var(--neutral-500);">14:32</td>
+                  <td style="padding:0.5rem 0.75rem;color:var(--neutral-500);">Av. Principal</td>
+                </tr>
+                <tr style="border-bottom:0.0625rem solid var(--neutral-100);">
+                  <td style="padding:0.5rem 1.25rem;font-weight:600;color:var(--neutral-800);">XYZ-789</td>
+                  <td style="padding:0.5rem 0.75rem;"><span
+                      style="background:#FEFFE7;color:#A67502;padding:0.125rem 0.5rem;border-radius:0.75rem;font-size:.6rem;font-weight:600;">Pendiente</span>
+                  </td>
+                  <td style="padding:0.5rem 0.75rem;color:var(--neutral-500);">14:15</td>
+                  <td style="padding:0.5rem 0.75rem;color:var(--neutral-500);">Calle 80 Sur</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Footer -->
+            <div
+              style="padding:0.625rem 1.25rem;border-top:0.0625rem solid var(--neutral-100);display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:.6rem;color:var(--neutral-400);">12 resultados</span>
+              <div style="display:flex;gap:0.25rem;">
+                <span
+                  style="padding:0.1875rem 0.5rem;border:0.0625rem solid var(--neutral-200);border-radius:0.25rem;font-size:.6rem;color:var(--neutral-400);">Ant</span>
+                <span
+                  style="padding:0.1875rem 0.5rem;background:var(--brand-400);color:var(--brand-950);border-radius:0.25rem;font-size:.6rem;font-weight:600;">1</span>
+                <span
+                  style="padding:0.1875rem 0.5rem;border:0.0625rem solid var(--neutral-200);border-radius:0.25rem;font-size:.6rem;color:var(--neutral-500);">2</span>
+                <span
+                  style="padding:0.1875rem 0.5rem;border:0.0625rem solid var(--neutral-200);border-radius:0.25rem;font-size:.6rem;color:var(--neutral-400);">Sig</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <span class="cmt">// TableLayout: header + tabs + tabla + paginacion</span>
+          <span class="kw">import</span> { <span class="comp">TableLayout</span>, <span class="comp">DataTable</span>,
+          <span class="comp">Input</span>, <span class="comp">Tab</span>, <span class="comp">Pagination</span> } <span
+            class="kw">from</span> <span class="str">'@/lib/design-system'</span>;
+
+          &lt;<span class="comp">TableLayout</span>
+          <span class="attr">title</span>=<span class="str">"Alertas de Panico"</span>
+          <span class="attr">search</span>={&lt;<span class="comp">Input</span> placeholder=<span class="str">"Buscar
+            incidente..."</span> /&gt;}
+          <span class="attr">headerActions</span>={&lt;<span class="comp">Button</span>&gt;+ Nueva Alerta&lt;/<span
+            class="comp">Button</span>&gt;}
+          <span class="attr">tabs</span>={&lt;&gt;
+          &lt;<span class="comp">Tab</span> state=<span class="str">"active"</span>&gt;Activas (12)&lt;/<span
+            class="comp">Tab</span>&gt;
+          &lt;<span class="comp">Tab</span>&gt;Resueltas&lt;/<span class="comp">Tab</span>&gt;
+          &lt;/&gt;}
+          <span class="attr">rowCount</span>=<span class="str">"12 resultados"</span>
+          <span class="attr">pagination</span>={&lt;<span class="comp">Pagination</span> total={2} current={1} /&gt;}
+          &gt;
+          &lt;<span class="comp">DataTable</span> columns={columns} data={alertas} /&gt;
+          &lt;/<span class="comp">TableLayout</span>&gt;
+        </div>
+      </div>
+
+      <!-- ModuleShell -->
+      <div class="component-showcase">
+        <div class="showcase-header">
+          <h4>ModuleShell &mdash; Wrapper de Modulo con Topbar</h4>
+          <span class="tag">Template</span>
+        </div>
+        <div class="showcase-preview"
+          style="padding:0; background:var(--neutral-900); min-height:8.75rem; overflow:hidden;">
+          <div style="display:flex;flex-direction:column;height:8.75rem;">
+            <!-- Topbar -->
+            <div
+              style="padding:0.875rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:0.0625rem solid var(--neutral-800);">
+              <div>
+                <div style="font-size:.6rem;color:var(--neutral-400);text-transform:uppercase;letter-spacing:.06em;">
+                  Simon Platform</div>
+                <div style="font-size:.95rem;font-weight:700;color:white;">Geocercas</div>
+              </div>
+              <div style="display:flex;gap:0.5rem;">
+                <span
+                  style="background:var(--brand-400);color:var(--brand-950);padding:0.3125rem 0.875rem;border-radius:0.375rem;font-size:.7rem;font-weight:600;">+
+                  Crear zona</span>
+                <span
+                  style="border:0.0625rem solid var(--neutral-700);color:var(--neutral-300);padding:0.3125rem 0.875rem;border-radius:0.375rem;font-size:.7rem;">Exportar</span>
+              </div>
+            </div>
+            <!-- Content placeholder -->
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+              <span style="color:var(--neutral-600);font-size:.75rem;font-style:italic;">{children}</span>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <span class="cmt">// ModuleShell: wrapper con topbar, eyebrow, titulo y acciones</span>
+          <span class="kw">import</span> { <span class="comp">ModuleShell</span>, <span class="comp">Button</span> }
+          <span class="kw">from</span> <span class="str">'@/lib/design-system'</span>;
+
+          &lt;<span class="comp">ModuleShell</span>
+          <span class="attr">eyebrow</span>=<span class="str">"Simon Platform"</span>
+          <span class="attr">title</span>=<span class="str">"Geocercas"</span>
+          <span class="attr">theme</span>=<span class="str">"dark"</span>
+          <span class="attr">actions</span>={&lt;<span class="comp">Button</span> variant=<span
+            class="str">"principal"</span>&gt;+ Crear zona&lt;/<span class="comp">Button</span>&gt;}
+          &gt;
+          {children}
+          &lt;/<span class="comp">ModuleShell</span>&gt;
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 2rem;">
+        <strong>Composicion:</strong> Los templates se combinan jerarquicamente. <code>AppShell</code> es el contenedor
+        raiz. Dentro va un <code>MapLayout</code>,
+        <code>TableLayout</code> o <code>FormLayout</code> segun la pagina. <code>ModuleShell</code> se usa para modulos
+        independientes con micro-frontend.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     8. COMO USAR
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="como-usar">
+      <span class="section-label">Guia Rapida</span>
+      <h2 class="section-title">Como Usar el Sistema de Diseno</h2>
+      <p class="section-desc">Tres pasos para integrar el Design System en cualquier feature o micro-frontend de Simon.
+      </p>
+
+      <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card" style="border-top: 0.1875rem solid var(--brand-400);">
+          <div style="font-size:1.8rem; font-weight:700; color:var(--brand-400); margin-bottom:0.5rem;">01</div>
+          <h3>Importar Tokens</h3>
+          <p>Los tokens CSS se cargan automaticamente via Tailwind. Para uso programatico, importa desde
+            <code>tokens.ts</code>.</p>
+          <div class="import-block" style="margin-top:0.75rem; font-size:.72rem;">
+            <span class="kw">import</span> { <span class="comp">colors</span>, <span class="comp">spacing</span> }
+            <span class="kw">from</span> <span class="str">'@/lib/design-system/tokens'</span>;
+          </div>
+        </div>
+        <div class="card" style="border-top: 0.1875rem solid var(--brand-400);">
+          <div style="font-size:1.8rem; font-weight:700; color:var(--brand-400); margin-bottom:0.5rem;">02</div>
+          <h3>Usar Componentes</h3>
+          <p>Importa los componentes que necesites desde el barrel export del Design System.</p>
+          <div class="import-block" style="margin-top:0.75rem; font-size:.72rem;">
+            <span class="kw">import</span> {
+            <span class="comp">Button</span>, <span class="comp">Input</span>, <span class="comp">Badge</span>,
+            <span class="comp">Modal</span>, <span class="comp">DataTable</span>
+            } <span class="kw">from</span> <span class="str">'@/lib/design-system'</span>;
+          </div>
+        </div>
+        <div class="card" style="border-top: 0.1875rem solid var(--brand-400);">
+          <div style="font-size:1.8rem; font-weight:700; color:var(--brand-400); margin-bottom:0.5rem;">03</div>
+          <h3>Aplicar Layout</h3>
+          <p>Envuelve tu pagina en un template del sistema para obtener layout, navegacion y responsive gratis.</p>
+          <div class="import-block" style="margin-top:0.75rem; font-size:.72rem;">
+            &lt;<span class="comp">AppShell</span>&gt;
+            &lt;<span class="comp">TableLayout</span> <span class="attr">title</span>=<span
+              class="str">"Reportes"</span>&gt;
+            {content}
+            &lt;/<span class="comp">TableLayout</span>&gt;
+            &lt;/<span class="comp">AppShell</span>&gt;
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 1.5rem;">
+        <strong>Regla de oro:</strong> Nunca uses valores hardcodeados para colores, spacing o tipografia. Siempre usa
+        tokens
+        (<code>var(--color-*)</code> en CSS, <code>colors.*</code> en TS). Si el token no existe, propon agregarlo al
+        sistema.
+      </div>
+
+      <h3 style="font-size: 1rem; margin: 2rem 0 1rem;">Estructura de Archivos</h3>
+      <div class="import-block">
+        src/lib/design-system/
+        ├── tokens.css <span class="cmt">← CSS Custom Properties (colores, spacing, sombras, radios)</span>
+        ├── tokens.ts <span class="cmt">← Constantes TypeScript para uso programatico</span>
+        ├── typography.css <span class="cmt">← Escala tipografica + clases utilitarias</span>
+        ├── index.css <span class="cmt">← Punto de entrada CSS del Design System</span>
+        ├── icons/ <span class="cmt">← Sistema de iconos</span>
+        └── components/
+        ├── index.ts <span class="cmt">← Barrel export de todos los componentes</span>
+        ├── Button.tsx <span class="cmt">← Componente + tipos</span>
+        ├── Button.css <span class="cmt">← Estilos co-localizados</span>
+        ├── Input.tsx
+        ├── Modal.tsx
+        ├── AppShell.tsx <span class="cmt">← Template de app principal</span>
+        ├── MapLayout.tsx <span class="cmt">← Template de mapa con sidebar</span>
+        └── ... <span class="cmt">← 60+ componentes mas</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+     9. VISTAS / LINKS
+     ═══════════════════════════════════════════════════ -->
+    <section class="section" id="vistas">
+      <span class="section-label">Navegacion</span>
+      <h2 class="section-title">Vistas Principales de la Plataforma</h2>
+      <p class="section-desc">Los modulos principales de Simon y como el Design System se aplica en cada uno de ellos.
+      </p>
+
+      <div class="link-cards">
+        <a href="src/features/geofences/GeofencesPage.tsx" class="link-card">
+          <div class="link-icon" style="background: #F0FDF0; color: #187D1F;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2" />
+              <line x1="8" y1="2" x2="8" y2="18" />
+              <line x1="16" y1="6" x2="16" y2="22" />
+            </svg>
+          </div>
+          <div>
+            <h4>Geocercas</h4>
+            <p>Gestion de zonas geograficas con MapLayout, GeozonaCard, formularios de creacion y visualizacion en mapa
+              interactivo.</p>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a href="src/features/map/MapPage.tsx" class="link-card">
+          <div class="link-icon" style="background: var(--brand-50); color: var(--brand-600);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <div>
+            <h4>Mapa de Rastreo</h4>
+            <p>Vista principal de rastreo vehicular con MapLibre GL, DevicesSidebar, VehicleCard, LocationMarker y
+              tracking en tiempo real.</p>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a href="src/features/panic/PanicPage.tsx" class="link-card">
+          <div class="link-icon" style="background: #FFF1F1; color: #F63D3D;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </div>
+          <div>
+            <h4>Panico / SOS</h4>
+            <p>Modulo de emergencias con alertas de panico, visualizacion en mapa, gestion de incidentes y
+              notificaciones en tiempo real.</p>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <h3 style="font-size: 1rem; margin: 2.5rem 0 1rem;">Componentes Usados por Vista</h3>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Vista</th>
+            <th>Template</th>
+            <th>Componentes Clave</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600; color:var(--brand-700);">Geocercas</td>
+            <td><code>MapLayout</code> + <code>FormLayout</code></td>
+            <td>GeozonaCard, LocationMarker, Modal, Input, Select, Alert, Button</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600; color:var(--brand-700);">Mapa</td>
+            <td><code>MapLayout</code></td>
+            <td>VehicleCard, SpeedCard, LocationMarker, Sidebar, FilterBar, Badge</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600; color:var(--brand-700);">Panico</td>
+            <td><code>MapLayout</code> + <code>TableLayout</code></td>
+            <td>Alert, CarCard, Badge, LocationMarker, Modal, Notification, DataTable</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <!-- Simon Logo Isologo -->
+      <svg width="34" height="52" viewBox="0 0 34 52" fill="none" style="margin-bottom:0.75rem;">
+        <path
+          d="M33.6091 26.4892c0-5.4213-2.6265-10.2332-6.6959-13.2486V8.17212C26.6944 5.34115 24.3192 0 16.837 0 9.35479 0 6.97961 5.25293 6.76885 8.02776v5.18874C2.6508 16.232 0 21.0598 0 26.4972c0 1.4837.210764 2.9032.567445 4.2665.05675.2326.11349.4652.178341.6897 0 .0161.00811.0321.01621.0481C2.31843 36.987 6.64725 41.3177 12.1677 42.9136V52l13.2945-10.7705c4.88-2.8951 8.147-8.1801 8.147-14.2190 0-.0802-.0162-.1524-.0162-.2326 0-.0962.0162-.1844.0162-.2807v-.008zM12.4514 8.29241c.1054-.8180.5999-2.919 4.3856-2.919 3.9721 0 4.4099 2.262 4.5071 3.056v2.109c-1.4267-.393-2.9183-.601-4.4666-.601s-3.0077.201-4.418.57V8.292h-.008zm6.2419 25.848l.2838 4.026h-4.3207l.381-4.018c-3.5344-.802-6.1204-3.889-6.1204-7.651 0-4.314 3.5182-7.795 7.9443-7.795s7.8794 3.481 7.8794 7.795c0 3.745-2.5778 6.833-6.0555 7.643h.008z"
+          fill="#00F1C7" />
+      </svg>
+    </div>
+    <p><strong style="color:var(--brand-400);">Sistema de Diseno Simon</strong> &mdash; Version 1.0</p>
+    <p style="margin-top:0.25rem;">React 19 &bull; TypeScript &bull; Vite 7 &bull; Tailwind CSS 4 &bull; Atomic Design
+    </p>
+    <p style="margin-top:0.75rem; font-size:.75rem;">Fuente: <a href="src/lib/design-system/">src/lib/design-system/</a>
+      &bull; Figma: Sistema de diseno - SM</p>
+  </footer>
+
+</body>
+
+</html>

@@ -5,9 +5,9 @@ import { type HTMLAttributes, type ReactNode, forwardRef } from "react";
  *
  * Figma specs:
  *   Colors: primary | secondary | success | error | warning
- *   Shape: square (4px radius) | rounded (12px radius)
- *   Padding: 8px horizontal, 4px vertical
- *   Font: Body (16px) semibold
+ *   Shape: square (0.25rem radius) | rounded (0.75rem radius)
+ *   Padding: 0.5rem horizontal, 0.25rem vertical
+ *   Font: Body (1rem) semibold
  * ────────────────────────────────────────────── */
 
 export type BadgeColor =

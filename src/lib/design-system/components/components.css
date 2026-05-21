@@ -9,6 +9,7 @@
 @import "./Input.css";
 @import "./Badge.css";
 @import "./Checkbox.css";
+@import "./Switch.css";
 @import "./Avatar.css";
 
 /* Molecules */
@@ -27,6 +28,17 @@
 @import "./DataTable.css";
 @import "./ThemeToggle.css";
 @import "./AppHeaderActions.css";
+@import "./KpiCard.css";
+@import "./VehicleCard.css";
+@import "./VehicleInfo.css";
+@import "./SpeedCard.css";
+@import "./GeozonaCard.css";
+@import "./GuanteraCard.css";
+@import "./CommandCard.css";
+@import "./CardInfo.css";
+@import "./CarCard.css";
+@import "./CardTipo.css";
+@import "./AsistenciaCard.css";
 
 /* Organisms */
 @import "./Alert.css";

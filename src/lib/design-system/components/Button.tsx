@@ -5,13 +5,13 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
  *
  * Variants from Figma:
  *   Type:  Principal | Secundario | Ghost | Link
- *   Size:  xs (32px) | sm (40px) | md (48px) | lg (60px)
+ *   Size:  xs (2rem) | sm (2.5rem) | md (3rem) | lg (3.75rem)
  *   State: default | hover | active | disabled
  *
  * Principal uses a gradient background (brand-400 → brand-600).
- * Secundario uses a 2px border with transparent fill.
+ * Secundario uses a 0.125rem border with transparent fill.
  * Ghost has no border/background.
- * All use pill shape (border-radius: 120px).
+ * All use pill shape (border-radius: 7.5rem).
  * ────────────────────────────────────────────── */
 
 export type ButtonVariant = "principal" | "secundario" | "ghost" | "link";

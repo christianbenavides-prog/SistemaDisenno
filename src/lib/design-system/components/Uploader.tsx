@@ -10,8 +10,8 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  *   Success: solid border, success-500, check icon
  *   Error: solid border, error-500, X icon
  *   Preview: thumbnail with actions
- *   Border radius: radius-sm (8px)
- *   Padding: 24px
+ *   Border radius: radius-sm (0.5rem)
+ *   Padding: 1.5rem
  * ────────────────────────────────────────────── */
 
 export type UploaderState = "enable" | "loading" | "success" | "error" | "preview";

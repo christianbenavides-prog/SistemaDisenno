@@ -7,9 +7,9 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  *   Types: header | normal | buttons | status | select
  *   Header: neutral-50 bg, semibold, neutral-900
  *   Normal: white bg (odd) / neutral-50 bg (even)
- *   Text: Body (16px) regular, neutral-900
- *   Border-bottom: 1px neutral-200
- *   Padding: 12px 16px
+ *   Text: Body (1rem) regular, neutral-900
+ *   Border-bottom: 0.0625rem neutral-200
+ *   Padding: 0.75rem 1rem
  *   Checkbox: optional left (select type)
  *   Actions: optional right (buttons type)
  *   Status badge: optional (status type)

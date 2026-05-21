@@ -5,9 +5,9 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  *
  * Figma specs:
  *   Mobile bottom tab bar, 4–5 items
- *   Each item: icon (24px) + label (Body SM)
+ *   Each item: icon (1.5rem) + label (Body SM)
  *   Active: brand-400, Inactive: neutral-400
- *   Height: 64px, white bg, border-top neutral-200
+ *   Height: 4rem, white bg, border-top neutral-200
  *   Optional notification badge on icon
  * ────────────────────────────────────────────── */
 

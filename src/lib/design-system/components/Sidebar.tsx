@@ -4,11 +4,11 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — Sidebar (Organism)
  *
  * Figma specs:
- *   Width: 268px (full) / 64px (collapsed)
+ *   Width: 16.75rem (full) / 4rem (collapsed)
  *   Background: white
- *   Border-radius: 16px (radius-lg)
- *   Padding: 24px
- *   Gap: 48px between logo and nav
+ *   Border-radius: 1rem (radius-lg)
+ *   Padding: 1.5rem
+ *   Gap: 3rem between logo and nav
  *   Uses MenuItem molecule for items
  * ────────────────────────────────────────────── */
 

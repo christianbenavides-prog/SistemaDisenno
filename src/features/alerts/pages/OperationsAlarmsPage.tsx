@@ -15,10 +15,7 @@ import {
   type ThemeMode,
 } from "../../../lib/design-system/components";
 import { SimonLogo } from "../../../lib/design-system/components/SimonLogo";
-import {
-  HIST_ALARM_TYPE_OPTS,
-  TIPIFICACION_OPTS,
-} from "../constants/alarmConstants";
+import { TIPIFICACION_OPTS } from "../constants/alarmConstants";
 import {
   type AlarmRow,
   useOperationsAlarmsData,

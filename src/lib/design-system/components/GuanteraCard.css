@@ -4,7 +4,7 @@
  * Figma specs:
  *   Glove compartment / document storage card
  *   Container: white bg, radius-sm, border neutral-200
- *   File icon: 40px, colored based on doc type
+ *   File icon: 2.5rem, colored based on doc type
  *   Title: Body semibold (document name)
  *   Meta: Body SM, neutral-400 (date, size, type)
  *   Status: valid/expired/pending badge
@@ -32,8 +32,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: var(--radius-xs);
     flex-shrink: 0;
     background: var(--color-brand-50);
@@ -84,9 +84,9 @@
   }
 
   .ds-guantera-card__meta-sep {
-    width: 3px;
-    height: 3px;
-    border-radius: 999px;
+    width: 0.1875rem;
+    height: 0.1875rem;
+    border-radius: 62.4375rem;
     background: var(--color-neutral-300);
     flex-shrink: 0;
   }
@@ -102,8 +102,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
     background: transparent;
     border: none;
     border-radius: var(--radius-xs);

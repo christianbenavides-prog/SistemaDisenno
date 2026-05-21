@@ -37,7 +37,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 120px;
+    height: 7.5rem;
     background: var(--color-neutral-50);
     padding: var(--spacing-3);
     position: relative;
@@ -53,10 +53,10 @@
     position: absolute;
     top: var(--spacing-3);
     right: var(--spacing-3);
-    width: 12px;
-    height: 12px;
-    border-radius: 999px;
-    border: 2px solid var(--color-white);
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 62.4375rem;
+    border: 0.125rem solid var(--color-white);
   }
 
   .ds-car-card__status-dot--available { background: var(--color-success-500); }

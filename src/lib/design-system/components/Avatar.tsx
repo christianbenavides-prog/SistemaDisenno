@@ -4,7 +4,7 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — Avatar (Atom)
  *
  * Figma specs:
- *   Sizes: sm=28px | md=40px | lg=64px | xl=88px
+ *   Sizes: sm=1.75rem | md=2.5rem | lg=4rem | xl=5.5rem
  *   Styles: photo | initials | icon
  *   Status: none | disponible (brand-400) | ocupado (error-400) | inactivo (warning-500)
  *   Shape: circle (radius-full)

@@ -2,11 +2,11 @@
  * Design System SM — Stepper / Step Styles
  *
  * Figma specs:
- *   Padding: 8px horizontal
- *   Enable: 12px gray dot, neutral-400 text
- *   In-progress: 24px brand circle, brand-800 text
- *   Correct: 24px neutral-200 check circle, success-800 text
- *   Error: 24px neutral-200 X circle, error-800 text
+ *   Padding: 0.5rem horizontal
+ *   Enable: 0.75rem gray dot, neutral-400 text
+ *   In-progress: 1.5rem brand circle, brand-800 text
+ *   Correct: 1.5rem neutral-200 check circle, success-800 text
+ *   Error: 1.5rem neutral-200 X circle, error-800 text
  */
 
 @layer components {
@@ -36,8 +36,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     flex-shrink: 0;
   }
 
@@ -70,8 +70,8 @@
   }
 
   .ds-step--enable .ds-step__indicator {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     background: var(--color-neutral-200);
   }
 
@@ -82,8 +82,8 @@
   }
 
   .ds-step--in-progress .ds-step__indicator {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     background: linear-gradient(135deg, var(--color-brand-400), var(--color-brand-600));
   }
 
@@ -94,8 +94,8 @@
   }
 
   .ds-step--correct .ds-step__indicator {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     background: var(--color-neutral-200);
     color: var(--color-white);
   }
@@ -107,8 +107,8 @@
   }
 
   .ds-step--error .ds-step__indicator {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     background: var(--color-neutral-200);
     color: var(--color-white);
   }

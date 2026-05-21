@@ -29,8 +29,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 96px;
-    height: 96px;
+    width: 6rem;
+    height: 6rem;
   }
 
   .ds-speed-card__gauge-circle {
@@ -104,7 +104,7 @@
   }
 
   .ds-speed-card__meta-label {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: var(--font-weight-regular);
     color: var(--color-neutral-400);
   }

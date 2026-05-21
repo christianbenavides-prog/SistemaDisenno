@@ -7,7 +7,7 @@ import { forwardRef, useState, useRef, useEffect, type HTMLAttributes } from "re
  *   States: enable, completed, error, success, disabled
  *   Trigger: shows comma-separated selected labels (truncated)
  *   Dropdown: checkbox + label per option
- *   Checkbox: 20×20 brand-400 bg, 2px radius, white check
+ *   Checkbox: 20×20 brand-400 bg, 0.125rem radius, white check
  *   Label row: label + required asterisk
  *   Support text: below trigger
  * ────────────────────────────────────────────── */

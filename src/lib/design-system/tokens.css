@@ -86,62 +86,62 @@
 
   /* ──────────────────────────────────────────────
    * SPACING
-   * 4px base unit scale
+   * 0.25rem base unit scale
    * ────────────────────────────────────────────── */
-  --spacing-1: 4px;   /* 0.25rem — Espacio mínimo */
-  --spacing-2: 8px;   /* 0.5rem  — Espacio compacto */
-  --spacing-3: 12px;  /* 0.75rem — Espacio XS */
-  --spacing-4: 16px;  /* 1rem    — Espacio pequeño */
-  --spacing-5: 20px;  /* 1.25rem — Espacio medio */
-  --spacing-6: 24px;  /* 1.5rem  — Espacio medio 2 */
-  --spacing-7: 28px;  /* 1.75rem — Espacio medio 3 */
-  --spacing-8: 32px;  /* 2rem    — Espacio grande */
-  --spacing-9: 36px;  /* 2.25rem — Espacio grande 2 */
-  --spacing-10: 40px; /* 2.5rem  — Espacio estructural */
-  --spacing-12: 48px; /* 3rem    — Espacio estructural 2 */
-  --spacing-13: 52px; /* 3.25rem — Espacio extra grande */
-  --spacing-14: 56px; /* 3.5rem  — Espacio XXL */
-  --spacing-15: 60px; /* 3.75rem — Espacio XXXL */
-  --spacing-16: 64px; /* 4rem    — Espacio XXXXL */
-  --spacing-18: 72px; /* 4.5rem  — Espacio super grande */
-  --spacing-20: 80px; /* 5rem    — Espacio Gigante */
-  --spacing-30: 120px; /* 7.5rem — Margen adaptable (máx) */
+  --spacing-1: 0.25rem;   /* 0.25rem — Espacio mínimo */
+  --spacing-2: 0.5rem;   /* 0.5rem  — Espacio compacto */
+  --spacing-3: 0.75rem;  /* 0.75rem — Espacio XS */
+  --spacing-4: 1rem;  /* 1rem    — Espacio pequeño */
+  --spacing-5: 1.25rem;  /* 1.25rem — Espacio medio */
+  --spacing-6: 1.5rem;  /* 1.5rem  — Espacio medio 2 */
+  --spacing-7: 1.75rem;  /* 1.75rem — Espacio medio 3 */
+  --spacing-8: 2rem;  /* 2rem    — Espacio grande */
+  --spacing-9: 2.25rem;  /* 2.25rem — Espacio grande 2 */
+  --spacing-10: 2.5rem; /* 2.5rem  — Espacio estructural */
+  --spacing-12: 3rem; /* 3rem    — Espacio estructural 2 */
+  --spacing-13: 3.25rem; /* 3.25rem — Espacio extra grande */
+  --spacing-14: 3.5rem; /* 3.5rem  — Espacio XXL */
+  --spacing-15: 3.75rem; /* 3.75rem — Espacio XXXL */
+  --spacing-16: 4rem; /* 4rem    — Espacio XXXXL */
+  --spacing-18: 4.5rem; /* 4.5rem  — Espacio super grande */
+  --spacing-20: 5rem; /* 5rem    — Espacio Gigante */
+  --spacing-30: 7.5rem; /* 7.5rem — Margen adaptable (máx) */
 
   /* ──────────────────────────────────────────────
    * BORDER RADIUS
    * ────────────────────────────────────────────── */
-  --radius-xxs: 2px;
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-full: 120px;
+  --radius-xxs: 0.125rem;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 7.5rem;
 
   /* ──────────────────────────────────────────────
    * BORDER WIDTH
    * ────────────────────────────────────────────── */
-  --border-xs: 1px;
-  --border-sm: 2px;
-  --border-md: 4px;
-  --border-lg: 8px;
+  --border-xs: 0.0625rem;
+  --border-sm: 0.125rem;
+  --border-md: 0.25rem;
+  --border-lg: 0.5rem;
 
   /* ──────────────────────────────────────────────
    * ELEVATION / SHADOWS
    * ────────────────────────────────────────────── */
-  --shadow-xs: 0 2px 4px 0 rgba(93, 93, 93, 0.16);
-  --shadow-sm: 0 16px 32px -4px rgba(26, 26, 26, 0.10), 0 2px 4px 0 rgba(26, 26, 26, 0.04);
-  --shadow-md: 0 24px 48px -8px rgba(26, 26, 26, 0.12), 0 2px 4px 0 rgba(26, 26, 26, 0.04);
-  --shadow-lg: 0 40px 80px -16px rgba(26, 26, 26, 0.16), 0 2px 4px 0 rgba(26, 26, 26, 0.04);
-  --shadow-xl: 0 56px 112px -20px rgba(26, 26, 26, 0.18), 0 2px 4px 0 rgba(26, 26, 26, 0.04);
+  --shadow-xs: 0 0.125rem 0.25rem 0 rgba(93, 93, 93, 0.16);
+  --shadow-sm: 0 1rem 2rem -0.25rem rgba(26, 26, 26, 0.10), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04);
+  --shadow-md: 0 1.5rem 3rem -0.5rem rgba(26, 26, 26, 0.12), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04);
+  --shadow-lg: 0 2.5rem 5rem -1rem rgba(26, 26, 26, 0.16), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04);
+  --shadow-xl: 0 3.5rem 7rem -1.25rem rgba(26, 26, 26, 0.18), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04);
 
   /* ──────────────────────────────────────────────
    * BREAKPOINTS
    * ────────────────────────────────────────────── */
-  --breakpoint-sm: 320px;   /* Celular mínimo */
-  --breakpoint-md: 768px;   /* Tablet */
-  --breakpoint-lg: 1280px;  /* Computador */
-  --breakpoint-xl: 1440px;  /* Computador XL */
+  --breakpoint-sm: 20rem;   /* Celular mínimo */
+  --breakpoint-md: 48rem;   /* Tablet */
+  --breakpoint-lg: 80rem;  /* Computador */
+  --breakpoint-xl: 90rem;  /* Computador XL */
 }
 
 :root,

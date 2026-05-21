@@ -2,7 +2,7 @@
  * Design System SM — MapLayout Template Styles
  *
  * Figma specs:
- *   Map view: map area (flex, rounded-lg) + side panel (349px)
+ *   Map view: map area (flex, rounded-lg) + side panel (21.8125rem)
  *   Side panel: white bg, radius-lg, scrollable cards, bottom buttons
  *   Map: full height, rounded-lg, position relative for markers
  */
@@ -11,8 +11,10 @@
   .ds-map-layout {
     display: flex;
     flex: 1;
+    width: 100%;
     gap: var(--spacing-6);
     min-height: 0;
+    min-width: 0;
   }
 
   .ds-map-layout__map {
@@ -26,14 +28,31 @@
     background: var(--ds-color-surface);
   }
 
+  .ds-map-layout__overlay {
+    position: absolute;
+    top: var(--spacing-4);
+    left: var(--spacing-4);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    border: var(--border-xs) solid var(--ds-color-border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklab, var(--ds-color-surface) 82%, transparent);
+    padding: var(--spacing-2) var(--spacing-3);
+    color: var(--ds-color-text);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(0.75rem);
+  }
+
   .ds-map-layout__panel {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-4);
-    width: 349px;
+    width: 21.8125rem;
     flex-shrink: 0;
     border-radius: var(--radius-lg);
-    background: var(--ds-color-surface);
+    background: var(--scada-panel-bg, var(--ds-color-surface));
     padding: var(--spacing-6);
     font-family: var(--font-body);
   }
@@ -56,5 +75,120 @@
     align-items: center;
     gap: var(--spacing-6);
     flex-shrink: 0;
+  }
+
+  @media (max-width: 53.75rem) {
+    .ds-map-layout {
+      position: relative;
+      flex-direction: column;
+      gap: var(--spacing-4);
+      height: 100%;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .ds-map-layout__map {
+      min-height: 0;
+      flex: 1 1 100%;
+      border-radius: var(--radius-md);
+    }
+
+    .ds-map-layout__panel {
+      position: absolute;
+      right: var(--spacing-3);
+      bottom: var(--spacing-3);
+      left: var(--spacing-3);
+      z-index: 20;
+      height: auto !important;
+      width: auto !important;
+      min-width: 0;
+      max-width: calc(100% - (var(--spacing-3) * 2));
+      flex: 0 0 auto;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
+      border-radius: var(--radius-md);
+      border: var(--border-xs) solid var(--ds-color-border);
+      box-shadow: var(--shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.24));
+      box-sizing: border-box;
+    }
+
+    .ds-map-layout__cards {
+      flex: 0 0 auto !important;
+      width: 100%;
+      height: auto !important;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .ds-map-layout__cards > * {
+      min-height: 0;
+      height: auto !important;
+      flex: 0 0 auto !important;
+      overflow: visible !important;
+    }
+
+    .ds-map-layout__cards .scada-scrollbar {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: var(--spacing-3);
+      height: auto !important;
+      max-height: 10rem;
+      min-height: 0;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-padding-inline: var(--spacing-1);
+      scroll-snap-type: x mandatory;
+      padding-bottom: var(--spacing-1);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ds-map-layout__cards .scada-scrollbar > [role="button"] {
+      flex: 0 0 min(78vw, 20rem);
+      max-width: min(78vw, 20rem);
+      scroll-snap-align: start;
+    }
+
+    .ds-map-layout__cards .ds-vehicle-card {
+      min-height: 7.875rem;
+    }
+
+    .ds-map-layout__cards .ds-vehicle-card--corporativo .ds-vehicle-card__name {
+      font-size: 1.125rem;
+      line-height: 1.25rem;
+    }
+
+    .ds-map-layout__cards .ds-vehicle-card--corporativo .ds-vehicle-card__row-label,
+    .ds-map-layout__cards .ds-vehicle-card--corporativo .ds-vehicle-card__row-value {
+      font-size: 0.875rem;
+      line-height: 1rem;
+    }
+  }
+
+  @media (max-width: 38.75rem) {
+    .ds-map-layout {
+      gap: var(--spacing-3);
+    }
+
+    .ds-map-layout__panel-header > div {
+      gap: var(--spacing-2) !important;
+    }
+
+    .ds-map-layout__panel-header .ds-input,
+    .ds-map-layout__panel-header input {
+      min-width: 0;
+    }
+
+    .ds-map-layout__panel-header .ds-btn {
+      width: 2.5rem;
+      min-width: 2.5rem;
+      padding-inline: 0;
+      flex-shrink: 0;
+    }
+
+    .ds-map-layout__cards .scada-scrollbar > [role="button"] {
+      flex-basis: min(76vw, 18.5rem);
+      max-width: min(76vw, 18.5rem);
+    }
   }
 }

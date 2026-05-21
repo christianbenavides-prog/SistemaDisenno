@@ -2,11 +2,11 @@
  * Design System SM — Input / TextArea Styles
  *
  * Figma specs:
- *   Border radius: radius-sm (8px)
- *   Padding: 16px horizontal, 8px vertical
- *   Border: 1px neutral-200 default, 2px on focus/error/success
- *   Font input: Body L (20px)
- *   Font label: Body SM (12px) semibold
+ *   Border radius: radius-sm (0.5rem)
+ *   Padding: 1rem horizontal, 0.5rem vertical
+ *   Border: 0.0625rem neutral-200 default, 0.125rem on focus/error/success
+ *   Font input: Body L (1.25rem)
+ *   Font label: Body SM (0.75rem) semibold
  *   Focus: brand-400 border
  *   Error: error-500 border
  *   Success: success-500 border
@@ -43,7 +43,7 @@
 
   .ds-input:focus-within {
     border-color: var(--color-brand-400);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-brand-400) 20%, transparent);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-brand-400) 20%, transparent);
   }
 
   /* ── Input field ── */
@@ -76,7 +76,7 @@
     font-weight: var(--font-weight-regular);
     color: var(--ds-color-text);
     resize: vertical;
-    min-height: 80px;
+    min-height: 5rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     outline: none;
   }
@@ -87,7 +87,7 @@
 
   .ds-textarea:focus {
     border-color: var(--color-brand-400);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-brand-400) 20%, transparent);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-brand-400) 20%, transparent);
   }
 
   /* ── Icon slots ── */
@@ -96,8 +96,8 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     color: var(--ds-color-text-muted);
   }
 
@@ -108,7 +108,7 @@
 
   .ds-input--error:focus-within {
     border-color: var(--color-error-500);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-error-500) 20%, transparent);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-error-500) 20%, transparent);
   }
 
   .ds-textarea.ds-input--error {
@@ -117,7 +117,7 @@
 
   .ds-textarea.ds-input--error:focus {
     border-color: var(--color-error-500);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-error-500) 20%, transparent);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-error-500) 20%, transparent);
   }
 
   /* ── Status: Success ── */
@@ -127,7 +127,7 @@
 
   .ds-input--success:focus-within {
     border-color: var(--color-success-500);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-success-500) 20%, transparent);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-success-500) 20%, transparent);
   }
 
   .ds-textarea.ds-input--success {
@@ -136,7 +136,7 @@
 
   .ds-textarea.ds-input--success:focus {
     border-color: var(--color-success-500);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-success-500) 20%, transparent);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-success-500) 20%, transparent);
   }
 
   /* ── Status: Disabled ── */

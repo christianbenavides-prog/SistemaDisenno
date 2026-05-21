@@ -81,55 +81,55 @@ export const colors = {
 // ── Spacing ─────────────────────────────────────
 
 export const spacing = {
-  1: "4px",
-  2: "8px",
-  3: "12px",
-  4: "16px",
-  5: "20px",
-  6: "24px",
-  7: "28px",
-  8: "32px",
-  9: "36px",
-  10: "40px",
-  12: "48px",
-  13: "52px",
-  14: "56px",
-  15: "60px",
-  16: "64px",
-  18: "72px",
-  20: "80px",
-  30: "120px",
+  1: "0.25rem",
+  2: "0.5rem",
+  3: "0.75rem",
+  4: "1rem",
+  5: "1.25rem",
+  6: "1.5rem",
+  7: "1.75rem",
+  8: "2rem",
+  9: "2.25rem",
+  10: "2.5rem",
+  12: "3rem",
+  13: "3.25rem",
+  14: "3.5rem",
+  15: "3.75rem",
+  16: "4rem",
+  18: "4.5rem",
+  20: "5rem",
+  30: "7.5rem",
 } as const;
 
 // ── Border Radius ───────────────────────────────
 
 export const radius = {
-  xxs: "2px",
-  xs: "4px",
-  sm: "8px",
-  md: "12px",
-  lg: "16px",
-  xl: "20px",
-  full: "120px",
+  xxs: "0.125rem",
+  xs: "0.25rem",
+  sm: "0.5rem",
+  md: "0.75rem",
+  lg: "1rem",
+  xl: "1.25rem",
+  full: "7.5rem",
 } as const;
 
 // ── Elevation / Shadows ─────────────────────────
 
 export const shadows = {
-  xs: "0 2px 4px 0 rgba(93, 93, 93, 0.16)",
-  sm: "0 16px 32px -4px rgba(26, 26, 26, 0.10), 0 2px 4px 0 rgba(26, 26, 26, 0.04)",
-  md: "0 24px 48px -8px rgba(26, 26, 26, 0.12), 0 2px 4px 0 rgba(26, 26, 26, 0.04)",
-  lg: "0 40px 80px -16px rgba(26, 26, 26, 0.16), 0 2px 4px 0 rgba(26, 26, 26, 0.04)",
-  xl: "0 56px 112px -20px rgba(26, 26, 26, 0.18), 0 2px 4px 0 rgba(26, 26, 26, 0.04)",
+  xs: "0 0.125rem 0.25rem 0 rgba(93, 93, 93, 0.16)",
+  sm: "0 1rem 2rem -0.25rem rgba(26, 26, 26, 0.10), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04)",
+  md: "0 1.5rem 3rem -0.5rem rgba(26, 26, 26, 0.12), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04)",
+  lg: "0 2.5rem 5rem -1rem rgba(26, 26, 26, 0.16), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04)",
+  xl: "0 3.5rem 7rem -1.25rem rgba(26, 26, 26, 0.18), 0 0.125rem 0.25rem 0 rgba(26, 26, 26, 0.04)",
 } as const;
 
 // ── Breakpoints ─────────────────────────────────
 
 export const breakpoints = {
-  sm: "320px",
-  md: "768px",
-  lg: "1280px",
-  xl: "1440px",
+  sm: "20rem",
+  md: "48rem",
+  lg: "80rem",
+  xl: "90rem",
 } as const;
 
 // ── Typography ──────────────────────────────────

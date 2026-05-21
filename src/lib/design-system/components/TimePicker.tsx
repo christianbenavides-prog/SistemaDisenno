@@ -7,7 +7,7 @@ import { forwardRef, type HTMLAttributes } from "react";
  *   Components: Hour spinner + Minute spinner + Period toggle
  *   Spinners: up/down arrows, center value (brand-400 bg, white text)
  *   Period: AM/PM vertical toggle, brand-400 active
- *   56px per spinner, gap 8px
+ *   3.5rem per spinner, gap 0.5rem
  * ────────────────────────────────────────────── */
 
 export interface TimePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {

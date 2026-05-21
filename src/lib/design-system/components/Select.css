@@ -2,11 +2,11 @@
  * Design System SM — Select Styles
  *
  * Figma specs:
- *   Gap: 8px
- *   Label: Body L (20px) regular
- *   Input: 8px/16px padding, radius-sm (8px)
+ *   Gap: 0.5rem
+ *   Label: Body L (1.25rem) regular
+ *   Input: 0.5rem/1rem padding, radius-sm (0.5rem)
  *   States: enable, completed, error, success, disabled
- *   Focus ring: 4px shadow matching state color
+ *   Focus ring: 0.25rem shadow matching state color
  */
 
 @layer components {
@@ -22,7 +22,7 @@
   .ds-select__label-row {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 0.25rem;
   }
 
   .ds-select__label {
@@ -47,8 +47,8 @@
 
   .ds-select__info-icon {
     display: inline-flex;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     flex-shrink: 0;
     color: var(--ds-color-text-muted);
   }
@@ -69,23 +69,23 @@
   }
 
   .ds-select--open .ds-select__trigger {
-    box-shadow: 0 0 0 4px var(--ds-color-focus-ring);
+    box-shadow: 0 0 0 0.25rem var(--ds-color-focus-ring);
   }
 
   .ds-select--completed .ds-select__trigger { border-color: var(--ds-color-border); }
   .ds-select--completed.ds-select--open .ds-select__trigger {
     border-color: var(--ds-color-border);
-    box-shadow: 0 0 0 4px var(--ds-color-focus-ring);
+    box-shadow: 0 0 0 0.25rem var(--ds-color-focus-ring);
   }
 
   .ds-select--error .ds-select__trigger { border-color: var(--color-error-500); }
   .ds-select--error.ds-select--open .ds-select__trigger {
-    box-shadow: 0 0 0 4px var(--color-error-50);
+    box-shadow: 0 0 0 0.25rem var(--color-error-50);
   }
 
   .ds-select--success .ds-select__trigger { border-color: var(--color-success-500); }
   .ds-select--success.ds-select--open .ds-select__trigger {
-    box-shadow: 0 0 0 4px var(--color-success-50);
+    box-shadow: 0 0 0 0.25rem var(--color-success-50);
   }
 
   .ds-select--disabled .ds-select__trigger {
@@ -120,8 +120,8 @@
   .ds-select__chevron {
     display: inline-flex;
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     color: var(--ds-color-text-muted);
   }
 
@@ -137,7 +137,7 @@
     border: var(--border-xs) solid var(--ds-color-border);
     background: var(--ds-color-surface);
     box-shadow: var(--shadow-sm);
-    max-height: 240px;
+    max-height: 15rem;
     overflow: hidden auto;
   }
 
@@ -181,8 +181,8 @@
   .ds-select__support-icon {
     display: inline-flex;
     flex-shrink: 0;
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     color: var(--ds-color-text-muted);
   }
 

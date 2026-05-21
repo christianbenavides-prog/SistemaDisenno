@@ -4,14 +4,14 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — CardKit (Molecule)
  *
  * Figma specs:
- *   Width: flexible (524px reference)
- *   Padding: 12px
- *   Gap: 8px
- *   Border radius: radius-xs (4px)
+ *   Width: flexible (32.75rem reference)
+ *   Padding: 0.75rem
+ *   Gap: 0.5rem
+ *   Border radius: radius-xs (0.25rem)
  *   Icon container: 56x56, neutral-50 bg (default), success-100 bg (selected)
  *   Icon: 36x36
- *   Title: Body L (20px) bold
- *   Description: Body (16px) regular
+ *   Title: Body L (1.25rem) bold
+ *   Description: Body (1rem) regular
  *   Switch: 38x24 toggle
  *   States:
  *     default: white bg, neutral-200 border, gray switch

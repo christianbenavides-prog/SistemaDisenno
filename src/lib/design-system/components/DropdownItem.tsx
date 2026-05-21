@@ -4,13 +4,13 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — DropdownItem (Molecule)
  *
  * Figma specs:
- *   Padding: 16px horizontal, 8px vertical
- *   Gap: 8px
- *   Border bottom: 1px neutral-200
+ *   Padding: 1rem horizontal, 0.5rem vertical
+ *   Gap: 0.5rem
+ *   Border bottom: 0.0625rem neutral-200
  *   States: enable (white) | hover (brand-50) |
  *           selected (brand-400) | disabled (neutral-100)
- *   Text: Body (16px) regular
- *   Subtext: Body S (12px) regular, neutral-400
+ *   Text: Body (1rem) regular
+ *   Subtext: Body S (0.75rem) regular, neutral-400
  *   Checkbox: 20x20 optional
  *   Icon: 16x16 optional
  * ────────────────────────────────────────────── */

@@ -3,11 +3,11 @@
  *
  * Figma specs:
  *   KPI metric display card
- *   Container: white bg, radius-sm, border neutral-200, padding 16px
+ *   Container: white bg, radius-sm, border neutral-200, padding 1rem
  *   Title: Body SM regular, neutral-400
  *   Value: H4 bold, neutral-900
  *   Trend: Body SM semibold, success-500 (up) / error-500 (down) / neutral-400 (neutral)
- *   Icon: 40px circle, brand-50 bg, brand-400 color
+ *   Icon: 2.5rem circle, brand-50 bg, brand-400 color
  */
 
 @layer components {
@@ -26,9 +26,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 62.4375rem;
     background: var(--color-brand-50);
     color: var(--color-brand-400);
     flex-shrink: 0;

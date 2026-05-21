@@ -2,7 +2,7 @@
  * Design System SM — Dropdown Styles
  *
  * Figma specs:
- *   Container: white bg, 1px neutral-200, radius-sm, shadow-sm
+ *   Container: white bg, 0.0625rem neutral-200, radius-sm, shadow-sm
  */
 
 @layer components {
@@ -22,7 +22,7 @@
     left: 0;
     right: 0;
     z-index: 10;
-    margin-top: 4px;
+    margin-top: 0.25rem;
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-sm);
@@ -30,7 +30,7 @@
     background: var(--color-white);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
-    max-height: 320px;
+    max-height: 20rem;
     overflow-y: auto;
   }
 }

@@ -2,11 +2,11 @@
  * Design System SM — ProfileCard Styles
  *
  * Figma specs:
- *   Gap: 12px
- *   Avatar: 40px circle
- *   Name: H6 (20px) semibold, black
- *   Role: Body S (12px) regular, brand-800
- *   Chevron: 24px
+ *   Gap: 0.75rem
+ *   Avatar: 2.5rem circle
+ *   Name: H6 (1.25rem) semibold, black
+ *   Role: Body S (0.75rem) regular, brand-800
+ *   Chevron: 1.5rem
  */
 
 @layer components {
@@ -21,8 +21,8 @@
   .ds-profile__avatar {
     display: inline-flex;
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: var(--radius-full);
     overflow: hidden;
   }
@@ -66,13 +66,13 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     color: var(--ds-color-text-muted);
   }
 
   .ds-profile__chevron {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }

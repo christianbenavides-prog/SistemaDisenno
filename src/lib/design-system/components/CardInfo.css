@@ -4,8 +4,8 @@
  * Figma specs:
  *   Generic info display card
  *   Container: white bg, radius-sm, border neutral-200
- *   Top colored bar: 4px, color-coded
- *   Icon: 32px, colored
+ *   Top colored bar: 0.25rem, color-coded
+ *   Icon: 2rem, colored
  *   Title: Body semibold
  *   Value: H5 bold
  *   Description: Body SM, neutral-400
@@ -23,7 +23,7 @@
   }
 
   .ds-card-info__bar {
-    height: 4px;
+    height: 0.25rem;
     background: var(--color-brand-400);
   }
 
@@ -49,8 +49,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
     color: var(--color-brand-400);
     flex-shrink: 0;
   }

@@ -4,14 +4,14 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — Modal (Organism)
  *
  * Figma specs:
- *   Width: flexible (623px reference)
- *   Border: 1px neutral-300, radius-md (12px)
- *   Header: 16px padding, title H6 (20px) bold
- *   Body: 24px padding, gap 24px
- *     Icon: 40px (Lucide)
- *     Subtitle: H5 (24px) semibold
- *     Body text: Body L (20px) regular
- *   Footer: 16px padding, gap 24px, right-aligned
+ *   Width: flexible (38.9375rem reference)
+ *   Border: 0.0625rem neutral-300, radius-md (0.75rem)
+ *   Header: 1rem padding, title H6 (1.25rem) bold
+ *   Body: 1.5rem padding, gap 1.5rem
+ *     Icon: 2.5rem (Lucide)
+ *     Subtitle: H5 (1.5rem) semibold
+ *     Body text: Body L (1.25rem) regular
+ *   Footer: 1rem padding, gap 1.5rem, right-aligned
  *     Secondary: ghost button
  *     Primary: gradient pill
  * ────────────────────────────────────────────── */

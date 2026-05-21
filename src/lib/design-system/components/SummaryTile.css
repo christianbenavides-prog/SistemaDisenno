@@ -7,7 +7,7 @@
 
   .ds-summary-tile {
     display: flex;
-    min-height: 88px;
+    min-height: 5.5rem;
     flex-direction: column;
     justify-content: space-between;
     border: var(--border-xs) solid var(--color-neutral-200);
@@ -32,12 +32,12 @@
 
   .ds-summary-tile--interactive:focus-visible {
     outline: var(--border-sm) solid var(--color-brand-400);
-    outline-offset: 2px;
+    outline-offset: 0.125rem;
   }
 
   .ds-summary-tile--selected {
     border-color: var(--ds-summary-tile-accent);
-    box-shadow: inset 0 0 0 1px var(--ds-summary-tile-accent);
+    box-shadow: inset 0 0 0 0.0625rem var(--ds-summary-tile-accent);
   }
 
   .ds-summary-tile::before {
@@ -46,7 +46,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 4px;
+    width: 0.25rem;
     background: var(--ds-summary-tile-accent);
   }
 
@@ -84,13 +84,13 @@
     color: var(--color-neutral-900);
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 53.75rem) {
     .ds-summary-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 620px) {
+  @media (max-width: 38.75rem) {
     .ds-summary-grid {
       grid-template-columns: 1fr;
     }

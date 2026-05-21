@@ -8,7 +8,7 @@
  *   Header: vehicle name + status indicator
  *   Sections: grouped info fields
  *   Fields: label (neutral-400) + value (neutral-900) pairs
- *   Dividers: 1px neutral-100 between sections
+ *   Dividers: 0.0625rem neutral-100 between sections
  */
 
 @layer components {
@@ -35,8 +35,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 3rem;
+    height: 3rem;
     border-radius: var(--radius-xs);
     background: var(--color-neutral-50);
     color: var(--color-neutral-400);
@@ -89,7 +89,7 @@
     font-weight: var(--font-weight-semibold);
     color: var(--color-neutral-600);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
   }
 
   /* ── Field ── */

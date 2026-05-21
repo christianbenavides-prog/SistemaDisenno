@@ -4,9 +4,9 @@ import { forwardRef, type InputHTMLAttributes } from "react";
  * Design System SM — Checkbox (Atom)
  *
  * Figma specs:
- *   Size: 20x20px
- *   Border radius: 4px (radius-xs)
- *   Unchecked: 2px neutral-200 border
+ *   Size: 1.25x1.25rem
+ *   Border radius: 0.25rem (radius-xs)
+ *   Unchecked: 0.125rem neutral-200 border
  *   Checked: brand-400 fill with white checkmark
  *   States: default | hover | disabled | indeterminate
  * ────────────────────────────────────────────── */

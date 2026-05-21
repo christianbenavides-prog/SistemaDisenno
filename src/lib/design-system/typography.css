@@ -19,40 +19,40 @@
  * ────────────────────────────────────────────── */
 :root {
   /* H1 — Desktop */
-  --text-h1-size: 4rem;         /* 64px */
-  --text-h1-line-height: 3.75rem; /* 60px */
+  --text-h1-size: 4rem;         /* 4rem */
+  --text-h1-line-height: 3.75rem; /* 3.75rem */
 
   /* H2 — Desktop */
-  --text-h2-size: 3rem;         /* 48px */
-  --text-h2-line-height: 3.25rem; /* 52px */
+  --text-h2-size: 3rem;         /* 3rem */
+  --text-h2-line-height: 3.25rem; /* 3.25rem */
 
   /* H3 — Desktop */
-  --text-h3-size: 2.5rem;       /* 40px */
-  --text-h3-line-height: 2.75rem; /* 44px */
+  --text-h3-size: 2.5rem;       /* 2.5rem */
+  --text-h3-line-height: 2.75rem; /* 2.75rem */
 
   /* H4 — Desktop */
-  --text-h4-size: 2rem;         /* 32px */
-  --text-h4-line-height: 2.25rem; /* 36px */
+  --text-h4-size: 2rem;         /* 2rem */
+  --text-h4-line-height: 2.25rem; /* 2.25rem */
 
   /* H5 — Desktop */
-  --text-h5-size: 1.5rem;       /* 24px */
-  --text-h5-line-height: 1.75rem; /* 28px */
+  --text-h5-size: 1.5rem;       /* 1.5rem */
+  --text-h5-line-height: 1.75rem; /* 1.75rem */
 
   /* H6 — Desktop */
-  --text-h6-size: 1.25rem;      /* 20px */
-  --text-h6-line-height: 1.25rem; /* 20px */
+  --text-h6-size: 1.25rem;      /* 1.25rem */
+  --text-h6-line-height: 1.25rem; /* 1.25rem */
 
   /* Body L — Desktop */
-  --text-body-lg-size: 1.25rem;      /* 20px */
-  --text-body-lg-line-height: 1.25rem; /* 20px */
+  --text-body-lg-size: 1.25rem;      /* 1.25rem */
+  --text-body-lg-line-height: 1.25rem; /* 1.25rem */
 
   /* Body — Desktop */
-  --text-body-size: 1rem;       /* 16px */
-  --text-body-line-height: 1rem; /* 16px */
+  --text-body-size: 1rem;       /* 1rem */
+  --text-body-line-height: 1rem; /* 1rem */
 
   /* Body S — Desktop */
-  --text-body-sm-size: 0.75rem; /* 12px */
-  --text-body-sm-line-height: 0.75rem; /* 12px */
+  --text-body-sm-size: 0.75rem; /* 0.75rem */
+  --text-body-sm-line-height: 0.75rem; /* 0.75rem */
 
   /* Font weights */
   --font-weight-light: 100;
@@ -62,26 +62,26 @@
 }
 
 /* ──────────────────────────────────────────────
- * TABLET OVERRIDES (768px – 1279px)
+ * TABLET OVERRIDES (48rem – 79.9375rem)
  * ────────────────────────────────────────────── */
-@media (min-width: 768px) and (max-width: 1279px) {
+@media (min-width: 48rem) and (max-width: 79.9375rem) {
   :root {
-    --text-h1-size: 3.25rem;       /* 52px */
+    --text-h1-size: 3.25rem;       /* 3.25rem */
     --text-h1-line-height: 3.25rem;
 
-    --text-h2-size: 2.75rem;       /* 44px */
+    --text-h2-size: 2.75rem;       /* 2.75rem */
     --text-h2-line-height: 2.75rem;
 
-    --text-h3-size: 2.25rem;       /* 36px */
+    --text-h3-size: 2.25rem;       /* 2.25rem */
     --text-h3-line-height: 2.25rem;
 
-    --text-h4-size: 2rem;          /* 32px */
+    --text-h4-size: 2rem;          /* 2rem */
     --text-h4-line-height: 2rem;
 
-    --text-h5-size: 1.75rem;       /* 28px */
+    --text-h5-size: 1.75rem;       /* 1.75rem */
     --text-h5-line-height: 1.75rem;
 
-    --text-h6-size: 1.25rem;       /* 20px */
+    --text-h6-size: 1.25rem;       /* 1.25rem */
     --text-h6-line-height: 1.25rem;
 
     --text-body-lg-size: 1.25rem;
@@ -96,26 +96,26 @@
 }
 
 /* ──────────────────────────────────────────────
- * MOBILE OVERRIDES (< 768px)
+ * MOBILE OVERRIDES (< 48rem)
  * ────────────────────────────────────────────── */
-@media (max-width: 767px) {
+@media (max-width: 47.9375rem) {
   :root {
-    --text-h1-size: 2.25rem;       /* 36px */
+    --text-h1-size: 2.25rem;       /* 2.25rem */
     --text-h1-line-height: 2.25rem;
 
-    --text-h2-size: 2rem;          /* 32px */
+    --text-h2-size: 2rem;          /* 2rem */
     --text-h2-line-height: 2rem;
 
-    --text-h3-size: 2.25rem;       /* 36px */
+    --text-h3-size: 2.25rem;       /* 2.25rem */
     --text-h3-line-height: 2.25rem;
 
-    --text-h4-size: 1.25rem;       /* 20px */
+    --text-h4-size: 1.25rem;       /* 1.25rem */
     --text-h4-line-height: 1.25rem;
 
-    --text-h5-size: 1.25rem;       /* 20px */
+    --text-h5-size: 1.25rem;       /* 1.25rem */
     --text-h5-line-height: 1.25rem;
 
-    --text-h6-size: 1rem;          /* 16px */
+    --text-h6-size: 1rem;          /* 1rem */
     --text-h6-line-height: 1rem;
 
     --text-body-lg-size: 1rem;

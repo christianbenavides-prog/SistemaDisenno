@@ -10,12 +10,12 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Compact: small image + name + subtitle + actions inline
  * ────────────────────────────────────────────── */
 
-export type VehicleCardVariant = "full" | "compact";
+export type VehicleCardVariant = "full" | "compact" | "corporativo";
 
 export interface VehicleInfoRow {
   icon?: ReactNode;
   label: string;
-  value: string;
+  value: ReactNode;
 }
 
 export interface VehicleCardProps extends HTMLAttributes<HTMLDivElement> {
@@ -28,6 +28,8 @@ export interface VehicleCardProps extends HTMLAttributes<HTMLDivElement> {
   statusBadge?: ReactNode;
   infoRows?: VehicleInfoRow[];
   actions?: ReactNode;
+  selected?: boolean;
+  accentColor?: string;
 }
 
 export const VehicleCard = forwardRef<HTMLDivElement, VehicleCardProps>(
@@ -42,11 +44,43 @@ export const VehicleCard = forwardRef<HTMLDivElement, VehicleCardProps>(
       statusBadge,
       infoRows,
       actions,
+      selected = false,
+      accentColor,
       className = "",
       ...rest
     },
     ref,
   ) => {
+    if (variant === "corporativo") {
+      return (
+        <div
+          ref={ref}
+          className={`ds-vehicle-card ds-vehicle-card--corporativo${selected ? " ds-vehicle-card--selected" : ""} ${className}`.trim()}
+          style={accentColor ? { "--vc-accent": accentColor } as React.CSSProperties : undefined}
+          {...rest}
+        >
+          <div className="ds-vehicle-card__header">
+            <span className="ds-vehicle-card__name">{name}</span>
+            {statusBadge}
+          </div>
+
+          {infoRows && infoRows.length > 0 && (
+            <div className="ds-vehicle-card__info">
+              {infoRows.map((row, i) => (
+                <div key={i} className="ds-vehicle-card__row">
+                  {row.icon && <span className="ds-vehicle-card__row-icon">{row.icon}</span>}
+                  <span className="ds-vehicle-card__row-label">{row.label}</span>
+                  <span className="ds-vehicle-card__row-value">{row.value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {actions && <div className="ds-vehicle-card__footer">{actions}</div>}
+        </div>
+      );
+    }
+
     if (variant === "compact") {
       return (
         <div

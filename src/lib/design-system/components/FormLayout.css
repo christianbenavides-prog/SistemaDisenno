@@ -7,7 +7,7 @@
  *   Body: description, form sections with 2-column grid
  *   Sections: label (H6 regular, neutral-400) + inputs grid
  *   Footer: cancel (ghost) + submit (primary/disabled)
- *   Gap: 40px between major sections, 16px between fields
+ *   Gap: 2.5rem between major sections, 1rem between fields
  */
 
 @layer components {
@@ -35,9 +35,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 62.4375rem;
     border: var(--border-sm) solid var(--color-brand-400);
     background: transparent;
     cursor: pointer;
@@ -54,7 +54,7 @@
   .ds-form-layout__header-body {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 0.125rem;
     flex: 1;
     min-width: 0;
   }

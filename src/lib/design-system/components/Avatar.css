@@ -2,7 +2,7 @@
  * Design System SM — Avatar Styles
  *
  * Figma specs:
- *   Sizes: sm=28px, md=40px, lg=64px, xl=88px
+ *   Sizes: sm=1.75rem, md=2.5rem, lg=4rem, xl=5.5rem
  *   Shape: circle (radius-full)
  *   Background (initials/icon): brand-50
  *   Text color (initials): brand-800
@@ -26,27 +26,27 @@
 
   /* ── Sizes ── */
   .ds-avatar--sm {
-    width: 28px;
-    height: 28px;
-    font-size: 0.625rem;  /* 10px */
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.625rem;  /* 0.625rem */
   }
 
   .ds-avatar--md {
-    width: 40px;
-    height: 40px;
-    font-size: 0.875rem;  /* 14px */
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.875rem;  /* 0.875rem */
   }
 
   .ds-avatar--lg {
-    width: 64px;
-    height: 64px;
-    font-size: 1.25rem;   /* 20px */
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.25rem;   /* 1.25rem */
   }
 
   .ds-avatar--xl {
-    width: 88px;
-    height: 88px;
-    font-size: 1.75rem;   /* 28px */
+    width: 5.5rem;
+    height: 5.5rem;
+    font-size: 1.75rem;   /* 1.75rem */
   }
 
   /* ── Image ── */
@@ -75,23 +75,23 @@
   }
 
   .ds-avatar--sm .ds-avatar__icon {
-    width: 14px;
-    height: 14px;
+    width: 0.875rem;
+    height: 0.875rem;
   }
 
   .ds-avatar--md .ds-avatar__icon {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   .ds-avatar--lg .ds-avatar__icon {
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
   }
 
   .ds-avatar--xl .ds-avatar__icon {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 
   /* ── Status indicator ── */
@@ -100,27 +100,27 @@
     bottom: 0;
     right: 0;
     border-radius: var(--radius-full);
-    border: 2px solid var(--color-white);
+    border: 0.125rem solid var(--color-white);
   }
 
   .ds-avatar--sm .ds-avatar__status {
-    width: 8px;
-    height: 8px;
+    width: 0.5rem;
+    height: 0.5rem;
   }
 
   .ds-avatar--md .ds-avatar__status {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
   }
 
   .ds-avatar--lg .ds-avatar__status {
-    width: 14px;
-    height: 14px;
+    width: 0.875rem;
+    height: 0.875rem;
   }
 
   .ds-avatar--xl .ds-avatar__status {
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
   }
 
   .ds-avatar__status--disponible {

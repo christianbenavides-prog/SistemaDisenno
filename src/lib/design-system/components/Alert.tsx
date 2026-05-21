@@ -4,19 +4,19 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  * Design System SM — Alert (Organism)
  *
  * Figma specs:
- *   Padding: 16px
- *   Gap: 12px
- *   Border: 2px solid
- *   Border radius: radius-sm (8px)
+ *   Padding: 1rem
+ *   Gap: 0.75rem
+ *   Border: 0.125rem solid
+ *   Border radius: radius-sm (0.5rem)
  *   Colors:
  *     principal: brand-50 bg, brand-400 border, brand-800 title
  *     error: error-50 bg, error-500 border, error-800 title
  *     warning: warning-50 bg, warning-500 border, warning-700 title
  *     success: success-50 bg, success-500 border, success-800 title
  *     neutral: neutral-50 bg, neutral-300 border, neutral-900 title
- *   Title: H6 (20px) semibold
- *   Body: Body (16px) regular
- *   Icons: 24px left / right (Lucide)
+ *   Title: H6 (1.25rem) semibold
+ *   Body: Body (1rem) regular
+ *   Icons: 1.5rem left / right (Lucide)
  *   CTA: ghost button
  * ────────────────────────────────────────────── */
 

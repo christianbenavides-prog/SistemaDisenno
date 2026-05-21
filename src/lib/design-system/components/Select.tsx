@@ -11,19 +11,19 @@ import {
  * Design System SM — Select (Organism)
  *
  * Figma specs:
- *   Width: flexible (424px reference)
- *   Gap: 8px between label, input, support
- *   Label: Body L (20px) regular + required asterisk
- *   Input: 8px/16px padding, radius-sm (8px), 1px border
- *   Text: Body L (20px) regular
- *   Support: Body (16px) regular, neutral-400
+ *   Width: flexible (26.5rem reference)
+ *   Gap: 0.5rem between label, input, support
+ *   Label: Body L (1.25rem) regular + required asterisk
+ *   Input: 0.5rem/1rem padding, radius-sm (0.5rem), 0.0625rem border
+ *   Text: Body L (1.25rem) regular
+ *   Support: Body (1rem) regular, neutral-400
  *   States:
  *     enable: neutral-200 border, neutral-400 placeholder
  *     completed: neutral-200 border, neutral-900 text
  *     error: error-500 border, error-800 support text
  *     success: success-500 border, success-800 support text
  *     disabled: neutral-200 bg+border, neutral-400 text
- *   Pressed: focus ring (4px brand-50 / error-50 / success-50 shadow)
+ *   Pressed: focus ring (0.25rem brand-50 / error-50 / success-50 shadow)
  * ────────────────────────────────────────────── */
 
 export type SelectState = "enable" | "completed" | "error" | "success" | "disabled";

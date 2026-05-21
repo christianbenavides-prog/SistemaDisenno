@@ -1,0 +1,130 @@
+@layer components {
+  .vehicle-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 24px;
+    background: var(--scada-card-bg, var(--ds-color-surface, #fff));
+    border-radius: 16px;
+    width: 100%;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  /* ── Header ── */
+  .vehicle-detail__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .vehicle-detail__header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .vehicle-detail__title {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 500;
+    color: var(--ds-color-text-strong, #000);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .vehicle-detail__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 2px;
+  }
+
+  .vehicle-detail__breadcrumb-item {
+    color: var(--color-neutral-400, #888);
+    font-weight: 300;
+  }
+
+  .vehicle-detail__breadcrumb-sep {
+    color: var(--color-neutral-400, #888);
+    font-weight: 300;
+  }
+
+  .vehicle-detail__breadcrumb-current {
+    color: var(--color-brand-700, #007868);
+    font-weight: 700;
+  }
+
+  /* ── Form section ── */
+  .vehicle-detail__section-title {
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 300;
+    color: var(--color-neutral-400, #888);
+    width: 100%;
+  }
+
+  .vehicle-detail__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .vehicle-detail__grid > .ds-input-wrapper {
+    width: calc(50% - 12px);
+    min-width: 280px;
+  }
+
+  /* ── Collapsible section ── */
+  .vehicle-detail__collapsible {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid var(--ds-color-border, #d1d1d1);
+    border-radius: var(--radius-sm, 8px);
+    padding: 16px;
+  }
+
+  .vehicle-detail__collapsible-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .vehicle-detail__collapsible-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 300;
+    color: var(--color-neutral-400, #888);
+  }
+
+  .vehicle-detail__collapsible-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 120px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-neutral-500);
+    transition: transform 0.2s;
+  }
+
+  .vehicle-detail__collapsible-toggle:hover {
+    background: var(--color-neutral-50);
+  }
+
+  .vehicle-detail__collapsible-toggle--collapsed {
+    transform: rotate(180deg);
+  }
+}

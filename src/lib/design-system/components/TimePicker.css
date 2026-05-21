@@ -2,8 +2,8 @@
  * Design System SM — TimePicker Styles
  *
  * Figma specs:
- *   Container: inline-flex, gap 8px
- *   Hour/Minute scrollers: 56px wide, border neutral-200, radius-xs
+ *   Container: inline-flex, gap 0.5rem
+ *   Hour/Minute scrollers: 3.5rem wide, border neutral-200, radius-xs
  *   Selected value: brand-400 bg, white text, semibold
  *   Period selector: 2-button toggle (AM/PM), brand-400 active
  *   Up/Down arrows: neutral-400, hover neutral-600
@@ -23,7 +23,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0;
-    width: 56px;
+    width: 3.5rem;
     border-radius: var(--radius-xs);
     border: var(--border-xs) solid var(--color-neutral-200);
     background: var(--color-white);
@@ -35,7 +35,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 28px;
+    height: 1.75rem;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -54,7 +54,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 40px;
+    height: 2.5rem;
     font-size: var(--text-body-l-size);
     line-height: var(--text-body-l-line-height);
     font-weight: var(--font-weight-semibold);
@@ -82,8 +82,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 40px;
+    width: 3rem;
+    height: 2.5rem;
     font-family: var(--font-body);
     font-size: var(--text-body-sm-size);
     font-weight: var(--font-weight-semibold);

@@ -5,7 +5,7 @@
  *   Variants: Dia (day picker), Calendario+hora (date+time), Mes (month picker)
  *   Container: white bg, radius-sm, shadow-sm, border neutral-200
  *   Header: month/year nav with arrows, Body L semibold
- *   Day grid: 7 columns, 40px cells
+ *   Day grid: 7 columns, 2.5rem cells
  *   Selected: brand-400 bg, white text
  *   Today: brand-50 bg, brand-800 text
  *   Disabled: neutral-300 text
@@ -21,7 +21,7 @@
     background: var(--color-white);
     box-shadow: var(--shadow-sm);
     padding: var(--spacing-4);
-    width: 320px;
+    width: 20rem;
     font-family: var(--font-body);
   }
 
@@ -45,8 +45,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -73,7 +73,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 32px;
+    height: 2rem;
     font-size: var(--text-body-sm-size);
     line-height: var(--text-body-sm-line-height);
     font-weight: var(--font-weight-semibold);
@@ -94,7 +94,7 @@
     justify-content: center;
     width: 100%;
     aspect-ratio: 1;
-    height: 40px;
+    height: 2.5rem;
     font-size: var(--text-body-size);
     line-height: var(--text-body-line-height);
     font-weight: var(--font-weight-regular);
@@ -161,7 +161,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
+    height: 2.5rem;
     font-size: var(--text-body-size);
     font-weight: var(--font-weight-regular);
     color: var(--color-neutral-900);
@@ -202,7 +202,7 @@
   }
 
   .ds-calendar__time-input {
-    width: 56px;
+    width: 3.5rem;
     text-align: center;
     font-family: var(--font-body);
     font-size: var(--text-body-l-size);
@@ -217,7 +217,7 @@
   .ds-calendar__time-input:focus {
     outline: none;
     border-color: var(--color-brand-400);
-    box-shadow: 0 0 0 4px var(--color-brand-50);
+    box-shadow: 0 0 0 0.25rem var(--color-brand-50);
   }
 
   .ds-calendar__time-sep {

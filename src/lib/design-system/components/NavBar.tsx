@@ -5,9 +5,9 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
  *
  * Figma specs:
  *   Height: auto
- *   Padding: 16px horizontal, 8px vertical
+ *   Padding: 1rem horizontal, 0.5rem vertical
  *   Background: white
- *   Border-bottom: 1px neutral-200
+ *   Border-bottom: 0.0625rem neutral-200
  *   Layout: horizontal, space-between
  *   Logo: left
  *   Actions: right (search, notifications, profile)

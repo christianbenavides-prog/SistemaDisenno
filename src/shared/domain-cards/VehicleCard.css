@@ -19,14 +19,15 @@
     gap: var(--spacing-3);
     padding: var(--spacing-4);
     border-radius: var(--radius-sm);
-    border: var(--border-xs) solid var(--color-neutral-200);
-    background: var(--color-white);
+    border: var(--border-xs) solid var(--ds-color-border);
+    background: var(--scada-panel-bg, var(--ds-color-surface));
     font-family: var(--font-body);
     width: 100%;
   }
 
   .ds-vehicle-card:hover {
-    border-color: var(--color-neutral-300);
+    border-color: var(--ds-color-border-strong);
+    background: var(--scada-card-bg, var(--ds-color-surface-alt));
   }
 
   /* ── Header ── */
@@ -41,7 +42,7 @@
     font-size: var(--text-body-l-size);
     line-height: var(--text-body-l-line-height);
     font-weight: var(--font-weight-bold);
-    color: var(--color-neutral-900);
+    color: var(--ds-color-text-strong);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -52,7 +53,7 @@
   .ds-vehicle-card__plate {
     font-size: var(--text-body-sm-size);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-neutral-600);
+    color: var(--ds-color-text-muted);
     background: var(--color-neutral-100);
     padding: var(--spacing-1) var(--spacing-2);
     border-radius: var(--radius-xs);
@@ -95,7 +96,7 @@
     justify-content: center;
     width: 16px;
     height: 16px;
-    color: var(--color-neutral-400);
+    color: var(--ds-color-text-muted);
     flex-shrink: 0;
   }
 
@@ -103,7 +104,7 @@
     font-size: var(--text-body-sm-size);
     line-height: var(--text-body-sm-line-height);
     font-weight: var(--font-weight-regular);
-    color: var(--color-neutral-400);
+    color: var(--ds-color-text-muted);
     flex-shrink: 0;
   }
 
@@ -111,7 +112,7 @@
     font-size: var(--text-body-sm-size);
     line-height: var(--text-body-sm-line-height);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-neutral-900);
+    color: var(--ds-color-text-strong);
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -126,7 +127,47 @@
     align-items: center;
     gap: var(--spacing-2);
     padding-top: var(--spacing-3);
-    border-top: var(--border-xs) solid var(--color-neutral-100);
+    border-top: var(--border-xs) solid var(--ds-color-border);
+  }
+
+  /* ── Corporativo variant ── */
+  .ds-vehicle-card--corporativo {
+    border-color: var(--ds-color-border-strong);
+    border-left: 4px solid var(--vc-accent, var(--color-neutral-300));
+    gap: var(--spacing-3);
+  }
+
+  .ds-vehicle-card--corporativo .ds-vehicle-card__name {
+    font-size: var(--text-h5-size, 24px);
+    line-height: var(--text-h5-line-height, 28px);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .ds-vehicle-card--corporativo .ds-vehicle-card__row {
+    gap: var(--spacing-1);
+  }
+
+  .ds-vehicle-card--corporativo .ds-vehicle-card__row-label {
+    font-size: var(--text-body-size, 16px);
+    line-height: var(--text-body-line-height, 16px);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ds-vehicle-card--corporativo .ds-vehicle-card__row-value {
+    font-size: var(--text-body-size, 16px);
+    line-height: var(--text-body-line-height, 16px);
+    flex: none;
+  }
+
+  .ds-vehicle-card--corporativo .ds-vehicle-card__footer {
+    justify-content: flex-end;
+  }
+
+  .ds-vehicle-card--selected {
+    border-color: var(--color-brand-500, #00be9c);
+    box-shadow: 0 0 0 1px var(--color-brand-500, #00be9c);
+    background: var(--scada-card-bg, var(--ds-color-surface-alt));
   }
 
   /* ── Compact variant (plataforma) ── */

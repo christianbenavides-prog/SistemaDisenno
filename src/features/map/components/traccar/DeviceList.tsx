@@ -25,8 +25,11 @@ export function DeviceList({
     const container = listRef.current;
     if (!container) return;
     const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = container;
-      if (scrollHeight - scrollTop - clientHeight < 400) onNearBottom();
+      const isHorizontal = container.scrollWidth > container.clientWidth + 4;
+      const distance = isHorizontal
+        ? container.scrollWidth - container.scrollLeft - container.clientWidth
+        : container.scrollHeight - container.scrollTop - container.clientHeight;
+      if (distance < 400) onNearBottom();
     };
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);

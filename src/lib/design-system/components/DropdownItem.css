@@ -2,10 +2,10 @@
  * Design System SM — DropdownItem Styles
  *
  * Figma specs:
- *   Padding: 8px 16px
- *   Gap: 8px
- *   Border bottom: 1px neutral-200
- *   Checkbox: 20x20, 2px radius, neutral-300 border
+ *   Padding: 0.5rem 1rem
+ *   Gap: 0.5rem
+ *   Border bottom: 0.0625rem neutral-200
+ *   Checkbox: 20x20, 0.125rem radius, neutral-300 border
  *   States: white / brand-50 / brand-400 / neutral-100
  */
 
@@ -44,10 +44,10 @@
   }
 
   .ds-dropdown-item__check-box {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     border: var(--border-xs) solid var(--color-neutral-300);
-    border-radius: 2px;
+    border-radius: 0.125rem;
     background: var(--color-white);
   }
 
@@ -66,8 +66,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     flex-shrink: 0;
     color: var(--color-neutral-500);
   }
