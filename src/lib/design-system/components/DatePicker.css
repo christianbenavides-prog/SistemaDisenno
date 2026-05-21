@@ -1,0 +1,28 @@
+/*
+ * Design System SM — DatePicker Styles
+ *
+ * Composes Input atom + Calendar organism in a dropdown.
+ * Follows Input visual specs for trigger, Calendar for dropdown.
+ */
+
+@layer components {
+  .ds-date-picker {
+    position: relative;
+    width: 100%;
+  }
+
+  .ds-date-picker__trigger {
+    cursor: pointer;
+  }
+
+  .ds-date-picker__trigger .ds-input__field {
+    cursor: pointer;
+  }
+
+  .ds-date-picker__dropdown {
+    position: absolute;
+    top: calc(100% + var(--spacing-2));
+    left: 0;
+    z-index: 50;
+  }
+}

@@ -21,6 +21,9 @@ export type { BadgeProps, BadgeColor, BadgeShape } from "./Badge";
 export { Checkbox } from "./Checkbox";
 export type { CheckboxProps } from "./Checkbox";
 
+export { ChipInput } from "./ChipInput";
+export type { ChipInputProps, ChipInputStatus } from "./ChipInput";
+
 export { Switch } from "./Switch";
 export type { SwitchProps } from "./Switch";
 
@@ -141,6 +144,9 @@ export type { UploaderProps, UploaderState } from "./Uploader";
 
 export { Calendar } from "./Calendar";
 export type { CalendarProps, CalendarVariant } from "./Calendar";
+
+export { DatePicker } from "./DatePicker";
+export type { DatePickerProps } from "./DatePicker";
 
 export { TimePicker } from "./TimePicker";
 export type { TimePickerProps } from "./TimePicker";

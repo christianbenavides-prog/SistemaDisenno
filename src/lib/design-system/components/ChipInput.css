@@ -1,0 +1,155 @@
+/*
+ * Design System SM — ChipInput Styles
+ *
+ * Input field with inline chips/pills.
+ * User types + Enter to add, Backspace or x to remove.
+ * Follows Input atom visual specs (border, radius, focus ring).
+ */
+
+@layer components {
+  .ds-chip-input {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    width: 100%;
+    font-family: var(--font-body);
+  }
+
+  /* ── Label ── */
+  .ds-chip-input__label {
+    font-size: var(--text-body-lg-size);
+    line-height: var(--text-body-lg-line-height);
+    font-weight: var(--font-weight-regular);
+    color: var(--ds-color-text);
+  }
+
+  /* ── Trigger (container that looks like an Input) ── */
+  .ds-chip-input__trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    width: 100%;
+    min-height: 2.75rem;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-sm);
+    border: var(--border-xs) solid var(--ds-color-border);
+    background: var(--ds-color-surface);
+    cursor: text;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ds-chip-input__trigger:focus-within {
+    border-color: var(--color-brand-400);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-brand-400) 20%, transparent);
+  }
+
+  /* ── Error / Success states ── */
+  .ds-chip-input--error .ds-chip-input__trigger {
+    border-color: var(--color-error-500);
+  }
+
+  .ds-chip-input--error .ds-chip-input__trigger:focus-within {
+    border-color: var(--color-error-500);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-error-500) 20%, transparent);
+  }
+
+  .ds-chip-input--success .ds-chip-input__trigger {
+    border-color: var(--color-success-500);
+  }
+
+  .ds-chip-input--success .ds-chip-input__trigger:focus-within {
+    border-color: var(--color-success-500);
+    box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--color-success-500) 20%, transparent);
+  }
+
+  /* ── Disabled ── */
+  .ds-chip-input--disabled .ds-chip-input__trigger {
+    opacity: 0.5;
+    pointer-events: none;
+    background: var(--ds-color-surface-alt);
+  }
+
+  /* ── Chips area ── */
+  .ds-chip-input__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+  }
+
+  /* ── Single chip ── */
+  .ds-chip-input__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: 0.125rem var(--spacing-3);
+    border-radius: var(--radius-full);
+    background: var(--color-brand-100);
+    color: var(--color-brand-800);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+  }
+
+  .ds-chip-input__chip-x {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1;
+    transition: background 0.15s ease;
+  }
+
+  .ds-chip-input__chip-x:hover {
+    background: var(--color-brand-300);
+  }
+
+  /* ── Text input ── */
+  .ds-chip-input__field {
+    flex: 1;
+    min-width: 6rem;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: var(--text-body-lg-size);
+    line-height: var(--text-body-lg-line-height);
+    color: var(--ds-color-text);
+    padding: var(--spacing-1) 0;
+  }
+
+  .ds-chip-input__field::placeholder {
+    color: var(--ds-color-text-muted);
+  }
+
+  /* ── Trailing icon ── */
+  .ds-chip-input__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--ds-color-text-muted);
+  }
+
+  /* ── Helper text ── */
+  .ds-chip-input__helper {
+    font-family: var(--font-body);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    font-weight: var(--font-weight-regular);
+    color: var(--ds-color-text-muted);
+  }
+
+  .ds-chip-input--error .ds-chip-input__helper {
+    color: var(--color-error-500);
+  }
+
+  .ds-chip-input--success .ds-chip-input__helper {
+    color: var(--color-success-500);
+  }
+}
