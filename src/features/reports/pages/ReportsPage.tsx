@@ -7,6 +7,7 @@ import {
   DataTable,
   type DataTableColumn,
   DatePicker,
+  Dropdown,
   Icon,
   ModuleTemplate,
   type ModuleNavItem,
@@ -145,7 +146,6 @@ export function ReportsPage() {
   const [selectedRowIds, setSelectedRowIds] = useState<Set<number>>(new Set());
   const [visibleColumnIds, setVisibleColumnIds] = useState<Set<string>>(new Set(TOGGLEABLE_COLUMN_IDS));
   const [columnsOpen, setColumnsOpen] = useState(false);
-  const columnsRef = useRef<HTMLDivElement>(null);
 
   /* ── Map panel ── */
   const [mapOpen, setMapOpen] = useState(true);
@@ -237,18 +237,6 @@ export function ReportsPage() {
     setMapOpen(false);
   };
 
-  /* ── Close columns dropdown on outside click ── */
-  useEffect(() => {
-    if (!columnsOpen) return;
-    const handler = (e: MouseEvent) => {
-      if (columnsRef.current && !columnsRef.current.contains(e.target as Node)) {
-        setColumnsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [columnsOpen]);
-
   const showMap = filtersApplied && mapOpen;
 
   return (
@@ -295,39 +283,37 @@ export function ReportsPage() {
           </Button>
 
           {/* Columns dropdown */}
-          <div ref={columnsRef} className="reports-columns-wrapper">
-            <Button
-              variant={filtersApplied ? "secundario" : "ghost"}
-              size="sm"
-              rightIcon={<Icon name="settings" size={16} />}
-              disabled={!filtersApplied}
-              onClick={() => setColumnsOpen((o) => !o)}
-            >
-              Columnas
-            </Button>
-            {columnsOpen && (
-              <div className="reports-columns-dropdown">
-                <button type="button" className="reports-columns-dropdown__item" onClick={toggleAllColumns}>
-                  <span className={`reports-columns-dropdown__check ${visibleColumnIds.size === TOGGLEABLE_COLUMN_IDS.length ? "reports-columns-dropdown__check--on" : ""}`}>
-                    {visibleColumnIds.size === TOGGLEABLE_COLUMN_IDS.length && <CheckSmall />}
-                  </span>
-                  Todas
-                </button>
-                {TOGGLEABLE_COLUMN_IDS.map((colId) => {
-                  const col = ALL_DATA_COLUMNS.find((c) => c.id === colId)!;
-                  const on = visibleColumnIds.has(colId);
-                  return (
-                    <button key={colId} type="button" className="reports-columns-dropdown__item" onClick={() => toggleColumn(colId)}>
-                      <span className={`reports-columns-dropdown__check ${on ? "reports-columns-dropdown__check--on" : ""}`}>
-                        {on && <CheckSmall />}
-                      </span>
-                      {col.header}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          <Dropdown
+            open={columnsOpen}
+            onOpenChange={setColumnsOpen}
+            trigger={
+              <Button
+                variant={filtersApplied ? "secundario" : "ghost"}
+                size="sm"
+                rightIcon={<Icon name="settings" size={16} />}
+                disabled={!filtersApplied}
+              >
+                Columnas
+              </Button>
+            }
+          >
+            <Checkbox
+              checked={visibleColumnIds.size === TOGGLEABLE_COLUMN_IDS.length}
+              onChange={toggleAllColumns}
+              label="Todas"
+            />
+            {TOGGLEABLE_COLUMN_IDS.map((colId) => {
+              const col = ALL_DATA_COLUMNS.find((c) => c.id === colId)!;
+              return (
+                <Checkbox
+                  key={colId}
+                  checked={visibleColumnIds.has(colId)}
+                  onChange={() => toggleColumn(colId)}
+                  label={col.header}
+                />
+              );
+            })}
+          </Dropdown>
 
           <Button variant="secundario" size="sm" rightIcon={<Icon name="download" size={16} />} disabled={!filtersApplied}>
             Exportar
@@ -476,14 +462,5 @@ function ReportReplayPanel({ rows: panelRows, onClose }: { rows: ReportRow[]; on
         <SpeedCard speed={speedValue} maxSpeed={120} unit="km/h" />
       </div>
     </aside>
-  );
-}
-
-/* ── Inline tiny check icon ── */
-function CheckSmall() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
   );
 }
