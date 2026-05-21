@@ -61,7 +61,9 @@ function DataTableInner<T>(
             rows.map((row) => (
               <tr key={getRowKey(row)} className={rowClassName?.(row)}>
                 {columns.map((column) => (
-                  <td key={column.id}>{column.render(row)}</td>
+                  <td key={column.id} data-label={typeof column.header === "string" ? column.header : undefined}>
+                    {column.render(row)}
+                  </td>
                 ))}
               </tr>
             ))

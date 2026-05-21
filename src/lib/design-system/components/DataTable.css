@@ -74,4 +74,72 @@
     text-align: left;
     color: var(--ds-color-text-muted);
   }
+
+  /* ══════════════════════════════════════════
+   *  Responsive: rows → cards
+   * ══════════════════════════════════════════ */
+
+  @media (max-width: 48rem) {
+    .ds-data-table {
+      overflow-x: visible;
+      border-radius: 0;
+    }
+
+    .ds-data-table table {
+      min-width: 0;
+    }
+
+    .ds-data-table thead {
+      display: none;
+    }
+
+    .ds-data-table tbody tr {
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--radius-sm);
+      border: var(--border-xs) solid var(--ds-color-border);
+      background: var(--ds-color-surface);
+      padding: var(--spacing-3) var(--spacing-4);
+      margin-bottom: var(--spacing-3);
+      gap: var(--spacing-2);
+    }
+
+    .ds-data-table tbody tr:hover {
+      background: var(--ds-color-surface);
+    }
+
+    .ds-data-table td {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-3);
+      height: auto;
+      padding: var(--spacing-1) 0;
+      border: 0;
+      border-bottom: var(--border-xs) solid var(--ds-color-border);
+      white-space: normal;
+    }
+
+    .ds-data-table td:last-child {
+      border-bottom: 0;
+    }
+
+    .ds-data-table td::before {
+      content: attr(data-label);
+      flex-shrink: 0;
+      font-size: var(--text-body-sm-size);
+      font-weight: var(--font-weight-semibold);
+      color: var(--ds-color-brand-text);
+      min-width: 7rem;
+    }
+
+    .ds-data-table td:not([data-label])::before {
+      display: none;
+    }
+
+    .ds-data-table__empty {
+      height: auto;
+      padding: var(--spacing-4);
+    }
+  }
 }
