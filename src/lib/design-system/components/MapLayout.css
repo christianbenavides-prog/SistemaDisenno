@@ -61,6 +61,28 @@
     flex-shrink: 0;
   }
 
+  .ds-map-layout__panel-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+  }
+
+  .ds-map-layout__panel-search {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ds-map-layout__overlay-label {
+    color: var(--ds-color-text);
+    font-size: var(--text-body-sm-size);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-body-sm-line-height);
+  }
+
+  .ds-map-layout__overlay-icon--warning {
+    color: var(--color-warning-500);
+  }
+
   .ds-map-layout__cards {
     display: flex;
     flex-direction: column;

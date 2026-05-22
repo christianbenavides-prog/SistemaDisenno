@@ -68,6 +68,11 @@ export const ModuleShell = forwardRef<HTMLDivElement, ModuleShellProps>(
                 <Icon name="x" size={20} />
               </button>
               {sidebar}
+              {topBarRight && (
+                <div className="ds-module-shell__drawer-actions">
+                  {topBarRight}
+                </div>
+              )}
             </div>
           </div>
         )}

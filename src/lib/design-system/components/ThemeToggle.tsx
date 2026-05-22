@@ -17,9 +17,9 @@ export const ThemeToggle = forwardRef<HTMLDivElement, ThemeToggleProps>(
         <button
           type="button"
           className="ds-theme-toggle__icon"
-          aria-label="Modo claro"
+          aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
           aria-pressed={!isDark}
-          onClick={() => onChange?.("light")}
+          onClick={() => onChange?.(isDark ? "light" : "dark")}
         >
           <Icon name="sun" size={18} />
         </button>
@@ -35,9 +35,9 @@ export const ThemeToggle = forwardRef<HTMLDivElement, ThemeToggleProps>(
         <button
           type="button"
           className="ds-theme-toggle__icon"
-          aria-label="Modo oscuro"
+          aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
           aria-pressed={isDark}
-          onClick={() => onChange?.("dark")}
+          onClick={() => onChange?.(isDark ? "light" : "dark")}
         >
           <Icon name="moon" size={18} />
         </button>

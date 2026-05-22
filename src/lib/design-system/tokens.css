@@ -152,7 +152,6 @@
   --ds-color-surface-alt: var(--color-neutral-50);
   --ds-color-surface-hover: var(--color-brand-50);
   --ds-color-surface-selected: var(--color-brand-50);
-  --ds-color-surface-active: var(--color-brand-100);
   --ds-color-menu-hover: var(--color-neutral-50);
   --ds-color-table-row-hover: var(--color-neutral-50);
   --ds-color-menu-selected-from: var(--color-brand-400);
@@ -174,7 +173,6 @@
   --ds-color-surface-alt: var(--color-neutral-900);
   --ds-color-surface-hover: var(--color-brand-950);
   --ds-color-surface-selected: var(--color-brand-950);
-  --ds-color-surface-active: var(--color-brand-900);
   --ds-color-menu-hover: var(--color-neutral-900);
   --ds-color-table-row-hover: var(--color-neutral-900);
   --ds-color-menu-selected-from: var(--color-brand-800);

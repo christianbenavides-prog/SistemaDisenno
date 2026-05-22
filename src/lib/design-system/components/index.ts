@@ -114,6 +114,9 @@ export type { CardTipoProps } from "./CardTipo";
 export { AsistenciaCard } from "./AsistenciaCard";
 export type { AsistenciaCardProps, AsistenciaStatus } from "./AsistenciaCard";
 
+export { VehiculoApp } from "./VehiculoApp";
+export type { VehiculoAppProps, VehiculoAppStatus } from "./VehiculoApp";
+
 /* ── Organisms ── */
 export { Alert } from "./Alert";
 export type { AlertProps, AlertColor } from "./Alert";

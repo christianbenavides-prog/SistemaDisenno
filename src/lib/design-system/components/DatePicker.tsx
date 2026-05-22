@@ -74,7 +74,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         className={`ds-date-picker ${className}`.trim()}
         {...rest}
       >
-        <div ref={containerRef} style={{ position: "relative" }}>
+        <div ref={containerRef} className="ds-date-picker__container">
           <div
             className="ds-date-picker__trigger"
             onClick={() => setOpen((o) => !o)}

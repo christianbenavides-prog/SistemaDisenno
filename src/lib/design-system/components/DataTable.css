@@ -86,6 +86,7 @@
     }
 
     .ds-data-table table {
+      display: block;
       min-width: 0;
     }
 
@@ -93,15 +94,20 @@
       display: none;
     }
 
+    .ds-data-table tbody {
+      display: block;
+    }
+
     .ds-data-table tbody tr {
       display: flex;
       flex-direction: column;
+      position: relative;
       border-radius: var(--radius-sm);
       border: var(--border-xs) solid var(--ds-color-border);
       background: var(--ds-color-surface);
-      padding: var(--spacing-3) var(--spacing-4);
+      padding: var(--spacing-4);
       margin-bottom: var(--spacing-3);
-      gap: var(--spacing-2);
+      gap: 0;
     }
 
     .ds-data-table tbody tr:hover {
@@ -109,15 +115,18 @@
     }
 
     .ds-data-table td {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(6.5rem, 42%) minmax(0, 1fr);
+      align-items: start;
       gap: var(--spacing-3);
       height: auto;
-      padding: var(--spacing-1) 0;
+      width: 100%;
+      padding: var(--spacing-2) 0;
       border: 0;
       border-bottom: var(--border-xs) solid var(--ds-color-border);
       white-space: normal;
+      text-align: right;
+      overflow-wrap: anywhere;
     }
 
     .ds-data-table td:last-child {
@@ -126,14 +135,37 @@
 
     .ds-data-table td::before {
       content: attr(data-label);
-      flex-shrink: 0;
       font-size: var(--text-body-sm-size);
       font-weight: var(--font-weight-semibold);
       color: var(--ds-color-brand-text);
-      min-width: 7rem;
+      text-align: left;
+    }
+
+    .ds-data-table td:not([data-label]) {
+      position: absolute;
+      top: var(--spacing-3);
+      right: var(--spacing-3);
+      display: inline-flex;
+      width: auto;
+      padding: 0;
+      border-bottom: 0;
     }
 
     .ds-data-table td:not([data-label])::before {
+      display: none;
+    }
+
+    .ds-data-table td.ds-data-table__empty {
+      position: static;
+      display: block;
+      width: 100%;
+      padding: var(--spacing-3);
+      border: var(--border-xs) solid var(--ds-color-border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+
+    .ds-data-table td.ds-data-table__empty::before {
       display: none;
     }
 

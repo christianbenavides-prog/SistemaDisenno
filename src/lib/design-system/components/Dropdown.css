@@ -10,6 +10,7 @@
     position: relative;
     display: inline-flex;
     flex-direction: column;
+    width: max-content;
   }
 
   .ds-dropdown__trigger {
@@ -20,17 +21,29 @@
     position: absolute;
     top: 100%;
     left: 0;
-    right: 0;
     z-index: 10;
     margin-top: 0.25rem;
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-1);
+    min-width: max(100%, 12rem);
+    padding: var(--spacing-2);
     border-radius: var(--radius-sm);
-    border: var(--border-xs) solid var(--color-neutral-200);
-    background: var(--color-white);
+    border: var(--border-xs) solid var(--ds-color-border);
+    background: var(--ds-color-surface);
     box-shadow: var(--shadow-sm);
-    overflow: hidden;
     max-height: 20rem;
     overflow-y: auto;
+  }
+
+  .ds-dropdown__menu .ds-checkbox {
+    width: 100%;
+    min-height: 2.25rem;
+    padding: var(--spacing-2);
+    border-radius: var(--radius-xs);
+  }
+
+  .ds-dropdown__menu .ds-checkbox:hover {
+    background: var(--ds-color-surface-hover);
   }
 }

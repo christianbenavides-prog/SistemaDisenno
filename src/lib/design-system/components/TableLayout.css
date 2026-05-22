@@ -96,4 +96,26 @@
     font-weight: var(--font-weight-regular);
     color: var(--ds-color-text-muted);
   }
+
+  @media (max-width: 48rem) {
+    .ds-table-layout {
+      flex: 0 0 auto;
+      overflow: visible;
+    }
+
+    .ds-table-layout__table {
+      flex: 0 0 auto;
+      overflow: visible;
+    }
+
+    .ds-table-layout__footer {
+      align-items: flex-start;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
+    }
+
+    .ds-table-layout__row-count {
+      padding-top: var(--spacing-3);
+    }
+  }
 }

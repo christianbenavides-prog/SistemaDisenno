@@ -39,6 +39,8 @@
 @import "./CarCard.css";
 @import "./CardTipo.css";
 @import "./AsistenciaCard.css";
+@import "./ChipInput.css";
+@import "./VehiculoApp.css";
 
 /* Organisms */
 @import "./Alert.css";
@@ -51,6 +53,7 @@
 @import "./TableRow.css";
 @import "./Uploader.css";
 @import "./Calendar.css";
+@import "./DatePicker.css";
 @import "./TimePicker.css";
 @import "./NavBottom.css";
 @import "./MultiSelect.css";

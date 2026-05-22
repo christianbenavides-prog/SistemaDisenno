@@ -1,17 +1,10 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
-/* ──────────────────────────────────────────────
- * Design System SM — MapLayout (Template)
- *
- * Map view template: map area + side panel with cards.
- * Use inside AppShell content area.
- * ────────────────────────────────────────────── */
-
 export interface MapLayoutProps extends HTMLAttributes<HTMLDivElement> {
   map?: ReactNode;
   /** Optional floating content rendered over the map area. */
   overlay?: ReactNode;
-  /** Optional header rendered above the cards area (e.g. search input). */
+  /** Optional header rendered above the cards area, usually search and filters. */
   panelHeader?: ReactNode;
   cards?: ReactNode;
   actions?: ReactNode;

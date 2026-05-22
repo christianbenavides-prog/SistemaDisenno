@@ -38,7 +38,8 @@
   }
 
   .ds-module-shell__menu-button,
-  .ds-module-shell__drawer {
+  .ds-module-shell__drawer,
+  .ds-module-shell__drawer-actions {
     display: none;
   }
 
@@ -96,14 +97,52 @@
       max-width: 100vw;
       padding: var(--spacing-4);
       gap: var(--spacing-4);
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .ds-module-shell__topbar {
       position: relative;
       min-height: 4rem;
-      padding: var(--spacing-4) calc(var(--spacing-4) + 3rem) var(--spacing-4) var(--spacing-4);
+      padding: var(--spacing-4) calc(var(--spacing-4) + 3rem) var(--spacing-4) var(--spacing-3);
       border-radius: var(--radius-md);
+      gap: var(--spacing-2);
+    }
+
+    .ds-module-shell__title-group {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .ds-module-shell__topbar-right {
+      gap: var(--spacing-2);
+    }
+
+    .ds-module-shell__topbar .ds-app-header-actions {
+      gap: var(--spacing-2);
+    }
+
+    .ds-module-shell__topbar .ds-profile {
+      display: none;
+    }
+
+    .ds-module-shell__topbar .ds-theme-toggle {
+      width: 2.5rem;
+      height: 2.5rem;
+      justify-content: center;
+      border-radius: var(--radius-full);
+      background: var(--ds-color-surface-alt);
+    }
+
+    .ds-module-shell__topbar .ds-theme-toggle__switch,
+    .ds-module-shell__topbar .ds-theme-toggle__icon[aria-pressed="false"] {
+      display: none;
+    }
+
+    .ds-module-shell__topbar .ds-theme-toggle__icon[aria-pressed="true"] {
+      display: grid;
+      width: 2.5rem;
+      height: 2.5rem;
     }
 
     .ds-module-shell__menu-button {
@@ -119,7 +158,7 @@
       height: 2.5rem;
       border: var(--border-xs) solid var(--ds-color-border);
       border-radius: var(--radius-full);
-      background: var(--scada-panel-bg, var(--ds-color-surface));
+      background: var(--ds-color-surface-alt);
       color: var(--ds-color-text-strong);
       cursor: pointer;
       flex-shrink: 0;
@@ -162,6 +201,8 @@
       top: 0;
       right: 0;
       display: flex;
+      flex-direction: column;
+      gap: var(--spacing-3);
       width: min(20rem, calc(100vw - 2rem));
       height: 100%;
       padding: var(--spacing-4);
@@ -176,10 +217,37 @@
     .ds-module-shell__drawer-panel .ds-sidebar {
       display: flex;
       width: 100%;
-      height: 100%;
+      flex: 1;
+      min-height: 0;
       margin: 0;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.24));
+    }
+
+    .ds-module-shell__drawer-actions {
+      display: flex;
+      width: 100%;
+      flex-shrink: 0;
+      border-radius: var(--radius-lg);
+      background: var(--ds-color-surface);
+      padding: var(--spacing-3);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ds-module-shell__drawer-actions .ds-theme-toggle,
+    .ds-module-shell__drawer-actions .ds-app-header-actions__notification {
+      display: none;
+    }
+
+    .ds-module-shell__drawer-actions .ds-app-header-actions {
+      width: 100%;
+      justify-content: flex-start;
+      gap: var(--spacing-3);
+    }
+
+    .ds-module-shell__drawer-actions .ds-profile {
+      width: 100%;
+      justify-content: flex-start;
     }
 
     .ds-module-shell__drawer-close {

@@ -109,7 +109,6 @@ export function MapPage() {
     return normalizedPositions.find((p) => Number(p.deviceId) === popupDeviceId) ?? null;
   }, [normalizedPositions, popupDeviceId]);
 
-  // Vehicle detail view
   if (viewState === "detail" && detailDeviceId != null) {
     return (
       <div className="flex flex-1 min-h-0 flex-col">
@@ -122,15 +121,15 @@ export function MapPage() {
     <div className="flex flex-1 min-h-0 flex-col">
       <MapLayout
         className="flex-1 min-h-0"
-        panelWidth="425px"
+        panelWidth="26.5625rem"
         panelHeader={
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <div className="ds-map-layout__panel-controls">
             <Input
               placeholder="Buscar por placa o IMEI"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               leftIcon={<Icon name="search" size={16} />}
-              className="flex-1"
+              className="ds-map-layout__panel-search"
             />
             <Button
               variant="secundario"
@@ -149,8 +148,8 @@ export function MapPage() {
         }
         overlay={
           <>
-            <Icon name="alert-triangle" size={14} style={{ color: "var(--color-warning)" }} />
-            <span className="text-[11px] font-semibold text-text">Solo vehículos alarmados</span>
+            <Icon name="alert-triangle" size={14} className="ds-map-layout__overlay-icon--warning" />
+            <span className="ds-map-layout__overlay-label">Solo vehiculos alarmados</span>
             <Switch
               checked={onlyAlarmed}
               aria-label="Solo vehiculos alarmados"
@@ -160,12 +159,6 @@ export function MapPage() {
         }
         map={
           <MapView>
-            {import.meta.env.DEV && (
-              <div className="pointer-events-none absolute left-3 top-12 z-30 rounded-lg border border-white/10 bg-black/40 px-2 py-1 text-[10px] text-white">
-                positions: {positions.length}
-              </div>
-            )}
-
             <MapOverlay />
             <MapGeofence onGeofenceSelected={() => {}} />
             <MapAccuracy positions={normalizedPositions} />
@@ -191,7 +184,6 @@ export function MapPage() {
             <MapNotification enabled={Boolean((config.events ?? []).length)} onClick={() => {}} />
             <MapPadding start={0} />
 
-            {/* Device popup on map */}
             {popupDevice && popupDeviceId != null && (
               <MapDevicePopup
                 device={popupDevice}

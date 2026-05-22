@@ -1,47 +1,24 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Button,
   Checkbox,
-  ChipInput,
-  DataTable,
-  type DataTableColumn,
-  DatePicker,
-  Dropdown,
-  Icon,
   ModuleTemplate,
   type ModuleNavItem,
-  Pagination,
-  SpeedCard,
-  TableLayout,
   type ThemeMode,
 } from "../../../lib/design-system/components";
-import "maplibre-gl/dist/maplibre-gl.css";
-import maplibregl from "maplibre-gl";
 import { SimonLogo, SimonWatermark } from "../../../shared/brand";
 import { appHeaderUser } from "../../../shared/lib/appHeaderUser";
+import { ReportReplayPanel } from "../components/ReportReplayPanel";
+import { ReportsResults } from "../components/ReportsResults";
+import { ReportsToolbar } from "../components/ReportsToolbar";
+import type { ReportColumnDef, ReportRow, ReportTableColumn } from "../components/reportTypes";
 import "../styles/reports.css";
 
 /* ── Types ── */
 
-interface ReportRow {
-  id: number;
-  plate: string;
-  reportedAt: string;
-  latitude: string;
-  longitude: string;
-  altitude: string;
-  speed: string;
-  location: string;
-  distance: string;
-  properties: string;
-}
-
 /* ── Constants ── */
 
 const ROWS_PER_PAGE = 20;
-const REPLAY_INTERVAL_MS = 1500;
-
 /* ── Mock data: tracking de vehiculos a lo largo del dia ── */
 const rows: ReportRow[] = [
   { id: 1,  plate: "LFY 548", reportedAt: "08/02/2026 06:00 AM", latitude: "-4.563452", longitude: "3.567432", altitude: "1.345643", speed: "23 km/h",  location: "Zona Norte, Bogota",       distance: "0 km",     properties: "Ignicion activa" },
@@ -96,13 +73,7 @@ const rows: ReportRow[] = [
 
 /* ── Column definitions ── */
 
-interface ColumnDef {
-  id: string;
-  header: string;
-  render: (row: ReportRow) => string;
-}
-
-const ALL_DATA_COLUMNS: ColumnDef[] = [
+const ALL_DATA_COLUMNS: ReportColumnDef[] = [
   { id: "plate",      header: "Placa",            render: (row) => row.plate },
   { id: "reportedAt", header: "Fecha del Reporte", render: (row) => row.reportedAt },
   { id: "latitude",   header: "Latitud",          render: (row) => row.latitude },
@@ -146,6 +117,7 @@ export function ReportsPage() {
   const [selectedRowIds, setSelectedRowIds] = useState<Set<number>>(new Set());
   const [visibleColumnIds, setVisibleColumnIds] = useState<Set<string>>(new Set(TOGGLEABLE_COLUMN_IDS));
   const [columnsOpen, setColumnsOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   /* ── Map panel ── */
   const [mapOpen, setMapOpen] = useState(true);
@@ -174,7 +146,7 @@ export function ReportsPage() {
 
   /* ── Build table columns ── */
   const tableColumns = useMemo(() => {
-    const cols: DataTableColumn<ReportRow>[] = [];
+    const cols: ReportTableColumn[] = [];
     if (filtersApplied) {
       cols.push({
         id: "selection",
@@ -257,210 +229,41 @@ export function ReportsPage() {
       }}
     >
       {/* ── Toolbar ── */}
-      <section className="reports-toolbar">
-        <div className="reports-toolbar__filters">
-          <ChipInput
-            label="Placas"
-            placeholder="Escribir placa y presionar Enter"
-            value={selectedPlates}
-            onChange={setSelectedPlates}
-            icon={<Icon name="search" size={20} />}
-          />
-          <DatePicker
-            placeholder="Periodo de tiempo"
-            value={period}
-            onChange={(formatted) => setPeriod(formatted)}
-            icon={<Icon name="calendar" size={20} />}
-          />
-        </div>
-
-        <div className="reports-toolbar__actions">
-          <Button variant="ghost" size="sm" onClick={clearFilters}>
-            Borrar todo
-          </Button>
-          <Button size="xs" disabled={!hasPendingFilter} onClick={applyFilters}>
-            Aplicar
-          </Button>
-
-          {/* Columns dropdown */}
-          <Dropdown
-            open={columnsOpen}
-            onOpenChange={setColumnsOpen}
-            trigger={
-              <Button
-                variant={filtersApplied ? "secundario" : "ghost"}
-                size="sm"
-                rightIcon={<Icon name="settings" size={16} />}
-                disabled={!filtersApplied}
-              >
-                Columnas
-              </Button>
-            }
-          >
-            <Checkbox
-              checked={visibleColumnIds.size === TOGGLEABLE_COLUMN_IDS.length}
-              onChange={toggleAllColumns}
-              label="Todas"
-            />
-            {TOGGLEABLE_COLUMN_IDS.map((colId) => {
-              const col = ALL_DATA_COLUMNS.find((c) => c.id === colId)!;
-              return (
-                <Checkbox
-                  key={colId}
-                  checked={visibleColumnIds.has(colId)}
-                  onChange={() => toggleColumn(colId)}
-                  label={col.header}
-                />
-              );
-            })}
-          </Dropdown>
-
-          <Button variant="secundario" size="sm" rightIcon={<Icon name="download" size={16} />} disabled={!filtersApplied}>
-            Exportar
-          </Button>
-        </div>
-      </section>
+      <ReportsToolbar
+        selectedPlates={selectedPlates}
+        period={period}
+        filtersOpen={filtersOpen}
+        columnsOpen={columnsOpen}
+        filtersApplied={filtersApplied}
+        hasPendingFilter={hasPendingFilter}
+        visibleColumnIds={visibleColumnIds}
+        toggleableColumnIds={TOGGLEABLE_COLUMN_IDS}
+        columns={ALL_DATA_COLUMNS}
+        onFiltersOpenChange={setFiltersOpen}
+        onColumnsOpenChange={setColumnsOpen}
+        onSelectedPlatesChange={setSelectedPlates}
+        onPeriodChange={setPeriod}
+        onClearFilters={clearFilters}
+        onApplyFilters={applyFilters}
+        onToggleColumn={toggleColumn}
+        onToggleAllColumns={toggleAllColumns}
+      />
 
       {/* ── Content ── */}
       <section className={showMap ? "reports-content reports-content--with-map" : "reports-content"}>
-        <TableLayout
-          className="reports-table-shell"
-          rowCount={filtersApplied ? `Resultados ${visibleRows.length} de ${filteredRows.length}` : undefined}
-          pagination={filtersApplied ? <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} /> : undefined}
-        >
-          <DataTable
-            columns={tableColumns}
-            rows={visibleRows}
-            getRowKey={(row) => row.id}
-            rowClassName={(row) => (selectedRowIds.has(row.id) ? "reports-row--selected" : "")}
-            minWidth="53.125rem"
-            emptyState="Usa los filtros para realizar tu primera consulta."
-          />
-        </TableLayout>
+        <ReportsResults
+          columns={tableColumns}
+          rows={visibleRows}
+          filteredRowCount={filteredRows.length}
+          filtersApplied={filtersApplied}
+          currentPage={page}
+          totalPages={totalPages}
+          selectedRowIds={selectedRowIds}
+          onPageChange={setPage}
+        />
 
         {showMap && <ReportReplayPanel rows={filteredRows} onClose={() => setMapOpen(false)} />}
       </section>
     </ModuleTemplate>
-  );
-}
-
-/* ════════════════════════════════════════════════
- *  ReportReplayPanel — mapa + controles de reproduccion
- * ════════════════════════════════════════════════ */
-
-function ReportReplayPanel({ rows: panelRows, onClose }: { rows: ReportRow[]; onClose: () => void }) {
-  const [step, setStep] = useState(1);
-  const [playing, setPlaying] = useState(false);
-  const total = panelRows.length;
-  const current = panelRows[step - 1];
-  const speedValue = current ? Number.parseInt(current.speed, 10) || 0 : 0;
-
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<maplibregl.Map | null>(null);
-  const markersRef = useRef<maplibregl.Marker[]>([]);
-
-  /* ── Auto-play ── */
-  useEffect(() => {
-    if (!playing) return;
-    const id = setInterval(() => {
-      setStep((s) => {
-        if (s >= total) { setPlaying(false); return s; }
-        return s + 1;
-      });
-    }, REPLAY_INTERVAL_MS);
-    return () => clearInterval(id);
-  }, [playing, total]);
-
-  /* ── Init map ── */
-  useEffect(() => {
-    if (!mapContainerRef.current || mapRef.current) return;
-    const map = new maplibregl.Map({
-      container: mapContainerRef.current,
-      style: "https://tiles.openfreemap.org/styles/liberty",
-      center: [-74.08, 4.65],
-      zoom: 11,
-    });
-    map.addControl(new maplibregl.NavigationControl(), "top-left");
-    mapRef.current = map;
-    return () => { map.remove(); mapRef.current = null; };
-  }, []);
-
-  /* ── Update markers on step change ── */
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    // Remove old markers
-    for (const m of markersRef.current) m.remove();
-    markersRef.current = [];
-
-    const visibleRows = panelRows.slice(0, step);
-    const bounds = new maplibregl.LngLatBounds();
-
-    visibleRows.forEach((r, i) => {
-      const lat = Number.parseFloat(r.latitude);
-      const lng = Number.parseFloat(r.longitude);
-      if (Number.isNaN(lat) || Number.isNaN(lng)) return;
-
-      const isLast = i === visibleRows.length - 1;
-      const el = document.createElement("div");
-      el.style.width = isLast ? "14px" : "8px";
-      el.style.height = isLast ? "14px" : "8px";
-      el.style.borderRadius = "50%";
-      el.style.background = isLast ? "#00F1C7" : "#00F1C780";
-      el.style.border = isLast ? "2px solid #fff" : "none";
-      el.style.boxShadow = isLast ? "0 0 6px rgba(0,241,199,0.6)" : "none";
-
-      const marker = new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).addTo(map);
-      markersRef.current.push(marker);
-      bounds.extend([lng, lat]);
-    });
-
-    if (!bounds.isEmpty()) {
-      map.fitBounds(bounds, { padding: 40, maxZoom: 14, duration: 300 });
-    }
-  }, [panelRows, step]);
-
-  return (
-    <aside className="reports-replay-panel" aria-label="Reproduccion de ruta">
-      <button type="button" className="reports-replay-panel__close" onClick={onClose} aria-label="Cerrar mapa">
-        <Icon name="x" size={18} />
-      </button>
-
-      <div className="reports-replay-panel__map" ref={mapContainerRef} />
-
-      <div className="reports-replay-panel__controls">
-        <input
-          className="reports-replay-panel__slider"
-          type="range"
-          min="1"
-          max={total}
-          value={step}
-          onChange={(e) => setStep(Number(e.target.value))}
-          aria-label="Avance de reproduccion"
-        />
-        <div className="reports-replay-panel__control-row">
-          <Button variant="ghost" size="xs" aria-label="Retroceder" onClick={() => { setPlaying(false); setStep((s) => Math.max(1, s - 1)); }}>
-            <Icon name="rewind" size={20} />
-          </Button>
-          <Button
-            variant="ghost"
-            size="xs"
-            aria-label={playing ? "Pausar" : "Reproducir"}
-            onClick={() => setPlaying((p) => !p)}
-          >
-            <Icon name={playing ? "circle-pause" : "circle-play"} size={20} />
-          </Button>
-          <Button variant="ghost" size="xs" aria-label="Avanzar" onClick={() => { setPlaying(false); setStep((s) => Math.min(total, s + 1)); }}>
-            <Icon name="fast-forward" size={20} />
-          </Button>
-        </div>
-        <div className="reports-replay-panel__meta">
-          <span>{step}/{total}</span>
-          <span>{current?.reportedAt ?? ""}</span>
-        </div>
-        <SpeedCard speed={speedValue} maxSpeed={120} unit="km/h" />
-      </div>
-    </aside>
   );
 }
